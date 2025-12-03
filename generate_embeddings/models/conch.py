@@ -27,7 +27,7 @@ class ConchAdapter(PathologyModelAdapter):
         if self._embed_dim is None:
             with torch.no_grad():
                 dummy = torch.zeros(1, 3, 224, 224).to(self.device)
-                val, _ = self.forward_features(dummy)
+                val = self.forward_features(dummy)
                 self._embed_dim = val.shape[-1]
 
     @property
@@ -46,10 +46,13 @@ class ConchAdapter(PathologyModelAdapter):
         return self.model.visual.trunk.blocks
 
     def forward_features(self, images):
-        # 1. Get CLS properly
-        final_cls = self.model.encode_image(images, proj_contrast=False, normalize=True)
+        # 1. Run the full model once
+        # proj_contrast=False: Return [B, 512] visual embedding (not projected to text space)
+        # normalize=False: We let LayerExtractor handle the final L2 normalization
+        final_embedding = self.model.encode_image(
+            images, 
+            proj_contrast=False, 
+            normalize=True
+        )
         
-        # 2. Get Sequence via visual trunk
-        sequence = self.model.visual.trunk(images)
-        
-        return final_cls, sequence
+        return final_embedding

@@ -30,17 +30,18 @@ class TimmViTAdapter(PathologyModelAdapter):
         if self._embed_dim is None:
             with torch.no_grad():
                 dummy = torch.zeros(1, 3, 224, 224).to(self.device)
-                feat = self.forward_features(dummy) 
                 
-                # Check for Tuple/Tensor
-                if isinstance(feat, tuple): 
-                    seq = feat[1]
-                else: 
-                    seq = feat
-                    
-                if len(seq.shape) != 3:
-                     raise RuntimeError(f"Model {self.hf_hub_id} returned {seq.shape}, expected 3D sequence")
-                self._embed_dim = seq.shape[-1]
+                # 1. Call forward_features
+                # Now returns [Batch, Dim] (Global Embedding)
+                global_emb = self.forward_features(dummy) 
+                
+                # 2. Check for 2D Tensor
+                # We expect [Batch, Dim]
+                if len(global_emb.shape) != 2:
+                     raise RuntimeError(f"Model {self.hf_hub_id} output shape {global_emb.shape} invalid. Expected 2D [Batch, Dim].")
+                
+                # 3. Set Dimension
+                self._embed_dim = global_emb.shape[-1]
 
     def _detect_token_layout(self):
         # 1. Detect Registers via Attributes
@@ -113,10 +114,12 @@ class TimmViTAdapter(PathologyModelAdapter):
         return self.model.blocks
 
     def forward_features(self, images):
+        # 1. Run the model once (triggers hooks)
+        # Returns [Batch, Tokens, Dim]
         output = self.model.forward_features(images)
         
-        if len(output.shape) == 2:
-             raise RuntimeError(f"Model returned 2D tensor {output.shape}. Check if pooling is disabled.")
-             
-        # Return (CLS, Sequence)
-        return output[:, 0, :], output
+        # 2. Extract the Global Embedding
+        # For ViTs, Index 0 is the CLS token (the representation)
+        global_embedding = output[:, 0, :]
+        
+        return global_embedding

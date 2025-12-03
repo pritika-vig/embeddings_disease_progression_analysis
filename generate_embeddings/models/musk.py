@@ -30,7 +30,7 @@ class MuskAdapter(PathologyModelAdapter):
         if self._embed_dim is None:
             with torch.no_grad():
                 dummy = torch.zeros(1, 3, 384, 384).to(self.device)
-                val, _ = self.forward_features(dummy)
+                val = self.forward_features(dummy)
                 self._embed_dim = val.shape[-1]
 
     @property
@@ -49,14 +49,20 @@ class MuskAdapter(PathologyModelAdapter):
         return self.model.beit3.encoder.layers
 
     def forward_features(self, images):
-        output = self.model(image=images, with_head=False, out_norm=True, return_global=True)
-        if isinstance(output, tuple): final_cls = output[0]
-        else: final_cls = output
-            
-        sequence = self.model(image=images, with_head=False, out_norm=False, return_global=False)
+        # 1. Run the model once
+        # with_head=False: Disable the projection head (keep visual dim)
+        # out_norm=True: Apply the final Layer Normalization
+        # return_global=True: Return the [Batch, Dim] CLS token
+        output = self.model(
+            image=images, 
+            with_head=False, 
+            out_norm=True, 
+            return_global=True
+        )
         
-        # --- FIX: Unpack tuple if needed ---
-        if isinstance(sequence, (tuple, list)):
-            sequence = sequence[0]
+        # MUSK returns (vision_cls, text_cls=None)
+        if not isinstance(output, tuple):
+            raise RuntimeError(f"Musk did not return expected tuple.")
             
-        return final_cls, sequence
+            
+        return output[0]

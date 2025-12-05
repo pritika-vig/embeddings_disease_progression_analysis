@@ -1,0 +1,6 @@
+
+
+
+To run tests: 
+python validate_stored_embeddings.py
+pytest data/progression_embedding_dataset_test.py -v

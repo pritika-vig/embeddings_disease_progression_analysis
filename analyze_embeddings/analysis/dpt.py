@@ -19,13 +19,7 @@ from scipy.spatial.distance import cdist
 from scipy.stats import kendalltau
 from sklearn.manifold import trustworthiness
 from sklearn.neighbors import NearestNeighbors
-
-# Handle optional dependency for Intrinsic Dimension
-try:
-    import skdim
-    HAS_SKDIM = True
-except ImportError:
-    HAS_SKDIM = False
+from sklearn.metrics import silhouette_score
 
 # Suppress verbose Scanpy/AnnData warnings
 warnings.filterwarnings("ignore")
@@ -42,6 +36,7 @@ class DPTMetric(Enum):
     P_VALUE = "p_value"
     SPECTRAL_GAP = "spectral_gap"
     NEIGHBORHOOD_PURITY = "neighborhood_purity"
+    SILHOUETTE = "silhouette"
     TRUSTWORTHINESS = "trustworthiness"
     ID_RAW = "id_raw"       # Intrinsic Dimension of original embeddings
     ID_DIFF = "id_diff"     # Intrinsic Dimension of diffusion components
@@ -75,6 +70,7 @@ class DPTResult:
     spectral_gap: float = np.nan
     neighborhood_purity: float = np.nan
     trustworthiness: float = np.nan
+    silhouette: float = np.nan
     id_raw: float = np.nan
     id_diff: float = np.nan
 
@@ -180,7 +176,24 @@ def _compute_neighborhood_purity(adata: sc.AnnData, label_col: str = "stage_int"
         
     return total_purity / n_cells
 
-
+def _compute_silhouette(adata: sc.AnnData, subsample_size: int, label_col: str = "stage_int") -> float:
+    """Compute Silhouette Score (Cosine) on subsample."""
+    try:
+        if adata.n_obs > subsample_size:
+            idx = np.random.choice(adata.n_obs, subsample_size, replace=False)
+            X = adata.X[idx]
+            labels = adata.obs[label_col].iloc[idx]
+        else:
+            X = adata.X
+            labels = adata.obs[label_col]
+        
+        # Silhouette requires at least 2 classes
+        if len(np.unique(labels)) < 2: return np.nan
+        
+        return silhouette_score(X, labels, metric='cosine')
+    except Exception:
+        return np.nan
+        
 def _estimate_id(X: np.ndarray) -> float:
     """
     Estimate Intrinsic Dimension (ID).
@@ -189,28 +202,8 @@ def _estimate_id(X: np.ndarray) -> float:
     if not np.all(np.isfinite(X)):
         return np.nan
         
-    if HAS_SKDIM:
-        try:
-            dve = skdim.id.TwoNN()
-            return dve.fit(X).dimension_
-        except Exception:
-            return np.nan
-    
-    # Fallback MLE (if skdim not installed)
-    try:
-        k = 10
-        if X.shape[0] <= k:
-            return np.nan
-        nbrs = NearestNeighbors(n_neighbors=k + 1, metric='cosine').fit(X)
-        dist, _ = nbrs.kneighbors(X)
-        dist = dist[:, 1:] # Drop self
-        
-        # Simplified MLE
-        v = np.log(dist[:, k-1:k] / dist[:, 0:k-1])
-        mle = (k - 2) / np.mean(np.sum(v, axis=1))
-        return mle
-    except Exception:
-        return np.nan
+    dve = skdim.id.TwoNN()
+    return dve.fit(X).dimension_
 
 
 def _compute_trustworthiness(adata: sc.AnnData, subsample_size: int) -> float:

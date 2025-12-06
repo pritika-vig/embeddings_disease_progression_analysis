@@ -1,0 +1,361 @@
+progression,model,type,perm_id,order_str,tau
+SCC,virchow2,canonical,0,Epidermis -> Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma,0.7171961625482935
+SCC,virchow2,permuted,1,Epidermis -> Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ,0.5586939685029145
+SCC,virchow2,permuted,2,Epidermis -> Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma,0.5412474356604717
+SCC,virchow2,permuted,3,Epidermis -> Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis,0.26909549694343876
+SCC,virchow2,permuted,4,Epidermis -> Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ,0.2865420297858815
+SCC,virchow2,permuted,5,Epidermis -> Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis,0.11059330289805966
+SCC,virchow2,permuted,6,Actinic keratosis -> Epidermis -> Carcinoma in situ -> Squamous cell carcinoma,0.4587805282476458
+SCC,virchow2,permuted,7,Actinic keratosis -> Epidermis -> Squamous cell carcinoma -> Carcinoma in situ,0.3002783342022667
+SCC,virchow2,permuted,8,Actinic keratosis -> Carcinoma in situ -> Epidermis -> Squamous cell carcinoma,0.17707282418584186
+SCC,virchow2,permuted,9,Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma -> Epidermis,-0.11059330289805966
+SCC,virchow2,permuted,10,Actinic keratosis -> Squamous cell carcinoma -> Epidermis -> Carcinoma in situ,0.012612207118365177
+SCC,virchow2,permuted,11,Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ -> Epidermis,-0.26909549694343876
+SCC,virchow2,permuted,12,Carcinoma in situ -> Epidermis -> Actinic keratosis -> Squamous cell carcinoma,0.2595397315986677
+SCC,virchow2,permuted,13,Carcinoma in situ -> Epidermis -> Squamous cell carcinoma -> Actinic keratosis,-0.012612207118365177
+SCC,virchow2,permuted,14,Carcinoma in situ -> Actinic keratosis -> Epidermis -> Squamous cell carcinoma,0.0011240972980200029
+SCC,virchow2,permuted,15,Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma -> Epidermis,-0.2865420297858815
+SCC,virchow2,permuted,16,Carcinoma in situ -> Squamous cell carcinoma -> Epidermis -> Actinic keratosis,-0.3002783342022667
+SCC,virchow2,permuted,17,Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis -> Epidermis,-0.5586939685029145
+SCC,virchow2,permuted,18,Squamous cell carcinoma -> Epidermis -> Actinic keratosis -> Carcinoma in situ,-0.0011240972980200029
+SCC,virchow2,permuted,19,Squamous cell carcinoma -> Epidermis -> Carcinoma in situ -> Actinic keratosis,-0.17707282418584186
+SCC,virchow2,permuted,20,Squamous cell carcinoma -> Actinic keratosis -> Epidermis -> Carcinoma in situ,-0.2595397315986677
+SCC,virchow2,permuted,21,Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ -> Epidermis,-0.5412474356604717
+SCC,virchow2,permuted,22,Squamous cell carcinoma -> Carcinoma in situ -> Epidermis -> Actinic keratosis,-0.4587805282476458
+SCC,virchow2,permuted,23,Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis -> Epidermis,-0.7171961625482935
+SCC,uni2,canonical,0,Epidermis -> Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma,0.7073486544734213
+SCC,uni2,permuted,1,Epidermis -> Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ,0.5679100650481169
+SCC,uni2,permuted,2,Epidermis -> Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma,0.5234141740827785
+SCC,uni2,permuted,3,Epidermis -> Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis,0.25272080466062086
+SCC,uni2,permuted,4,Epidermis -> Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ,0.29721669562595926
+SCC,uni2,permuted,5,Epidermis -> Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis,0.11328221523531645
+SCC,uni2,permuted,6,Actinic keratosis -> Epidermis -> Carcinoma in situ -> Squamous cell carcinoma,0.4555575000759632
+SCC,uni2,permuted,7,Actinic keratosis -> Epidermis -> Squamous cell carcinoma -> Carcinoma in situ,0.3161189106506587
+SCC,uni2,permuted,8,Actinic keratosis -> Carcinoma in situ -> Epidermis -> Squamous cell carcinoma,0.17413966212105844
+SCC,uni2,permuted,9,Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma -> Epidermis,-0.11328221523531645
+SCC,uni2,permuted,10,Actinic keratosis -> Squamous cell carcinoma -> Epidermis -> Carcinoma in situ,0.028697033294283865
+SCC,uni2,permuted,11,Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ -> Epidermis,-0.25272080466062086
+SCC,uni2,permuted,12,Carcinoma in situ -> Epidermis -> Actinic keratosis -> Squamous cell carcinoma,0.24199633612787375
+SCC,uni2,permuted,13,Carcinoma in situ -> Epidermis -> Squamous cell carcinoma -> Actinic keratosis,-0.028697033294283865
+SCC,uni2,permuted,14,Carcinoma in situ -> Actinic keratosis -> Epidermis -> Squamous cell carcinoma,-0.009794818269584338
+SCC,uni2,permuted,15,Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma -> Epidermis,-0.29721669562595926
+SCC,uni2,permuted,16,Carcinoma in situ -> Squamous cell carcinoma -> Epidermis -> Actinic keratosis,-0.3161189106506587
+SCC,uni2,permuted,17,Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis -> Epidermis,-0.5679100650481169
+SCC,uni2,permuted,18,Squamous cell carcinoma -> Epidermis -> Actinic keratosis -> Carcinoma in situ,0.009794818269584338
+SCC,uni2,permuted,19,Squamous cell carcinoma -> Epidermis -> Carcinoma in situ -> Actinic keratosis,-0.17413966212105844
+SCC,uni2,permuted,20,Squamous cell carcinoma -> Actinic keratosis -> Epidermis -> Carcinoma in situ,-0.24199633612787375
+SCC,uni2,permuted,21,Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ -> Epidermis,-0.5234141740827785
+SCC,uni2,permuted,22,Squamous cell carcinoma -> Carcinoma in situ -> Epidermis -> Actinic keratosis,-0.4555575000759632
+SCC,uni2,permuted,23,Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis -> Epidermis,-0.7073486544734213
+SCC,conch,canonical,0,Epidermis -> Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma,0.6371714238662911
+SCC,conch,permuted,1,Epidermis -> Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ,0.6147327859979347
+SCC,conch,permuted,2,Epidermis -> Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma,0.4321237904263722
+SCC,conch,permuted,3,Epidermis -> Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis,0.1892240919451949
+SCC,conch,permuted,4,Epidermis -> Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ,0.37183308751675737
+SCC,conch,permuted,5,Epidermis -> Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis,0.16678545407683848
+SCC,conch,permuted,6,Actinic keratosis -> Epidermis -> Carcinoma in situ -> Squamous cell carcinoma,0.401543206771532
+SCC,conch,permuted,7,Actinic keratosis -> Epidermis -> Squamous cell carcinoma -> Carcinoma in situ,0.37910456890317556
+SCC,conch,permuted,8,Actinic keratosis -> Carcinoma in situ -> Epidermis -> Squamous cell carcinoma,0.11974486499031099
+SCC,conch,permuted,9,Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma -> Epidermis,-0.16678545407683848
+SCC,conch,permuted,10,Actinic keratosis -> Squamous cell carcinoma -> Epidermis -> Carcinoma in situ,0.09257424983602609
+SCC,conch,permuted,11,Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ -> Epidermis,-0.1892240919451949
+SCC,conch,permuted,12,Carcinoma in situ -> Epidermis -> Actinic keratosis -> Squamous cell carcinoma,0.15032544864515118
+SCC,conch,permuted,13,Carcinoma in situ -> Epidermis -> Squamous cell carcinoma -> Actinic keratosis,-0.09257424983602609
+SCC,conch,permuted,14,Carcinoma in situ -> Actinic keratosis -> Epidermis -> Squamous cell carcinoma,-0.08530276844960785
+SCC,conch,permuted,15,Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma -> Epidermis,-0.37183308751675737
+SCC,conch,permuted,16,Carcinoma in situ -> Squamous cell carcinoma -> Epidermis -> Actinic keratosis,-0.37910456890317556
+SCC,conch,permuted,17,Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis -> Epidermis,-0.6147327859979347
+SCC,conch,permuted,18,Squamous cell carcinoma -> Epidermis -> Actinic keratosis -> Carcinoma in situ,0.08530276844960785
+SCC,conch,permuted,19,Squamous cell carcinoma -> Epidermis -> Carcinoma in situ -> Actinic keratosis,-0.11974486499031099
+SCC,conch,permuted,20,Squamous cell carcinoma -> Actinic keratosis -> Epidermis -> Carcinoma in situ,-0.15032544864515118
+SCC,conch,permuted,21,Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ -> Epidermis,-0.4321237904263722
+SCC,conch,permuted,22,Squamous cell carcinoma -> Carcinoma in situ -> Epidermis -> Actinic keratosis,-0.401543206771532
+SCC,conch,permuted,23,Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis -> Epidermis,-0.6371714238662911
+SCC,gigapath,canonical,0,Epidermis -> Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma,0.5898786086316662
+SCC,gigapath,permuted,1,Epidermis -> Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ,0.48426746482844885
+SCC,gigapath,permuted,2,Epidermis -> Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma,0.40208985637477007
+SCC,gigapath,permuted,3,Epidermis -> Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis,0.15287201661422295
+SCC,gigapath,permuted,4,Epidermis -> Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ,0.23504962506790167
+SCC,gigapath,permuted,5,Epidermis -> Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis,0.04726087281100559
+SCC,gigapath,permuted,6,Actinic keratosis -> Epidermis -> Carcinoma in situ -> Squamous cell carcinoma,0.458554843062809
+SCC,gigapath,permuted,7,Actinic keratosis -> Epidermis -> Squamous cell carcinoma -> Carcinoma in situ,0.35294369925959174
+SCC,gigapath,permuted,8,Actinic keratosis -> Carcinoma in situ -> Epidermis -> Squamous cell carcinoma,0.22180817340992612
+SCC,gigapath,permuted,9,Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma -> Epidermis,-0.04726087281100559
+SCC,gigapath,permuted,10,Actinic keratosis -> Squamous cell carcinoma -> Epidermis -> Carcinoma in situ,0.08387465303865996
+SCC,gigapath,permuted,11,Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ -> Epidermis,-0.15287201661422295
+SCC,gigapath,permuted,12,Carcinoma in situ -> Epidermis -> Actinic keratosis -> Squamous cell carcinoma,0.16534318672188716
+SCC,gigapath,permuted,13,Carcinoma in situ -> Epidermis -> Squamous cell carcinoma -> Actinic keratosis,-0.08387465303865996
+SCC,gigapath,permuted,14,Carcinoma in situ -> Actinic keratosis -> Epidermis -> Squamous cell carcinoma,0.034019421153030076
+SCC,gigapath,permuted,15,Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma -> Epidermis,-0.23504962506790167
+SCC,gigapath,permuted,16,Carcinoma in situ -> Squamous cell carcinoma -> Epidermis -> Actinic keratosis,-0.35294369925959174
+SCC,gigapath,permuted,17,Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis -> Epidermis,-0.48426746482844885
+SCC,gigapath,permuted,18,Squamous cell carcinoma -> Epidermis -> Actinic keratosis -> Carcinoma in situ,-0.034019421153030076
+SCC,gigapath,permuted,19,Squamous cell carcinoma -> Epidermis -> Carcinoma in situ -> Actinic keratosis,-0.22180817340992612
+SCC,gigapath,permuted,20,Squamous cell carcinoma -> Actinic keratosis -> Epidermis -> Carcinoma in situ,-0.16534318672188716
+SCC,gigapath,permuted,21,Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ -> Epidermis,-0.40208985637477007
+SCC,gigapath,permuted,22,Squamous cell carcinoma -> Carcinoma in situ -> Epidermis -> Actinic keratosis,-0.458554843062809
+SCC,gigapath,permuted,23,Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis -> Epidermis,-0.5898786086316662
+SCC,musk,canonical,0,Epidermis -> Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma,0.6413768961030613
+SCC,musk,permuted,1,Epidermis -> Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ,0.6187165294160916
+SCC,musk,permuted,2,Epidermis -> Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma,0.4194139734761311
+SCC,musk,permuted,3,Epidermis -> Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis,0.17232104833713244
+SCC,musk,permuted,4,Epidermis -> Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ,0.37162360427709284
+SCC,musk,permuted,5,Epidermis -> Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis,0.14966068165016266
+SCC,musk,permuted,6,Actinic keratosis -> Epidermis -> Carcinoma in situ -> Squamous cell carcinoma,0.41524556079869673
+SCC,musk,permuted,7,Actinic keratosis -> Epidermis -> Squamous cell carcinoma -> Carcinoma in situ,0.39258519411172693
+SCC,musk,permuted,8,Actinic keratosis -> Carcinoma in situ -> Epidermis -> Squamous cell carcinoma,0.13622810316073808
+SCC,musk,permuted,9,Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma -> Epidermis,-0.14966068165016266
+SCC,musk,permuted,10,Actinic keratosis -> Squamous cell carcinoma -> Epidermis -> Carcinoma in situ,0.10669640930082615
+SCC,musk,permuted,11,Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ -> Epidermis,-0.17232104833713244
+SCC,musk,permuted,12,Carcinoma in situ -> Epidermis -> Actinic keratosis -> Squamous cell carcinoma,0.14039651583817248
+SCC,musk,permuted,13,Carcinoma in situ -> Epidermis -> Squamous cell carcinoma -> Actinic keratosis,-0.10669640930082615
+SCC,musk,permuted,14,Carcinoma in situ -> Actinic keratosis -> Epidermis -> Squamous cell carcinoma,-0.08573481946619214
+SCC,musk,permuted,15,Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma -> Epidermis,-0.37162360427709284
+SCC,musk,permuted,16,Carcinoma in situ -> Squamous cell carcinoma -> Epidermis -> Actinic keratosis,-0.39258519411172693
+SCC,musk,permuted,17,Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis -> Epidermis,-0.6187165294160916
+SCC,musk,permuted,18,Squamous cell carcinoma -> Epidermis -> Actinic keratosis -> Carcinoma in situ,0.08573481946619214
+SCC,musk,permuted,19,Squamous cell carcinoma -> Epidermis -> Carcinoma in situ -> Actinic keratosis,-0.13622810316073808
+SCC,musk,permuted,20,Squamous cell carcinoma -> Actinic keratosis -> Epidermis -> Carcinoma in situ,-0.14039651583817248
+SCC,musk,permuted,21,Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ -> Epidermis,-0.4194139734761311
+SCC,musk,permuted,22,Squamous cell carcinoma -> Carcinoma in situ -> Epidermis -> Actinic keratosis,-0.41524556079869673
+SCC,musk,permuted,23,Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis -> Epidermis,-0.6413768961030613
+SCC,dinov2,canonical,0,Epidermis -> Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma,0.47623089914836403
+SCC,dinov2,permuted,1,Epidermis -> Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ,0.5044039179798783
+SCC,dinov2,permuted,2,Epidermis -> Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma,0.2817428916090752
+SCC,dinov2,permuted,3,Epidermis -> Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis,0.07668516609493707
+SCC,dinov2,permuted,4,Epidermis -> Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ,0.2993461924657402
+SCC,dinov2,permuted,5,Epidermis -> Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis,0.10485818492645126
+SCC,dinov2,permuted,6,Actinic keratosis -> Epidermis -> Carcinoma in situ -> Squamous cell carcinoma,0.3798694855958492
+SCC,dinov2,permuted,7,Actinic keratosis -> Epidermis -> Squamous cell carcinoma -> Carcinoma in situ,0.40804250442736334
+SCC,dinov2,permuted,8,Actinic keratosis -> Carcinoma in situ -> Epidermis -> Squamous cell carcinoma,0.14474826014396056
+SCC,dinov2,permuted,9,Actinic keratosis -> Carcinoma in situ -> Squamous cell carcinoma -> Epidermis,-0.10485818492645126
+SCC,dinov2,permuted,10,Actinic keratosis -> Squamous cell carcinoma -> Epidermis -> Carcinoma in situ,0.15843605935695157
+SCC,dinov2,permuted,11,Actinic keratosis -> Squamous cell carcinoma -> Carcinoma in situ -> Epidermis,-0.07668516609493707
+SCC,dinov2,permuted,12,Carcinoma in situ -> Epidermis -> Actinic keratosis -> Squamous cell carcinoma,0.04662166615718653
+SCC,dinov2,permuted,13,Carcinoma in situ -> Epidermis -> Squamous cell carcinoma -> Actinic keratosis,-0.15843605935695157
+SCC,dinov2,permuted,14,Carcinoma in situ -> Actinic keratosis -> Epidermis -> Squamous cell carcinoma,-0.04973974739532833
+SCC,dinov2,permuted,15,Carcinoma in situ -> Actinic keratosis -> Squamous cell carcinoma -> Epidermis,-0.2993461924657402
+SCC,dinov2,permuted,16,Carcinoma in situ -> Squamous cell carcinoma -> Epidermis -> Actinic keratosis,-0.40804250442736334
+SCC,dinov2,permuted,17,Carcinoma in situ -> Squamous cell carcinoma -> Actinic keratosis -> Epidermis,-0.5044039179798783
+SCC,dinov2,permuted,18,Squamous cell carcinoma -> Epidermis -> Actinic keratosis -> Carcinoma in situ,0.04973974739532833
+SCC,dinov2,permuted,19,Squamous cell carcinoma -> Epidermis -> Carcinoma in situ -> Actinic keratosis,-0.14474826014396056
+SCC,dinov2,permuted,20,Squamous cell carcinoma -> Actinic keratosis -> Epidermis -> Carcinoma in situ,-0.04662166615718653
+SCC,dinov2,permuted,21,Squamous cell carcinoma -> Actinic keratosis -> Carcinoma in situ -> Epidermis,-0.2817428916090752
+SCC,dinov2,permuted,22,Squamous cell carcinoma -> Carcinoma in situ -> Epidermis -> Actinic keratosis,-0.3798694855958492
+SCC,dinov2,permuted,23,Squamous cell carcinoma -> Carcinoma in situ -> Actinic keratosis -> Epidermis,-0.47623089914836403
+CRC-Conventional,virchow2,canonical,0,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.7328357043310497
+CRC-Conventional,virchow2,permuted,1,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.4847773288531301
+CRC-Conventional,virchow2,permuted,2,Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.6202215810359465
+CRC-Conventional,virchow2,permuted,3,Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.3550980624261671
+CRC-Conventional,virchow2,permuted,4,Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade,0.21965381024335076
+CRC-Conventional,virchow2,permuted,5,Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade,0.10703968694824752
+CRC-Conventional,virchow2,permuted,6,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.46383479395939586
+CRC-Conventional,virchow2,permuted,7,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.2157764184814763
+CRC-Conventional,virchow2,permuted,8,Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade,0.1813256627571699
+CRC-Conventional,virchow2,permuted,9,Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.10703968694824752
+CRC-Conventional,virchow2,permuted,10,Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.07258893122394115
+CRC-Conventional,virchow2,permuted,11,Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.3550980624261671
+CRC-Conventional,virchow2,permuted,12,Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.3377124498337205
+CRC-Conventional,virchow2,permuted,13,Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.07258893122394115
+CRC-Conventional,virchow2,permuted,14,Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade,0.06871153946206666
+CRC-Conventional,virchow2,permuted,15,Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.21965381024335076
+CRC-Conventional,virchow2,permuted,16,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade,-0.2157764184814763
+CRC-Conventional,virchow2,permuted,17,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade,-0.4847773288531301
+CRC-Conventional,virchow2,permuted,18,Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade,-0.06871153946206666
+CRC-Conventional,virchow2,permuted,19,Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade,-0.1813256627571699
+CRC-Conventional,virchow2,permuted,20,Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.3377124498337205
+CRC-Conventional,virchow2,permuted,21,Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.6202215810359465
+CRC-Conventional,virchow2,permuted,22,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade,-0.46383479395939586
+CRC-Conventional,virchow2,permuted,23,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade,-0.7328357043310497
+CRC-Conventional,uni2,canonical,0,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.7249760195990723
+CRC-Conventional,uni2,permuted,1,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.47375624049398496
+CRC-Conventional,uni2,permuted,2,Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.6356860045169255
+CRC-Conventional,uni2,permuted,3,Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.36845487725302034
+CRC-Conventional,uni2,permuted,4,Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade,0.20652511323007988
+CRC-Conventional,uni2,permuted,5,Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade,0.11723509814793293
+CRC-Conventional,uni2,permuted,6,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.4516981240449607
+CRC-Conventional,uni2,permuted,7,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.20047834493987327
+CRC-Conventional,uni2,permuted,8,Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade,0.1710113205523806
+CRC-Conventional,uni2,permuted,9,Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.11723509814793293
+CRC-Conventional,uni2,permuted,10,Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.08776807376044027
+CRC-Conventional,uni2,permuted,11,Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.36845487725302034
+CRC-Conventional,uni2,permuted,12,Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.3549992010243454
+CRC-Conventional,uni2,permuted,13,Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.08776807376044027
+CRC-Conventional,uni2,permuted,14,Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade,0.08172130547023367
+CRC-Conventional,uni2,permuted,15,Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.20652511323007988
+CRC-Conventional,uni2,permuted,16,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade,-0.20047834493987327
+CRC-Conventional,uni2,permuted,17,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade,-0.47375624049398496
+CRC-Conventional,uni2,permuted,18,Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade,-0.08172130547023367
+CRC-Conventional,uni2,permuted,19,Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade,-0.1710113205523806
+CRC-Conventional,uni2,permuted,20,Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.3549992010243454
+CRC-Conventional,uni2,permuted,21,Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.6356860045169255
+CRC-Conventional,uni2,permuted,22,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade,-0.4516981240449607
+CRC-Conventional,uni2,permuted,23,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade,-0.7249760195990723
+CRC-Conventional,conch,canonical,0,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.7028010190323626
+CRC-Conventional,conch,permuted,1,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.43549134559910807
+CRC-Conventional,conch,permuted,2,Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.6066281218856459
+CRC-Conventional,conch,permuted,3,Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.32771976221875704
+CRC-Conventional,conch,permuted,4,Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade,0.15658298593221925
+CRC-Conventional,conch,permuted,5,Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade,0.060410088785502615
+CRC-Conventional,conch,permuted,6,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.48226949908938493
+CRC-Conventional,conch,permuted,7,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.21495982565613053
+CRC-Conventional,conch,permuted,8,Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade,0.22705913721781598
+CRC-Conventional,conch,permuted,9,Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.060410088785502615
+CRC-Conventional,conch,permuted,10,Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.07250940034718806
+CRC-Conventional,conch,permuted,11,Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.32771976221875704
+CRC-Conventional,conch,permuted,12,Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.35141776001407693
+CRC-Conventional,conch,permuted,13,Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.07250940034718806
+CRC-Conventional,conch,permuted,14,Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade,0.13088624007109934
+CRC-Conventional,conch,permuted,15,Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.15658298593221925
+CRC-Conventional,conch,permuted,16,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade,-0.21495982565613053
+CRC-Conventional,conch,permuted,17,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade,-0.43549134559910807
+CRC-Conventional,conch,permuted,18,Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade,-0.13088624007109934
+CRC-Conventional,conch,permuted,19,Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade,-0.22705913721781598
+CRC-Conventional,conch,permuted,20,Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.35141776001407693
+CRC-Conventional,conch,permuted,21,Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.6066281218856459
+CRC-Conventional,conch,permuted,22,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade,-0.48226949908938493
+CRC-Conventional,conch,permuted,23,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade,-0.7028010190323626
+CRC-Conventional,gigapath,canonical,0,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.7363929153435631
+CRC-Conventional,gigapath,permuted,1,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.4850645965227552
+CRC-Conventional,gigapath,permuted,2,Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.6224230041323198
+CRC-Conventional,gigapath,permuted,3,Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.35541304637346455
+CRC-Conventional,gigapath,permuted,4,Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade,0.21805463876390008
+CRC-Conventional,gigapath,permuted,5,Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade,0.10408472755265666
+CRC-Conventional,gigapath,permuted,6,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.4659086066939859
+CRC-Conventional,gigapath,permuted,7,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.214580287873178
+CRC-Conventional,gigapath,permuted,8,Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade,0.1841166341765326
+CRC-Conventional,gigapath,permuted,9,Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.10408472755265666
+CRC-Conventional,gigapath,permuted,10,Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.07362107385601124
+CRC-Conventional,gigapath,permuted,11,Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.35541304637346455
+CRC-Conventional,gigapath,permuted,12,Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.34063103161486635
+CRC-Conventional,gigapath,permuted,13,Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.07362107385601124
+CRC-Conventional,gigapath,permuted,14,Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade,0.07014672296528916
+CRC-Conventional,gigapath,permuted,15,Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.21805463876390008
+CRC-Conventional,gigapath,permuted,16,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade,-0.214580287873178
+CRC-Conventional,gigapath,permuted,17,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade,-0.4850645965227552
+CRC-Conventional,gigapath,permuted,18,Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade,-0.07014672296528916
+CRC-Conventional,gigapath,permuted,19,Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade,-0.1841166341765326
+CRC-Conventional,gigapath,permuted,20,Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.34063103161486635
+CRC-Conventional,gigapath,permuted,21,Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.6224230041323198
+CRC-Conventional,gigapath,permuted,22,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade,-0.4659086066939859
+CRC-Conventional,gigapath,permuted,23,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade,-0.7363929153435631
+CRC-Conventional,musk,canonical,0,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.6759734509963733
+CRC-Conventional,musk,permuted,1,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.41117328895943833
+CRC-Conventional,musk,permuted,2,Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.5777348370540069
+CRC-Conventional,musk,permuted,3,Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.2995812034035038
+CRC-Conventional,musk,permuted,4,Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade,0.1330196553089353
+CRC-Conventional,musk,permuted,5,Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade,0.03478104136656879
+CRC-Conventional,musk,permuted,6,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.4837044779382287
+CRC-Conventional,musk,permuted,7,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.21890431590129372
+CRC-Conventional,musk,permuted,8,Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade,0.25134679633925616
+CRC-Conventional,musk,permuted,9,Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.03478104136656879
+CRC-Conventional,musk,permuted,10,Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.06722352180453123
+CRC-Conventional,musk,permuted,11,Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.2995812034035038
+CRC-Conventional,musk,permuted,12,Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.3453771554550343
+CRC-Conventional,musk,permuted,13,Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.06722352180453123
+CRC-Conventional,musk,permuted,14,Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade,0.1531081823968896
+CRC-Conventional,musk,permuted,15,Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.1330196553089353
+CRC-Conventional,musk,permuted,16,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade,-0.21890431590129372
+CRC-Conventional,musk,permuted,17,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade,-0.41117328895943833
+CRC-Conventional,musk,permuted,18,Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade,-0.1531081823968896
+CRC-Conventional,musk,permuted,19,Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade,-0.25134679633925616
+CRC-Conventional,musk,permuted,20,Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.3453771554550343
+CRC-Conventional,musk,permuted,21,Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.5777348370540069
+CRC-Conventional,musk,permuted,22,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade,-0.4837044779382287
+CRC-Conventional,musk,permuted,23,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade,-0.6759734509963733
+CRC-Conventional,dinov2,canonical,0,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.5165814687709507
+CRC-Conventional,dinov2,permuted,1,Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.28534167703809715
+CRC-Conventional,dinov2,permuted,2,Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.4486373237469378
+CRC-Conventional,dinov2,permuted,3,Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.19757461925382352
+CRC-Conventional,dinov2,permuted,4,Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade,0.03427897254498281
+CRC-Conventional,dinov2,permuted,5,Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade,-0.03366517247903008
+CRC-Conventional,dinov2,permuted,6,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade,0.44648238315791094
+CRC-Conventional,dinov2,permuted,7,Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade,0.2152425914250574
+CRC-Conventional,dinov2,permuted,8,Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade,0.3091476498688583
+CRC-Conventional,dinov2,permuted,9,Adenoma high grade -> Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade,0.03366517247903008
+CRC-Conventional,dinov2,permuted,10,Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.06023988596477085
+CRC-Conventional,dinov2,permuted,11,Adenoma high grade -> Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.19757461925382352
+CRC-Conventional,dinov2,permuted,12,Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma high grade,0.3113025904578852
+CRC-Conventional,dinov2,permuted,13,Adenocarcinoma low grade -> Adenoma low grade -> Adenocarcinoma high grade -> Adenoma high grade,0.06023988596477085
+CRC-Conventional,dinov2,permuted,14,Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma high grade,0.24120350484484543
+CRC-Conventional,dinov2,permuted,15,Adenocarcinoma low grade -> Adenoma high grade -> Adenocarcinoma high grade -> Adenoma low grade,-0.03427897254498281
+CRC-Conventional,dinov2,permuted,16,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade,-0.2152425914250574
+CRC-Conventional,dinov2,permuted,17,Adenocarcinoma low grade -> Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade,-0.28534167703809715
+CRC-Conventional,dinov2,permuted,18,Adenocarcinoma high grade -> Adenoma low grade -> Adenoma high grade -> Adenocarcinoma low grade,-0.24120350484484543
+CRC-Conventional,dinov2,permuted,19,Adenocarcinoma high grade -> Adenoma low grade -> Adenocarcinoma low grade -> Adenoma high grade,-0.3091476498688583
+CRC-Conventional,dinov2,permuted,20,Adenocarcinoma high grade -> Adenoma high grade -> Adenoma low grade -> Adenocarcinoma low grade,-0.3113025904578852
+CRC-Conventional,dinov2,permuted,21,Adenocarcinoma high grade -> Adenoma high grade -> Adenocarcinoma low grade -> Adenoma low grade,-0.4486373237469378
+CRC-Conventional,dinov2,permuted,22,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma low grade -> Adenoma high grade,-0.44648238315791094
+CRC-Conventional,dinov2,permuted,23,Adenocarcinoma high grade -> Adenocarcinoma low grade -> Adenoma high grade -> Adenoma low grade,-0.5165814687709507
+CRC-Serrated,virchow2,canonical,0,Hyperplastic polyp -> Sessile serrated lesion -> Adenocarcinoma high grade,0.7929737596247732
+CRC-Serrated,virchow2,permuted,1,Hyperplastic polyp -> Adenocarcinoma high grade -> Sessile serrated lesion,0.24855413883106184
+CRC-Serrated,virchow2,permuted,2,Sessile serrated lesion -> Hyperplastic polyp -> Adenocarcinoma high grade,0.2958676596498434
+CRC-Serrated,virchow2,permuted,3,Sessile serrated lesion -> Adenocarcinoma high grade -> Hyperplastic polyp,-0.24855413883106184
+CRC-Serrated,virchow2,permuted,4,Adenocarcinoma high grade -> Hyperplastic polyp -> Sessile serrated lesion,-0.2958676596498434
+CRC-Serrated,virchow2,permuted,5,Adenocarcinoma high grade -> Sessile serrated lesion -> Hyperplastic polyp,-0.7929737596247732
+CRC-Serrated,uni2,canonical,0,Hyperplastic polyp -> Sessile serrated lesion -> Adenocarcinoma high grade,0.7880604404849562
+CRC-Serrated,uni2,permuted,1,Hyperplastic polyp -> Adenocarcinoma high grade -> Sessile serrated lesion,0.2436385814925594
+CRC-Serrated,uni2,permuted,2,Sessile serrated lesion -> Hyperplastic polyp -> Adenocarcinoma high grade,0.30078327749983735
+CRC-Serrated,uni2,permuted,3,Sessile serrated lesion -> Adenocarcinoma high grade -> Hyperplastic polyp,-0.2436385814925594
+CRC-Serrated,uni2,permuted,4,Adenocarcinoma high grade -> Hyperplastic polyp -> Sessile serrated lesion,-0.30078327749983735
+CRC-Serrated,uni2,permuted,5,Adenocarcinoma high grade -> Sessile serrated lesion -> Hyperplastic polyp,-0.7880604404849562
+CRC-Serrated,conch,canonical,0,Hyperplastic polyp -> Sessile serrated lesion -> Adenocarcinoma high grade,0.6415586246094653
+CRC-Serrated,conch,permuted,1,Hyperplastic polyp -> Adenocarcinoma high grade -> Sessile serrated lesion,0.09764422724474428
+CRC-Serrated,conch,permuted,2,Sessile serrated lesion -> Hyperplastic polyp -> Adenocarcinoma high grade,0.44644329625189366
+CRC-Serrated,conch,permuted,3,Sessile serrated lesion -> Adenocarcinoma high grade -> Hyperplastic polyp,-0.09764422724474428
+CRC-Serrated,conch,permuted,4,Adenocarcinoma high grade -> Hyperplastic polyp -> Sessile serrated lesion,-0.44644329625189366
+CRC-Serrated,conch,permuted,5,Adenocarcinoma high grade -> Sessile serrated lesion -> Hyperplastic polyp,-0.6415586246094653
+CRC-Serrated,gigapath,canonical,0,Hyperplastic polyp -> Sessile serrated lesion -> Adenocarcinoma high grade,0.7924941240203114
+CRC-Serrated,gigapath,permuted,1,Hyperplastic polyp -> Adenocarcinoma high grade -> Sessile serrated lesion,0.24807232553940622
+CRC-Serrated,gigapath,permuted,2,Sessile serrated lesion -> Hyperplastic polyp -> Adenocarcinoma high grade,0.296349472941499
+CRC-Serrated,gigapath,permuted,3,Sessile serrated lesion -> Adenocarcinoma high grade -> Hyperplastic polyp,-0.24807232553940622
+CRC-Serrated,gigapath,permuted,4,Adenocarcinoma high grade -> Hyperplastic polyp -> Sessile serrated lesion,-0.296349472941499
+CRC-Serrated,gigapath,permuted,5,Adenocarcinoma high grade -> Sessile serrated lesion -> Hyperplastic polyp,-0.7924941240203114
+CRC-Serrated,musk,canonical,0,Hyperplastic polyp -> Sessile serrated lesion -> Adenocarcinoma high grade,0.7048646924474689
+CRC-Serrated,musk,permuted,1,Hyperplastic polyp -> Adenocarcinoma high grade -> Sessile serrated lesion,0.16054403542058807
+CRC-Serrated,musk,permuted,2,Sessile serrated lesion -> Hyperplastic polyp -> Adenocarcinoma high grade,0.38381255345297993
+CRC-Serrated,musk,permuted,3,Sessile serrated lesion -> Adenocarcinoma high grade -> Hyperplastic polyp,-0.16054403542058807
+CRC-Serrated,musk,permuted,4,Adenocarcinoma high grade -> Hyperplastic polyp -> Sessile serrated lesion,-0.38381255345297993
+CRC-Serrated,musk,permuted,5,Adenocarcinoma high grade -> Sessile serrated lesion -> Hyperplastic polyp,-0.7048646924474689
+CRC-Serrated,dinov2,canonical,0,Hyperplastic polyp -> Sessile serrated lesion -> Adenocarcinoma high grade,0.6906535703177544
+CRC-Serrated,dinov2,permuted,1,Hyperplastic polyp -> Adenocarcinoma high grade -> Sessile serrated lesion,0.15288781297339882
+CRC-Serrated,dinov2,permuted,2,Sessile serrated lesion -> Hyperplastic polyp -> Adenocarcinoma high grade,0.3892681622418716
+CRC-Serrated,dinov2,permuted,3,Sessile serrated lesion -> Adenocarcinoma high grade -> Hyperplastic polyp,-0.15288781297339882
+CRC-Serrated,dinov2,permuted,4,Adenocarcinoma high grade -> Hyperplastic polyp -> Sessile serrated lesion,-0.3892681622418716
+CRC-Serrated,dinov2,permuted,5,Adenocarcinoma high grade -> Sessile serrated lesion -> Hyperplastic polyp,-0.6906535703177544
+BDC,virchow2,canonical,0,Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma,0.6188315863260099
+BDC,virchow2,permuted,1,Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade),0.1666296787135288
+BDC,virchow2,permuted,2,Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma,0.4786914863938078
+BDC,virchow2,permuted,3,Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade),-0.1666296787135288
+BDC,virchow2,permuted,4,Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade),-0.4786914863938078
+BDC,virchow2,permuted,5,Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade),-0.6188315863260099
+BDC,uni2,canonical,0,Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma,0.6986167339622846
+BDC,uni2,permuted,1,Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade),0.2550254947523702
+BDC,uni2,permuted,2,Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma,0.39461304557794386
+BDC,uni2,permuted,3,Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade),-0.2550254947523702
+BDC,uni2,permuted,4,Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade),-0.39461304557794386
+BDC,uni2,permuted,5,Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade),-0.6986167339622846
+BDC,conch,canonical,0,Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma,0.5983551599895768
+BDC,conch,permuted,1,Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade),0.3029313685079179
+BDC,conch,permuted,2,Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma,0.29698176589974296
+BDC,conch,permuted,3,Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade),-0.3029313685079179
+BDC,conch,permuted,4,Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade),-0.29698176589974296
+BDC,conch,permuted,5,Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade),-0.5983551599895768
+BDC,gigapath,canonical,0,Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma,0.5445103867562489
+BDC,gigapath,permuted,1,Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade),0.20222427673252918
+BDC,gigapath,permuted,2,Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma,0.34941773959486355
+BDC,gigapath,permuted,3,Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade),-0.20222427673252918
+BDC,gigapath,permuted,4,Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade),-0.34941773959486355
+BDC,gigapath,permuted,5,Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade),-0.5445103867562489
+BDC,musk,canonical,0,Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma,0.34369892323582507
+BDC,musk,permuted,1,Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade),0.17087681464329074
+BDC,musk,permuted,2,Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma,0.20788556376569586
+BDC,musk,permuted,3,Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade),-0.17087681464329074
+BDC,musk,permuted,4,Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade),-0.20788556376569586
+BDC,musk,permuted,5,Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade),-0.34369892323582507
+BDC,dinov2,canonical,0,Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma,0.2172902706544222
+BDC,dinov2,permuted,1,Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade),-0.028355937143909188
+BDC,dinov2,permuted,2,Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade) -> Invasive non-special type carcinoma,0.27790611175372126
+BDC,dinov2,permuted,3,Ductal carcinoma in situ (high-grade) -> Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade),0.028355937143909188
+BDC,dinov2,permuted,4,Invasive non-special type carcinoma -> Ductal carcinoma in situ (low-grade) -> Ductal carcinoma in situ (high-grade),-0.27790611175372126
+BDC,dinov2,permuted,5,Invasive non-special type carcinoma -> Ductal carcinoma in situ (high-grade) -> Ductal carcinoma in situ (low-grade),-0.2172902706544222

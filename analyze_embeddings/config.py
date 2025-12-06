@@ -1,11 +1,18 @@
 from typing import List, Dict, TypedDict
+from pathlib import Path
 
+RESULTS_DIR = Path("results")
+PLOTS_OUTPUT_DIR = Path("plots")
+FULL_RESULTS_OUTPUT_PATH = RESULTS_DIR / "full_manifold_evaluation.csv"
+NULL_RESULTS_OUTPUT_PATH = RESULTS_DIR / "null_manifold_evaluation.csv"
+PERMUTATION_RESULTS_OUTPUT_PATH = RESULTS_DIR / "stage_permutation_specificity.csv"
 class ProgressionConfig(TypedDict):
     name: str
     bucket: str
     prefix: str
     classes: List[str]
     root_class: str 
+    image_subdir: str
 
 # Define the models you expect to see. 
 EXPECTED_MODELS = [
@@ -30,6 +37,7 @@ PROGRESSIONS: List[ProgressionConfig] = [
             "Squamous cell carcinoma"
         ],
         "root_class": "Epidermis",
+        "image_subdir": "imagenet_context1"
     },
     {
         "name": "CRC-Conventional",
@@ -42,6 +50,7 @@ PROGRESSIONS: List[ProgressionConfig] = [
             "Adenocarcinoma high grade"
         ],
         "root_class": "Adenoma low grade",
+        "image_subdir": "imagenet"
     },
     {
         "name": "CRC-Serrated",
@@ -53,6 +62,7 @@ PROGRESSIONS: List[ProgressionConfig] = [
             "Adenocarcinoma high grade"
         ],
         "root_class": "Hyperplastic polyp",
+        "image_subdir": "imagenet"
     },
     {
         "name": "BDC",
@@ -64,6 +74,7 @@ PROGRESSIONS: List[ProgressionConfig] = [
             "Invasive non-special type carcinoma"
         ],
         "root_class": "Ductal carcinoma in situ (low-grade)",
+        "image_subdir": "imagenet-central"
     }
 ]
 

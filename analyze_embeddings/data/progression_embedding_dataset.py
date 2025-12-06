@@ -143,7 +143,7 @@ class ProgressionEmbeddingDataset:
     # 2. Caching & Data Loading (Heavy Lifting)
     # --------------------------------------------------------------------------
 
-    def load_model_into_memory(self, model: str, patch_ids: Set[str]):
+    def load_model_into_memory(self, model: str, patch_ids: Set[str], embedding_type: str = None):
         """
         Download ALL embedding types for the specified patches of ONE model.
         Includes Just-In-Time (JIT) validation.
@@ -152,11 +152,11 @@ class ProgressionEmbeddingDataset:
             logger.info(f"Model {model} is already loaded in memory.")
             return
 
-        logger.info(f"📥 Pre-loading all embeddings for model: {model}...")
+        logger.info(f"Pre-loading all embeddings for model: {model}...")
         
         # 1. Fetch data with Error Handling for "Total Failure"
         try:
-            df = self._fetch_from_gcs(patch_ids, model, embedding_type=None)
+            df = self._fetch_from_gcs(patch_ids, model, embedding_type=embedding_type)
         except ValueError as e:
             # If _fetch_from_gcs finds 0 matching rows, it raises "No embeddings found".
             # In the context of loading specific patches, this means 100% Data Loss.
@@ -179,7 +179,7 @@ class ProgressionEmbeddingDataset:
         
         self._active_cache = df
         self._active_model_name = model
-        logger.info(f"✅ Verified & Loaded {len(df)} rows into memory for {model}.")
+        logger.info(f"Verified & Loaded {len(df)} rows into memory for {model}.")
 
     def clear_cache(self):
         """Free memory."""
@@ -299,7 +299,7 @@ class ProgressionEmbeddingDataset:
     def _build_golden_registry_for_analysis(self) -> pd.DataFrame:
         """FAST: Only scans the first model to get the valid patch list."""
         source_model = self.models[0]
-        logger.info(f"📚 Building Index using '{source_model}' as Golden Record...")
+        logger.info(f"Building Index using '{source_model}' as Golden Record...")
         
         parquet_files = self._find_parquet_files(source_model)
         chunks = self._read_parquet_files(parquet_files)
@@ -314,7 +314,7 @@ class ProgressionEmbeddingDataset:
 
     def _build_full_registry_for_validation(self) -> pd.DataFrame:
         """SLOW: Scans EVERY model to populate 'ds.registry' with all metadata."""
-        logger.info("🕵️ VALIDATION MODE: Scanning all models (this may take time)...")
+        logger.info("Scanning all models (this may take time)...")
         all_metadata = []
 
         for model in tqdm(self.models, desc="Indexing All Models"):
@@ -368,289 +368,3 @@ class ProgressionEmbeddingDataset:
 
     def _log_registry_summary(self) -> None:
         logger.info("Registry Built. Total Rows: %d", len(self.registry))
-
-# import logging
-# from dataclasses import dataclass, field
-# from pathlib import PurePosixPath
-# from typing import List, Optional, Set, Union
-
-# import fsspec
-# import pandas as pd
-# import numpy as np
-# from tqdm.auto import tqdm
-
-# logger = logging.getLogger(__name__)
-
-# @dataclass
-# class RegistryConfig:
-#     """Configuration for the ProgressionEmbeddingDataset."""
-#     bucket: str
-#     prefix: str
-#     ordered_classes: List[str]
-#     models: List[str]
-#     progression_name: str 
-
-# class RegistryColumns:
-#     MODEL = "model"
-#     CLASS = "class"
-#     SLIDE_ID = "slide_id"
-#     PATCH_ID = "patch_id"
-#     EMBEDDING_TYPE = "embedding_type"
-#     EMBEDDING = "embedding"
-
-#     @classmethod
-#     def metadata_columns(cls) -> List[str]:
-#         return [cls.CLASS, cls.SLIDE_ID, cls.PATCH_ID, cls.EMBEDDING_TYPE]
-
-#     @classmethod
-#     def all_columns(cls) -> List[str]:
-#         return [cls.MODEL] + cls.metadata_columns()
-
-#     @classmethod
-#     def cohort_columns(cls) -> List[str]:
-#         return [cls.PATCH_ID, cls.CLASS, cls.SLIDE_ID, cls.EMBEDDING]
-
-# class ProgressionEmbeddingDataset:
-#     """
-#     A Metadata Registry for Pathology Embeddings.
-
-#     1. Init: Scans GCS for ALL metadata matching the requested classes/models.
-#        Creates a master catalog (`self.registry`) of what exists.
-#     2. Sample: Helper methods to filter `self.registry` into specific cohorts.
-#     3. Fetch: Helper methods to download heavy embedding vectors for a specific cohort.
-#     """
-
-#     def __init__(self, config: RegistryConfig):
-#         self.config = config
-#         self.fs = fsspec.filesystem("gcs", project=None)
-
-#         self._log_initialization()
-#         self.registry = self._build_registry()
-#         self._log_registry_summary()
-
-#     @property
-#     def bucket(self) -> str:
-#         return self.config.bucket
-
-#     @property
-#     def classes(self) -> List[str]:
-#         return self.config.ordered_classes
-
-#     @property
-#     def models(self) -> List[str]:
-#         return self.config.models
-
-#     def sample_patch_ids(
-#         self,
-#         n_per_class: int,
-#         max_per_slide: int,
-#         seed: int = 42
-#     ) -> Set[str]:
-#         """Slide-aware sampling of patch_ids that exist in ALL models."""
-#         valid_patches = self._validate_patch_consistency()
-#         rng = np.random.default_rng(seed)
-
-#         valid_registry = self.registry[
-#             self.registry[RegistryColumns.PATCH_ID].isin(valid_patches)
-#         ].drop_duplicates(subset=[RegistryColumns.PATCH_ID])
-
-#         sampled = set()
-
-#         for cls in self.classes:
-#             class_df = valid_registry[valid_registry[RegistryColumns.CLASS] == cls]
-#             slides = class_df.groupby(RegistryColumns.SLIDE_ID)[RegistryColumns.PATCH_ID].apply(list).to_dict()
-
-#             slide_ids = list(slides.keys())
-#             rng.shuffle(slide_ids)
-
-#             class_samples = []
-#             for slide_id in slide_ids:
-#                 if len(class_samples) >= n_per_class:
-#                     break
-
-#                 patches = slides[slide_id]
-#                 rng.shuffle(patches)
-
-#                 available = n_per_class - len(class_samples)
-#                 take = min(len(patches), max_per_slide, available)
-#                 class_samples.extend(patches[:take])
-
-#             sampled.update(class_samples)
-#             logger.info("Class '%s': sampled %d patches from %d slides", cls, len(class_samples), len(slides))
-
-#         return sampled
-
-#     def bootstrap_patch_ids(self, patch_ids: Set[str], seed: int) -> List[str]:
-#         """Stratified bootstrap resample (with replacement) by class."""
-#         rng = np.random.default_rng(seed)
-
-#         patch_classes = self.registry[
-#             self.registry[RegistryColumns.PATCH_ID].isin(patch_ids)
-#         ].drop_duplicates(subset=[RegistryColumns.PATCH_ID])[
-#             [RegistryColumns.PATCH_ID, RegistryColumns.CLASS]
-#         ]
-
-#         bootstrapped = []
-#         for cls in self.classes:
-#             class_patches = patch_classes[
-#                 patch_classes[RegistryColumns.CLASS] == cls
-#             ][RegistryColumns.PATCH_ID].tolist()
-
-#             resampled = rng.choice(class_patches, size=len(class_patches), replace=True)
-#             bootstrapped.extend(resampled.tolist())
-
-#         return bootstrapped
-
-#     def get_cohort(
-#         self,
-#         patch_ids: Union[Set[str], List[str]],
-#         model: str,
-#         embedding_type: str
-#     ) -> pd.DataFrame:
-#         """Fetch embeddings for patch_ids from a specific model/layer."""
-#         parquet_files = self._find_parquet_files(model)
-#         if not parquet_files:
-#             raise FileNotFoundError(f"No parquet files found for model: {model}")
-
-#         chunks = []
-#         for path in parquet_files:
-#             df = self._read_cohort_parquet(path, patch_ids, embedding_type)
-#             if df is not None and not df.empty:
-#                 chunks.append(df)
-
-#         if not chunks:
-#             raise ValueError(f"No embeddings found for model={model}, embedding_type={embedding_type}")
-
-#         result = pd.concat(chunks, ignore_index=True)
-
-#         if isinstance(patch_ids, list):
-#             patch_df = pd.DataFrame({RegistryColumns.PATCH_ID: patch_ids})
-#             result = patch_df.merge(result, on=RegistryColumns.PATCH_ID, how="left")
-
-#         return result[RegistryColumns.cohort_columns()]
-
-#     def _validate_patch_consistency(self) -> Set[str]:
-#         """Verify all models have identical patch_ids. Raises ValueError if not."""
-#         patches_by_model = {
-#             model: set(self.registry[self.registry[RegistryColumns.MODEL] == model][RegistryColumns.PATCH_ID])
-#             for model in self.models
-#         }
-
-#         all_patches = set.union(*patches_by_model.values())
-#         common_patches = set.intersection(*patches_by_model.values())
-
-#         if all_patches != common_patches:
-#             missing_report = [
-#                 f"{model}: missing {len(all_patches - patches)} patches"
-#                 for model, patches in patches_by_model.items()
-#                 if all_patches - patches
-#             ]
-#             raise ValueError(
-#                 f"Patch inconsistency across models. Expected {len(all_patches)} patches.\n"
-#                 + "\n".join(missing_report)
-#             )
-
-#         logger.info("✅ Validated: %d patches consistent across all models", len(common_patches))
-#         return common_patches
-
-#     def _read_cohort_parquet(
-#         self,
-#         path: str,
-#         patch_ids: Union[Set[str], List[str]],
-#         embedding_type: str
-#     ) -> Optional[pd.DataFrame]:
-#         """Read embeddings for specific patch_ids from a parquet file."""
-#         gcs_path = f"gs://{path}" if not path.startswith("gs://") else path
-#         patch_set = set(patch_ids)
-
-#         try:
-#             with self.fs.open(gcs_path, "rb") as f:
-#                 df = pd.read_parquet(f, columns=RegistryColumns.cohort_columns() + [RegistryColumns.EMBEDDING_TYPE])
-#                 mask = (
-#                     df[RegistryColumns.PATCH_ID].isin(patch_set) &
-#                     (df[RegistryColumns.EMBEDDING_TYPE] == embedding_type)
-#                 )
-#                 return df.loc[mask, RegistryColumns.cohort_columns()]
-#         except Exception as e:
-#             logger.error("Error reading cohort from %s: %s", path, e)
-#             return None
-        
-#     def _build_registry(self) -> pd.DataFrame:
-#         """Build the master registry by indexing all requested models."""
-#         all_metadata = []
-
-#         for model in tqdm(self.models, desc="Indexing Models"):
-#             model_df = self._load_model_metadata(model)
-#             if model_df is not None:
-#                 all_metadata.append(model_df)
-
-#         if not all_metadata:
-#             return self._empty_registry()
-
-#         return pd.concat(all_metadata, ignore_index=True)
-
-#     def _load_model_metadata(self, model: str) -> Optional[pd.DataFrame]:
-#         """Load metadata for a single model from GCS."""
-#         parquet_files = self._find_parquet_files(model)
-
-#         if not parquet_files:
-#             logger.warning("No files found for model: %s", model)
-#             return None
-
-#         chunks = self._read_parquet_files(parquet_files)
-
-#         if not chunks:
-#             return None
-
-#         model_df = pd.concat(chunks, ignore_index=True)
-#         model_df[RegistryColumns.MODEL] = model
-#         return model_df
-
-#     def _find_parquet_files(self, model: str) -> List[str]:
-#         """Find all parquet files for a given model."""
-#         base_path = f"{self.config.bucket}/{self.config.prefix}/{model}"
-
-#         # Check for directory of parquet files
-#         files = self.fs.glob(f"{base_path}/*.parquet")
-
-#         return files
-
-#     def _read_parquet_files(self, file_paths: List[str]) -> List[pd.DataFrame]:
-#         """Read and filter parquet files, returning only metadata columns."""
-#         chunks = []
-
-#         for path in file_paths:
-#             df = self._read_single_parquet(path)
-#             if df is not None and not df.empty:
-#                 chunks.append(df)
-
-#         return chunks
-
-#     def _read_single_parquet(self, path: str) -> Optional[pd.DataFrame]:
-#         """Read a single parquet file and filter for requested classes."""
-#         gcs_path = f"gs://{path}" if not path.startswith("gs://") else path
-
-#         try:
-#             with self.fs.open(gcs_path, "rb") as f:
-#                 df = pd.read_parquet(f, columns=RegistryColumns.metadata_columns())
-#                 return df[df[RegistryColumns.CLASS].isin(self.classes)]
-#         except Exception as e:
-#             logger.error("Error reading %s: %s", path, e)
-
-#         return None
-
-#     def _empty_registry(self) -> pd.DataFrame:
-#         """Return an empty DataFrame with the correct schema."""
-#         return pd.DataFrame(columns=RegistryColumns.all_columns())
-
-#     def _log_initialization(self) -> None:
-#         logger.info("Building Metadata Registry: %s", self.config.progression_name)
-#         logger.info("Classes: %s", self.classes)
-#         logger.info("Models: %s", self.models)
-
-#     def _log_registry_summary(self) -> None:
-#         logger.info("Registry Built. Total Rows: %d", len(self.registry))
-#         summary = self.registry.groupby(
-#             [RegistryColumns.MODEL, RegistryColumns.EMBEDDING_TYPE]
-#         )[RegistryColumns.PATCH_ID].count()
-#         logger.info("\n%s", summary.to_string())

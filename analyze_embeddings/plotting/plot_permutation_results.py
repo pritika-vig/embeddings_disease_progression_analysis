@@ -1,156 +1,152 @@
 #!/usr/bin/env python
 """
-Plotting Script: Stage Permutation Specificity.
-
-Generates a Faceted Plot (one subplot per progression) comparing:
-1. The Distribution of Permuted Taus (Boxplot = Null Hypothesis)
-2. The Canonical Tau (Star Marker = Biological Signal)
+Plotting Script: Stage Permutation Specificity (Final Paper Version).
+Grid layout with colored stars matching Figure 1 + Global ICML Title.
 """
 
 import sys
 from pathlib import Path
-
-# Add parent directory to path to import config
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
+import math
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import numpy as np
+from matplotlib.lines import Line2D
+
+# Add parent directory to path to import config
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 import config
+import plotting.plot_config as pcfg
 
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
+# Use the shared ICML style from your config file
+pcfg.set_icml_style()
 
-INPUT_FILE = config.PERMUTATION_RESULTS_OUTPUT_PATH
+PERM_FILE = config.PERMUTATION_RESULTS_OUTPUT_PATH
+REAL_FILE = config.FULL_RESULTS_OUTPUT_PATH
 OUTPUT_DIR = config.PLOTS_OUTPUT_DIR
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# Define Colors for Models (matching your previous schemes if possible)
-# Or we can just use a standard palette.
-MODEL_ORDER = config.EXPECTED_MODELS
+# The specific embedding type that contains the canonical signal + CIs
+TARGET_EMBEDDING = 'final_embedding'
 
-# -----------------------------------------------------------------------------
-# Plotting Logic
-# -----------------------------------------------------------------------------
+def plot_specificity_grid():
+    # 1. Load Data
+    df_real = pd.read_csv(REAL_FILE)
+    df_perm = pd.read_csv(PERM_FILE)
 
-def main():
-    if not INPUT_FILE.exists():
-        print(f"❌ Error: Input file not found at {INPUT_FILE}")
-        print("   Run 'analysis/evaluate_stage_permutations.py' first.")
-        sys.exit(1)
+    # 2. Filter Data
+    df_noise = df_perm[df_perm['type'] == 'permuted'].copy()
+    df_signal = df_real[df_real['embedding_type'] == TARGET_EMBEDDING].copy()
 
-    df = pd.read_csv(INPUT_FILE)
+    # --- Enforce Shared Model Order ---
+    df_noise['model'] = pd.Categorical(df_noise['model'], categories=pcfg.MODEL_ORDER, ordered=True)
+    df_signal['model'] = pd.Categorical(df_signal['model'], categories=pcfg.MODEL_ORDER, ordered=True)
     
-    # Separate Canonical and Permuted for easier plotting layers
-    df_null = df[df["type"] == "permuted"].copy()
-    df_real = df[df["type"] == "canonical"].copy()
+    # Sort data
+    df_noise = df_noise.sort_values('model')
+    df_signal = df_signal.sort_values('model')
 
-    # Setup Seaborn Theme for Paper
-    sns.set_theme(style="whitegrid", context="paper", font_scale=1.2)
+    unique_progressions = df_noise['progression'].unique()
+    num_progs = len(unique_progressions)
     
-    # Create FacetGrid: One column per Progression
-    # We use 'sharey=False' if scales differ wildly, but usually Tau is -1 to 1.
-    # Keeping sharey=True makes them comparable.
-    g = sns.FacetGrid(
-        df, 
-        col="progression", 
-        col_wrap=2, 
-        height=4, 
-        aspect=1.5, 
-        sharex=False,
-        sharey=True 
-    )
-
-    # 1. Plot the Null Distributions (Boxplots)
-    # We map using the full dataset but filter internally or pass df_null
-    # Note: We must ensure x-order is consistent
-    g.map_dataframe(
-        sns.boxplot,
-        x="model",
-        y="tau",
-        data=df_null, # Explicitly plot only nulls here
-        order=MODEL_ORDER,
-        color="#bdc3c7", # Neutral Gray
-        linewidth=1.0,
-        fliersize=0,     # Hide outliers to avoid confusion with the real point
-        width=0.5,
-        zorder=1
-    )
-
-    # 2. Plot the Individual Permutation Points (Jittered)
-    # This adds transparency to show the raw data points behind the box
-    g.map_dataframe(
-        sns.stripplot,
-        x="model",
-        y="tau",
-        data=df_null,
-        order=MODEL_ORDER,
-        color="#7f8c8d",
-        alpha=0.4,
-        size=3,
-        jitter=True,
-        zorder=1
-    )
-
-    # 3. Plot the Canonical Signal (Stars)
-    # We use a distinct color palette for the models or just a high-contrast color (Red/Blue)
-    g.map_dataframe(
-        sns.stripplot,
-        x="model",
-        y="tau",
-        data=df_real,
-        order=MODEL_ORDER,
-        palette="tab10", # Color by model
-        marker="*",      # Star shape
-        size=15,         # Large size
-        edgecolor="black",
-        linewidth=1,
-        jitter=False,
-        zorder=10        # Ensure it sits on top
-    )
-
-    # 4. Customization & Polish
+    # 3. Setup Grid (2 Columns)
+    cols = 2
+    rows = math.ceil(num_progs / cols)
     
-    # Add a dashed line at 0 for reference
-    for ax in g.axes.flat:
-        ax.axhline(0, color='black', linestyle='--', linewidth=0.8, alpha=0.3, zorder=0)
+    # Slightly taller figure to accommodate the new Global Title
+    fig, axes = plt.subplots(rows, cols, figsize=(12, 5.0 * rows), 
+                             sharex=True, sharey=True)
+    axes_flat = axes.flatten()
 
-    # Titles and Labels
-    g.set_titles("{col_name}")
-    g.set_axis_labels("", "Kendall's Tau")
+    for i, prog in enumerate(unique_progressions):
+        ax = axes_flat[i]
+        
+        # --- LOOKUP COLOR FROM CONFIG ---
+        star_color = pcfg.PROGRESSION_COLORS.get(prog, '#D62728')
+        
+        # Subset data
+        noise_subset = df_noise[df_noise['progression'] == prog]
+        signal_subset = df_signal[df_signal['progression'] == prog]
+        
+        # --- A. Plot Null Distribution (Boxplot) ---
+        sns.boxplot(data=noise_subset, x='model', y='tau', ax=ax,
+                    color='#e0e0e0', width=0.5, showfliers=False,
+                    boxprops={'linewidth': 1.5, 'edgecolor': '#555555'},
+                    medianprops={'color': '#333333', 'linewidth': 1.5})
+        
+        # Strip plot (Raw points)
+        # sns.stripplot(data=noise_subset, x='model', y='tau', ax=ax,
+        #               color='#333333', alpha=0.3, jitter=0.2, size=3, zorder=0)
+        
+        # --- B. Plot True Signal (Star + CI) ---
+        for j, model in enumerate(pcfg.MODEL_ORDER):
+            model_signal = signal_subset[signal_subset['model'] == model]
+            
+            if not model_signal.empty:
+                val = model_signal['tau'].values[0]
+                lower = model_signal['tau_ci_lower'].values[0]
+                upper = model_signal['tau_ci_upper'].values[0]
+                
+                # 1. Plot the Star (Colored by Disease)
+                ax.scatter(j, val, color=star_color, s=250, marker='*', 
+                           edgecolor='white', linewidth=0.5, zorder=10)
+                
+                # 2. Plot the Error Bars
+                if not np.isnan(lower) and not np.isnan(upper):
+                    yerr = [[val - lower], [upper - val]]
+                    ax.errorbar(j, val, yerr=yerr, fmt='none', ecolor='black', 
+                                elinewidth=1.8, capsize=5, zorder=11)
+
+        # --- Formatting ---
+        ax.set_title(f"{prog}", fontweight='bold', fontsize=14, pad=10)
+        
+        if i % cols == 0:
+            ax.set_ylabel(r"Trajectory Fidelity ($\tau$)", labelpad=10)
+        else:
+            ax.set_ylabel("")
+            
+        if i >= (rows - 1) * cols:
+            labels = [pcfg.MODEL_LABELS.get(m, m) for m in pcfg.MODEL_ORDER]
+            ax.set_xticklabels(labels, rotation=0, fontweight='bold', fontsize=10)
+            ax.set_xlabel("")
+        else:
+            ax.set_xlabel("")
+
+        ax.yaxis.grid(True, linestyle='--', alpha=0.3, color='grey')
+        ax.xaxis.grid(False)
+        sns.despine(ax=ax, trim=True)
+
+    # Hide unused axes
+    for k in range(i + 1, len(axes_flat)):
+        axes_flat[k].axis('off')
+
+    # --- GLOBAL TITLE & LEGEND ---
     
-    # Rotate X-axis labels for readability
-    for ax in g.axes.flat:
-        for label in ax.get_xticklabels():
-            label.set_rotation(45)
-            label.set_ha('right')
+    # 1. Add Global Title
+    fig.suptitle("Specificity of trajectory fidelity: Permutation testing against null stage orders", 
+                 fontsize=16, fontweight='bold', y=0.98)
 
-    # Add a custom legend manually (since we mixed plots)
-    from matplotlib.lines import Line2D
+    # 2. Add Legend
     legend_elements = [
-        Line2D([0], [0], marker='*', color='w', label='Biological Order (Canonical)',
-               markerfacecolor='black', markersize=15, markeredgecolor='black'),
-        Line2D([0], [0], color='#bdc3c7', lw=4, label='Random Permutations (Null)'),
+        Line2D([0], [0], marker='*', color='w', markerfacecolor='black', 
+               markersize=14, label='Biological Ordering (Real)'),
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='#e0e0e0', 
+               markeredgecolor='grey', markersize=8, label='Random Permutations (Null)')
     ]
     
-    # Place legend on the figure (top center or bottom)
-    # Adjust bbox_to_anchor to fit your layout
-    g.figure.legend(
-        handles=legend_elements, 
-        loc='upper center', 
-        bbox_to_anchor=(0.5, 1.05), 
-        ncol=2, 
-        frameon=False
-    )
+    fig.legend(handles=legend_elements, loc='upper center', 
+               bbox_to_anchor=(0.5, 0.94), ncol=2, frameon=False, fontsize=12)
 
-    plt.tight_layout()
+    # 3. Adjust Layout
+    # rect=[left, bottom, right, top] -> top=0.90 reserves top 10% for title/legend
+    plt.tight_layout(rect=[0, 0, 1, 0.90])
     
-    # Save
-    output_path = OUTPUT_DIR / "permutation_specificity_test.png"
-    plt.savefig(output_path, dpi=300, bbox_inches='tight')
-    print(f"✅ Plot saved to {output_path}")
+    plt.savefig(OUTPUT_DIR / 'specificity_plot_final.png', dpi=300, bbox_inches='tight')
+    print(f"Plot saved to {OUTPUT_DIR / 'specificity_plot_final.png'}")
 
 if __name__ == "__main__":
-    main()
+    plot_specificity_grid()

@@ -1,0 +1,397 @@
+Loading data...
+
+======================================================================
+ANALYZING: patch_mean
+======================================================================
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+
+Generating suppression-recovery comparison...
+Plot saved to plots/suppression_recovery_analysis_patch_mean.png
+Generating monotonicity comparison...
+Plot saved to plots/monotonicity_comparison_patch_mean.png
+Generating category trajectory comparison...
+Plot saved to plots/category_trajectories_patch_mean.png
+
+======================================================================
+HYPOTHESIS TEST: VLM Compression vs Vision-Only Unfolding
+======================================================================
+
+--- TAU ---
+
+Monotonicity Score (higher = more monotonic increase):
+  Vision-Only: 0.775 ± 0.169
+  VLM: 0.350 ± 0.609
+
+Suppression (Δ 62.5%→87.5%, negative = suppression):
+  Vision-Only: 0.076 ± 0.117
+  VLM: -0.178 ± 0.266
+
+Recovery (Δ 87.5%→100%, positive = recovery):
+  Vision-Only: -0.058 ± 0.086
+  VLM: 0.076 ± 0.078
+
+Per-Model Suppression at 87.5%:
+  [VLM] musk: -0.414
+  [V-O] dinov2: +0.040
+  [V-O] virchow2: +0.043
+  [VLM] conch: +0.058
+  [V-O] gigapath: +0.103
+  [V-O] uni2: +0.118
+
+--- NEIGHBORHOOD_PURITY ---
+
+Monotonicity Score (higher = more monotonic increase):
+  Vision-Only: 0.762 ± 0.203
+  VLM: 0.625 ± 0.388
+
+Suppression (Δ 62.5%→87.5%, negative = suppression):
+  Vision-Only: 0.013 ± 0.034
+  VLM: -0.025 ± 0.052
+
+Recovery (Δ 87.5%→100%, positive = recovery):
+  Vision-Only: -0.026 ± 0.032
+  VLM: 0.018 ± 0.017
+
+Per-Model Suppression at 87.5%:
+  [VLM] musk: -0.074
+  [V-O] dinov2: -0.019
+  [V-O] virchow2: -0.005
+  [VLM] conch: +0.023
+  [V-O] uni2: +0.033
+  [V-O] gigapath: +0.044
+
+--- ID_DIFF ---
+
+Monotonicity Score (higher = more monotonic increase):
+  Vision-Only: 0.112 ± 0.638
+  VLM: -0.100 ± 0.665
+
+Suppression (Δ 62.5%→87.5%, negative = suppression):
+  Vision-Only: -0.106 ± 0.345
+  VLM: -0.728 ± 0.860
+
+Recovery (Δ 87.5%→100%, positive = recovery):
+  Vision-Only: -0.185 ± 0.271
+  VLM: 0.299 ± 0.451
+
+Per-Model Suppression at 87.5%:
+  [VLM] musk: -1.467
+  [V-O] virchow2: -0.344
+  [V-O] uni2: -0.185
+  [V-O] gigapath: -0.013
+  [VLM] conch: +0.011
+  [V-O] dinov2: +0.117
+
+======================================================================
+INTERPRETATION:
+======================================================================
+
+If hypothesis is supported, we expect:
+  - Vision-Only: High monotonicity (>0.7), near-zero suppression
+  - VLM: Lower monotonicity (<0.5), negative suppression, positive recovery
+  
+The suppression-recovery quadrant plot should show:
+  - Vision-Only models in upper-right (monotonic increase)
+  - VLM models in upper-left (suppress then recover)
+
+
+======================================================================
+ANALYZING: cls
+======================================================================
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+
+Generating suppression-recovery comparison...
+Plot saved to plots/suppression_recovery_analysis_cls.png
+Generating monotonicity comparison...
+Plot saved to plots/monotonicity_comparison_cls.png
+Generating category trajectory comparison...
+Plot saved to plots/category_trajectories_cls.png
+
+======================================================================
+HYPOTHESIS TEST: VLM Compression vs Vision-Only Unfolding
+======================================================================
+
+--- TAU ---
+
+Monotonicity Score (higher = more monotonic increase):
+  Vision-Only: 0.862 ± 0.120
+  VLM: 0.800 ± 0.169
+
+Suppression (Δ 62.5%→87.5%, negative = suppression):
+  Vision-Only: 0.170 ± 0.176
+  VLM: 0.241 ± 0.219
+
+Recovery (Δ 87.5%→100%, positive = recovery):
+  Vision-Only: -0.006 ± 0.037
+  VLM: 0.043 ± 0.100
+
+Per-Model Suppression at 87.5%:
+  [VLM] conch: +0.057
+  [V-O] dinov2: +0.066
+  [V-O] gigapath: +0.157
+  [V-O] virchow2: +0.175
+  [V-O] uni2: +0.284
+  [VLM] musk: +0.425
+
+--- NEIGHBORHOOD_PURITY ---
+
+Monotonicity Score (higher = more monotonic increase):
+  Vision-Only: 0.881 ± 0.133
+  VLM: 0.875 ± 0.149
+
+Suppression (Δ 62.5%→87.5%, negative = suppression):
+  Vision-Only: 0.066 ± 0.052
+  VLM: 0.125 ± 0.106
+
+Recovery (Δ 87.5%→100%, positive = recovery):
+  Vision-Only: -0.003 ± 0.009
+  VLM: 0.012 ± 0.006
+
+Per-Model Suppression at 87.5%:
+  [V-O] dinov2: -0.006
+  [VLM] conch: +0.027
+  [V-O] gigapath: +0.077
+  [V-O] virchow2: +0.085
+  [V-O] uni2: +0.109
+  [VLM] musk: +0.223
+
+--- ID_DIFF ---
+
+Monotonicity Score (higher = more monotonic increase):
+  Vision-Only: 0.344 ± 0.597
+  VLM: 0.350 ± 0.404
+
+Suppression (Δ 62.5%→87.5%, negative = suppression):
+  Vision-Only: -0.091 ± 0.457
+  VLM: -0.372 ± 0.376
+
+Recovery (Δ 87.5%→100%, positive = recovery):
+  Vision-Only: -0.115 ± 0.201
+  VLM: -0.079 ± 0.195
+
+Per-Model Suppression at 87.5%:
+  [VLM] musk: -0.688
+  [V-O] virchow2: -0.225
+  [V-O] uni2: -0.187
+  [V-O] gigapath: -0.110
+  [VLM] conch: -0.055
+  [V-O] dinov2: +0.157
+
+======================================================================
+INTERPRETATION:
+======================================================================
+
+If hypothesis is supported, we expect:
+  - Vision-Only: High monotonicity (>0.7), near-zero suppression
+  - VLM: Lower monotonicity (<0.5), negative suppression, positive recovery
+  
+The suppression-recovery quadrant plot should show:
+  - Vision-Only models in upper-right (monotonic increase)
+  - VLM models in upper-left (suppress then recover)
+
+
+======================================================================
+CROSS-TOKEN-TYPE ANALYSIS
+======================================================================
+
+Generating token type comparison plot...
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+Plot saved to plots/token_type_comparison.png
+
+Generating MUSK vs CONCH detail plot...
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+Plot saved to plots/musk_vs_conch_detail.png
+
+================================================================================
+TOKEN-TYPE COMPARISON: CLS vs Patch Mean
+================================================================================
+
+--- TAU ---
+Model        Category       Patch Supp     CLS Supp  Δ (CLS-Patch)
+--------------------------------------------------------------
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+conch        VLM                +0.058       +0.057         -0.001
+dinov2       V-O                +0.040       +0.066         +0.027
+gigapath     V-O                +0.103       +0.157         +0.054
+musk         VLM                -0.414       +0.425         +0.839
+uni2         V-O                +0.118       +0.284         +0.166
+virchow2     V-O                +0.043       +0.175         +0.132
+
+--- ID_DIFF ---
+Model        Category       Patch Supp     CLS Supp  Δ (CLS-Patch)
+--------------------------------------------------------------
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+  [DEBUG] Loaded 324 rows
+  [DEBUG] Parsed embedding bases: ['patch_mean', 'cls', 'register_mean', 'final_embedding']
+  [DEBUG] Parsed depths: [0.125, 0.375, 0.625, 0.875, 1.0]
+  [DEBUG] After embedding filter: 120 rows
+  [DEBUG] Models in data: ['virchow2', 'uni2', 'conch', 'gigapath', 'musk', 'dinov2']
+  [DEBUG] MODEL_ORDER from config: ['dinov2', 'conch', 'musk', 'uni2', 'virchow2', 'gigapath']
+  [DEBUG] Model name mapping: {'virchow2': 'virchow2', 'uni2': 'uni2', 'conch': 'conch', 'gigapath': 'gigapath', 'musk': 'musk', 'dinov2': 'dinov2'}
+  [DEBUG] After model filter: 120 rows
+  [DEBUG] Model categories: {'VLM': array(['conch', 'musk'], dtype=object), 'Vision-Only': array(['virchow2', 'uni2', 'gigapath', 'dinov2'], dtype=object)}
+conch        VLM                +0.011       -0.055         -0.066
+dinov2       V-O                +0.117       +0.157         +0.040
+gigapath     V-O                -0.013       -0.110         -0.097
+musk         VLM                -1.467       -0.688         +0.779
+uni2         V-O                -0.185       -0.187         -0.002
+virchow2     V-O                -0.344       -0.225         +0.119
+
+================================================================================
+INTERPRETATION:
+================================================================================
+
+Positive Δ (CLS-Patch) means CLS is MORE preserved than patches.
+For VLMs, we expect large positive Δ: they protect CLS while compressing patches.
+For Vision-Only, we expect Δ ≈ 0: uniform behavior across token types.
+
+Key finding: MUSK shows largest positive Δ, confirming deep VL fusion 
+selectively compresses patch tokens to support text-aligned CLS.
+

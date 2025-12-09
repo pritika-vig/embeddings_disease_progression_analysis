@@ -16,6 +16,7 @@ from typing import List, Set, Dict, Tuple, Any
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
+import skdim
 
 import config
 from data.progression_embedding_dataset import (
@@ -41,7 +42,7 @@ METRIC_KEYS = [
     "tau", 
     "spectral_gap", 
     "neighborhood_purity", 
-    "silhouette",          # <--- Added
+    "silhouette",
     "trustworthiness", 
     "id_raw", 
     "id_diff"
@@ -52,7 +53,7 @@ ALL_METRICS = {
     DPTMetric.TAU,
     DPTMetric.SPECTRAL_GAP,
     DPTMetric.NEIGHBORHOOD_PURITY,
-    DPTMetric.SILHOUETTE,  # <--- Added
+    DPTMetric.SILHOUETTE,
     DPTMetric.TRUSTWORTHINESS,
     DPTMetric.ID_RAW,
     DPTMetric.ID_DIFF
@@ -66,6 +67,8 @@ ALL_EMBEDDING_TYPES = (
     config.REGISTER_EMBEDDINGS + 
     ["final_embedding"]
 )
+
+N_BOOTSTRAPS = 100 
 
 # -----------------------------------------------------------------------------
 # Helpers
@@ -93,10 +96,8 @@ def evaluate_single_condition(
     Handles In-Memory filtering and Conditional Bootstrapping.
     """
     
-    # 1. Fetch Data (FAST - Hits RAM)
+    # 1. Fetch Data
     try:
-        # Note: We filter the active memory cache manually here or use get_cohort
-        # Assuming get_cohort is optimized to check memory first (as implemented previously)
         cohort_df = dataset.get_cohort(
             patch_ids, 
             model=model, 
@@ -108,6 +109,36 @@ def evaluate_single_condition(
 
     if cohort_df.empty:
         return {}
+
+    if cohort_df.isnull().values.any():
+        print(f"\n[CRITICAL] Data Corruption Detected in {model} / {embedding_type}")
+        
+        # Filter for the bad rows
+        bad_rows = cohort_df[cohort_df.isnull().any(axis=1)]
+        
+        for idx, row in bad_rows.iterrows():
+            pid = row.get('patch_id', 'UNKNOWN')
+            cls = row.get('class', 'UNKNOWN')
+            sid = row.get('slide_id', 'UNKNOWN')
+            emb = row.get('embedding', 'MISSING')
+            
+            print(f"  -> Bad Row Index: {idx}")
+            print(f"     Patch ID: {pid}")
+            print(f"     Class:    {cls}")
+            print(f"     Slide ID: {sid}")
+            
+            # Check the embedding specifically
+            if isinstance(emb, float) and np.isnan(emb):
+                print(f"     Vector:   NaN (Missing from Cache/Parquet)")
+            elif isinstance(emb, np.ndarray):
+                # Check inside the vector for infinities
+                if not np.all(np.isfinite(emb)):
+                    print(f"     Vector:   Corrupt Array (Contains Inf/NaN)")
+                    print(f"     First 5:  {emb[:5]}")
+            else:
+                print(f"     Vector:   {type(emb)} (Unexpected Type)")
+                
+        raise ValueError("Halting due to corrupted data merge.")
 
     adata = cohort_to_anndata(cohort_df, ordered_classes)
     
@@ -205,14 +236,13 @@ def run_full_evaluation() -> pd.DataFrame:
                 dataset.load_model_into_memory(model, patch_ids)
                 
                 # --- LEVEL 3: EMBEDDING TYPES ---
-                # Use tqdm for the inner loop
                 pbar = tqdm(ALL_EMBEDDING_TYPES, desc="    Scanning layers", leave=False)
                 
                 for emb_type in pbar:
                     
                     # Conditional Bootstrapping Logic
                     if emb_type == "final_embedding":
-                        n_boot = 50 # As requested
+                        n_boot = N_BOOTSTRAPS
                     else:
                         n_boot = 0  # Point estimate only
                     
@@ -248,11 +278,10 @@ def main():
     
     if not df.empty:
         # Save Raw Results
-        output_filename = "full_manifold_evaluation.csv"
+        output_filename = f"full_manifold_evaluation_{N_BOOTSTRAPS}.csv"
         df.to_csv(output_filename, index=False)
-        logger.info(f"\n✅ Evaluation Complete. Saved to {output_filename}")
+        logger.info(f"\n Evaluation Complete. Saved to {output_filename}")
         
-        # Print a tiny summary of final_embeddings only
         summary = df[df["embedding_type"] == "final_embedding"][
             ["progression", "model", "tau", "tau_ci_lower", "tau_ci_upper"]
         ].sort_values(["progression", "tau"], ascending=[True, False])

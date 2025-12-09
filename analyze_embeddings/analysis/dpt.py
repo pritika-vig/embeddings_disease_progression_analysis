@@ -15,6 +15,7 @@ from typing import List, Optional, Set, Tuple
 import numpy as np
 import pandas as pd
 import scanpy as sc
+import skdim
 from scipy.spatial.distance import cdist
 from scipy.stats import kendalltau
 from sklearn.manifold import trustworthiness
@@ -193,17 +194,34 @@ def _compute_silhouette(adata: sc.AnnData, subsample_size: int, label_col: str =
         return silhouette_score(X, labels, metric='cosine')
     except Exception:
         return np.nan
-        
+
 def _estimate_id(X: np.ndarray) -> float:
     """
     Estimate Intrinsic Dimension (ID).
-    Uses 'scikit-dimension' TwoNN if available, else a simple MLE fallback.
+    Robustly handles duplicates (fatal for TwoNN) and insufficient samples.
     """
+    # 1. Check for NaNs/Infs
     if not np.all(np.isfinite(X)):
         return np.nan
-        
-    dve = skdim.id.TwoNN()
-    return dve.fit(X).dimension_
+
+    # 2. Remove Duplicates
+    # Essential for Bootstrapping:
+    # TwoNN relies on neighbor distances. If dist=0 (duplicate), the ratio explodes.
+    # ID measures the manifold structure (support), so unique points preserve the geometry
+    # while solving the mathematical singularity.
+    X_clean = np.unique(X, axis=0)
+
+    # 3. Check for sufficient sample size
+    # TwoNN needs enough points to form neighborhoods.
+    if X_clean.shape[0] < 10:
+        return np.nan
+
+    # 4. Run Estimator
+    try:
+        dve = skdim.id.TwoNN()
+        return dve.fit(X_clean).dimension_
+    except (ValueError, RuntimeWarning, np.linalg.LinAlgError):
+        return np.nan
 
 
 def _compute_trustworthiness(adata: sc.AnnData, subsample_size: int) -> float:
@@ -315,8 +333,10 @@ def compute_dpt(adata: sc.AnnData, root_class: str, config: DPTConfig) -> DPTRes
                 idx = np.random.choice(adata.n_obs, min(adata.n_obs, config.subsample_size), replace=False)
                 result.id_diff = _estimate_id(adata.obsm['X_diffmap'][idx])
 
+        if DPTMetric.SILHOUETTE in config.metrics:
+            result.silhouette = _compute_silhouette(adata, config.subsample_size)
         return result
 
     except Exception as e:
-        logger.debug(f"DPT Computation failed: {e}", exc_info=True)
+        logger.info(f"DPT Computation failed: {e}", exc_info=True)
         return result

@@ -3,7 +3,7 @@ from pathlib import Path
 
 RESULTS_DIR = Path("results")
 PLOTS_OUTPUT_DIR = Path("plots")
-FULL_RESULTS_OUTPUT_PATH = RESULTS_DIR / "full_manifold_evaluation.csv"
+FULL_RESULTS_OUTPUT_PATH = RESULTS_DIR / "full_manifold_evaluation_100.csv"
 NULL_RESULTS_OUTPUT_PATH = RESULTS_DIR / "null_manifold_evaluation.csv"
 PERMUTATION_RESULTS_OUTPUT_PATH = RESULTS_DIR / "stage_permutation_specificity.csv"
 class ProgressionConfig(TypedDict):
@@ -114,3 +114,5 @@ REGISTER_EMBEDDINGS = [
     "register_mean_0.875",
     "register_mean_1.0",
 ]
+
+FINAL_EMBEDDING = "final_embedding"

@@ -1,0 +1,782 @@
+<html>
+<head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<link rel="shortcut icon" href="images/icon.ico">
+<style type="text/css">
+    body {
+        background-color: #f5f9ff;
+        color: #333;
+        font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    }
+
+    /* Layout Containers */
+    .content-margin-container {
+        display: flex;
+        width: 100%;
+        justify-content: left;
+        align-items: flex-start;
+        margin-bottom: 60px;
+    }
+    .main-content-block {
+        width: 70%;
+        max-width: 1100px;
+        background-color: #fff;
+        border-left: 1px solid #DDD;
+        border-right: 1px solid #DDD;
+        padding: 50px 60px; 
+        box-sizing: border-box;
+    }
+    .margin-left-block {
+        font-size: 14px;
+        width: 15%;
+        max-width: 130px;
+        position: relative;
+        margin-left: 10px;
+        text-align: left;
+        padding: 5px;
+    }
+    .margin-right-block {
+        font-size: 14px;
+        width: 25%;
+        max-width: 256px;
+        position: relative;
+        text-align: left;
+        padding: 20px;
+        color: #666;
+    }
+
+    /* Title Header */
+    .title-container {
+        width: 100%;
+        background: linear-gradient(135deg, #1a365d 0%, #2d5a87 100%);
+        padding: 60px 0;
+        margin-bottom: 0;
+    }
+    .title-content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 40px;
+    }
+    .title-main {
+        font-size: 38px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 16px;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+    }
+    .title-subtitle {
+        font-size: 20px;
+        color: rgba(255,255,255,0.85);
+        margin-bottom: 30px;
+        font-weight: 300;
+    }
+    .title-meta {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    .title-author {
+        font-size: 17px;
+        color: #fff;
+        font-weight: 500;
+    }
+    .title-course {
+        font-size: 15px;
+        color: rgba(255,255,255,0.7);
+        padding-left: 20px;
+        border-left: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* Media & Visuals */
+    img {
+        max-width: 110%;
+        width: 110%;
+        margin-left: -5%;
+        height: auto;
+        display: block;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+    img.normal-width {
+        max-width: 100%;
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .my-video {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: auto;
+    }
+
+    /* Typography */
+    a:link,a:visited {
+        color: #0e7862;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #24b597;
+    }
+
+    h1 {
+        font-size: 26px;
+        font-weight: 500;
+        margin-top: 10px;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    h2 {
+        font-size: 20px;
+        font-weight: 500;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+
+    p {
+        line-height: 1.6;
+        margin-bottom: 24px;
+        font-size: 16px;
+    }
+
+    hr {
+        height: 1px;
+        border: none;
+        background-color: #DDD;
+        margin: 40px 0;
+    }
+
+    /* Callout Boxes */
+    div.hypothesis {
+        width: 90%;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        font-size: 16px;
+        line-height: 1.6;
+        text-align: center;
+        margin: 50px auto;
+        padding: 30px 35px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    div.citation {
+        font-size: 0.85em;
+        background-color:#fff;
+        padding: 10px;
+        line-height: 1.5;
+    }
+
+    .figure-caption {
+        font-size: 14px;
+        color: #555;
+        margin-top: 15px;
+        margin-bottom: 60px;
+        text-align: center;
+        font-style: italic;
+        line-height: 1.4;
+        max-width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .key-finding {
+        background-color: #f0f7f5;
+        border-left: 4px solid #0e7862;
+        padding: 25px 30px;
+        margin: 40px 0;
+        border-radius: 0 6px 6px 0;
+        line-height: 1.6;
+    }
+
+    .discussion-box {
+        background-color: #faf8f5;
+        border-left: 4px solid #c9a227;
+        padding: 25px 30px;
+        margin: 40px 0;
+        border-radius: 0 6px 6px 0;
+        line-height: 1.6;
+    }
+
+    /* Data Tables */
+    table.results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 40px 0;
+        font-size: 14px;
+    }
+    table.results-table th, table.results-table td {
+        border: 1px solid #DDD;
+        padding: 12px;
+        text-align: center;
+    }
+    table.results-table th {
+        background-color: #f9f9f9;
+        font-weight: 600;
+    }
+
+    table.progression-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 40px 0;
+        font-size: 14px;
+    }
+    table.progression-table th, table.progression-table td {
+        border: 1px solid #DDD;
+        padding: 12px;
+        text-align: left;
+    }
+    table.progression-table th {
+        background-color: #f9f9f9;
+        text-align: center;
+        font-weight: 600;
+    }
+    table.progression-table td:first-child {
+        font-weight: bold;
+        width: 15%;
+    }
+    table.progression-table td:last-child {
+        text-align: center;
+        width: 10%;
+    }
+
+    ul {
+        line-height: 1.8;
+        margin-bottom: 24px;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+</style>
+
+<title>Do ViTs Learn Continuous Biological Processes?</title>
+<meta property="og:title" content="Do ViTs Learn Continuous Biological Processes?" />
+<meta charset="UTF-8">
+</head>
+
+<body>
+
+<div class="title-container">
+    <div class="title-content">
+        <div class="title-main">Do ViTs Learn Continuous Biological Processes?</div>
+        <div class="title-subtitle">Probing Disease Progression Structure in Pathology Foundation Models</div>
+        <div class="title-meta">
+            <span class="title-author">Pritika Vig</span>
+            <span class="title-course">Final project for 6.7960 Deep Learning</span>
+        </div>
+    </div>
+</div>
+
+<div class="content-margin-container" id="intro">
+    <div class="margin-left-block">
+        <div style="position:fixed; max-width:inherit; top:max(30%,280px)">
+            <b style="font-size:16px">Outline</b><br><br>
+            <a href="#intro">Introduction</a><br><br>
+            <a href="#lit_review">Related Work</a><br><br>
+            <a href="#methods">Methods</a><br><br>
+            <a href="#results">Results and Discussion</a><br><br>
+            <a href="#conclusion">Conclusion</a><br><br>
+            <a href="#references">References</a><br><br>
+            <a href="#appendix">Appendix</a><br><br>
+        </div>
+    </div>
+    <div class="main-content-block">
+        <h1>Introduction</h1>
+        <p>Foundation models are trained largely on datasets composed of discretely sampled images, yet the processes that generate this data often vary continuously. A natural question emerges: do Vision Transformers implicitly learn to represent these underlying continuous processes, even without explicit supervision? And if so, where within the network does this structure appear?</p>
+
+        <p>Disease progression in histopathology offers an ideal testbed for this question. The biological transformation from healthy tissue through dysplasia to invasive cancer forms a continuous progression. If ViTs learn to represent continuous processes, this biological structure should manifest as smooth manifold geometry in their embedding spaces, recoverable through trajectory inference methods.</p>
+
+        <div class="hypothesis">
+            <b>Central Hypothesis:</b> Vision Transformers learn continuous structure from discretely sampled data, and this can be detected by measuring how well disease progression trajectories are preserved in learned representations.
+        </div>
+
+        <p>This framing has implications beyond pathology. Understanding whether (and how) neural networks encode continuity sheds light on the inductive biases that shape representational geometry. It also matters practically for transfer learning: if models capture progression structure rather than just class boundaries, they may generalize to novel disease trajectories absent from training data <a href="#ref_cai">[1]</a>.</p>
+
+        <p>I apply diffusion pseudotime analysis to probe six foundation models across four cancer progressions. This analysis characterizes when trajectory fidelity emerges across network depth, finding that continuous structure appears consistently at 30–60% of relative depth regardless of model size. I further identify architectural choices that correlate with biological structure recovery, and discuss why these inductive biases aid in trajectory modeling.</p>
+    </div>
+</div>
+
+<div class="content-margin-container" id="lit_review">
+    <div class="margin-left-block">
+    </div>
+    <div class="main-content-block">
+        <h1>Related Work</h1>
+
+        <h2>Mechanistic Interpretability of Vision Transformers</h2>
+
+        <p>To understand how foundation models might encode continuous biological processes, it is necessary to first examine the inductive biases of the Vision Transformer (ViT) architecture. Substantial work has analyzed how features develop across layers in CNNs <a href="#ref_zeiler">[2]</a>, but less work exists analyzing the development of representations across layers in ViTs. Unlike Convolutional Neural Networks (CNNs) which aggregate features hierarchically through pooling, Raghu et al. demonstrate that ViTs maintain highly uniform representations across layers <a href="#ref_raghu">[3]</a>. They find that self-attention heads in early layers mix local and global information immediately, while skip connections allow spatial location information to propagate deeply into the network. This preservation of spatial fidelity is particularly relevant for pathology, where local morphological changes must be retained within the global tissue context.</p>
+
+        <p>Additional research finds that while representations are fairly uniform across layers, distinct semantic concepts emerge sequentially by complexity. Dorszewski et al. show that ViTs implicitly learn a consistent concept hierarchy <a href="#ref_dorszewski">[4]</a>, evolving from low-level color features to mid-level textures and finally high-level semantic objects. Crucially, they demonstrate that this progression is robust across pre-training objectives (supervised vs. self-supervised), suggesting that layer-wise conceptual evolution is a fundamental property of the architecture.</p>
+
+        <p>However, the geometry of this representation space is not always smooth. Darcet et al. identify that standard ViTs suffer from "high-norm" artifacts, where the model repurposes low-information background patches to store global context <a href="#ref_darcet">[5]</a>. These artifacts distort the local feature geometry, potentially disrupting the continuous manifolds required for trajectory inference. Darcet et al. demonstrate that introducing "register" tokens provides a dedicated sink for this global information, resulting in significantly smoother feature maps. This architectural detail becomes important when interpreting our results: if trajectory recovery depends on smooth local geometry, models with registers should outperform those without.</p>
+
+        <h2>Recovering Latent Temporal Dynamics</h2>
+
+        <p>A central challenge in computational pathology is that disease progression is a continuous dynamic process, yet available data typically consists of static "snapshots" taken at single timepoints. To bridge this gap, this analysis relies on the ergodicity assumption: that a sufficiently large dataset of static samples covers the entire continuum of the dynamic process <a href="#ref_campbell">[6]</a>.</p>
+
+        <p>It is crucial to distinguish between learning the <i>direction</i> of a process and learning its <i>rate</i>. Weinreb et al. demonstrated fundamental limits in reconstructing dynamic rates from static snapshots alone, showing that the density of sampling can conflate population abundance with process speed <a href="#ref_weinreb">[7]</a>. Consequently, this analysis focuses on recovering the <b>ordinal trajectory</b> (the sequence of morphological states) rather than absolute temporal scaling. While ViTs may not capture the "velocity" of disease progression without temporal supervision, a high-fidelity representation should inherently preserve the sequential topological ordering of disease stages.</p>
+
+        <p>To quantify this ordinal progression, I utilize Diffusion Pseudotime (DPT) <a href="#ref_haghverdi">[8]</a>. Unlike linear methods (e.g., PCA) or simple shortest-path algorithms, DPT relies on a random-walk formulation over the data manifold. It measures the probability of transitioning between data points by integrating over paths of all lengths. This effectively "smooths" the manifold, making the recovered trajectory robust to high-frequency noise and local density variations. These properties make DPT well suited to analyzing high-dimensional deep learning embeddings, as it doesn't require dimension reduction as preprocessing. Recent work in manifold learning suggests that deep neural networks implicitly flatten low-dimensional data manifolds into the latent space through unsupervised generative pretraining, progressively unfolding feature geometry across layers <a href="#ref_brahma">[9]</a>. This methodology tests the hypothesis that pathology foundation models flatten this manifold while preserving its intrinsic topology. If successful, algorithms like DPT should recover the biological "arrow of time" directly from the deep embeddings of histology images.</p>
+    </div>
+    <div class="margin-right-block">
+    </div>
+</div>
+
+<div class="content-margin-container" id="methods">
+    <div class="margin-left-block">
+    </div>
+    <div class="main-content-block">
+        <h1>Methods</h1>
+
+        <h2>Diffusion Pseudotime</h2>
+
+        <p>Diffusion pseudotime (DPT) was originally developed to reconstruct developmental trajectories from single-cell gene expression data <a href="#ref_haghverdi">[8]</a>. The key insight is that temporal order can be inferred from static "snapshot" data by exploiting similarity relationships. I apply this principle to histopathology: tissue patches at various disease stages should form a recoverable progression if the embedding space preserves biological structure (Figure 1).</p>
+
+        <p>DPT constructs a transition matrix from a nearest-neighbor graph with Gaussian-weighted edges, then computes diffusion distances by summing over random walks of all lengths. This formulation is scale-free, robust to noise and sampling density variations, and operates directly on high-dimensional embeddings without requiring dimension reduction. I use the Scanpy library implementation <a href="#ref_scanpy">[10]</a>, specifying a root corresponding to the centroid of the earliest disease stage. Hyperparameter selection (number of nearest neighbors, diffusion components, and root cell selection) is discussed in the <a href="#appendix">Appendix</a>.</p>
+
+        <img src="./images/method_overview.png" />
+        <p class="figure-caption"><b>Figure 1:</b> Measuring trajectory fidelity. Histopathology patches are embedded by a foundation model, then analyzed using diffusion pseudotime (DPT) to recover disease progression structure. The diffusion manifold plot shows the representation plotted in the space of the first two diffusion components. The plotted trajectory represents increasing pseudotime (inferred trajectory), which is calculated from the transition probabilities of the whole representation. Kendall's τ quantifies how well the inferred trajectory matches the known biological ordering.</p>
+
+        <h2>Evaluation Metrics</h2>
+
+        <p><b>Trajectory Fidelity (Kendall's τ):</b> Trajectory quality is quantified using the Kendall rank correlation between inferred pseudotime values and ground truth ordinal disease stages <a href="#ref_kendall">[11]</a>. A τ of 1.0 indicates perfect temporal ordering.</p>
+
+        <div style="display: flex; flex-direction: column; align-items: center; margin: 25px 0;">
+            <div style="display: flex; align-items: center; font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 1.2em;">
+                <span style="margin-right: 10px;">τ</span>
+                <span style="margin-right: 10px;">=</span>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <span style="border-bottom: 1px solid black; padding-bottom: 2px;">C − D</span>
+                    <span style="padding-top: 2px;">½ n (n − 1)</span>
+                </div>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px; max-width: 600px; text-align: center; font-family: sans-serif;">
+                Where <b>C</b> represents concordant pairs (inferred pseudotime agrees with true stage), 
+                <b>D</b> represents discordant pairs, and <b>n</b> is the sample size.
+            </p>
+        </div>
+
+        <p><b>Intrinsic Dimension:</b> I use the TWO-NN estimator <a href="#ref_facco">[12]</a> to measure the effective dimensionality of both the raw embedding space and the diffusion manifold, quantifying feature complexity and topological stability respectively.</p>
+
+        <h2>Models Evaluated</h2>
+
+        <p>I evaluated six foundation models, pretrained on pathology images and DINOv2 <a href="#ref_dinov2">[13]</a> as the general purpose baseline. I selected multiple models to enable comparison between Vision Language and Vision foundation models.</p>
+
+        <table class="results-table">
+            <tr>
+                <th>Model</th>
+                <th>Type</th>
+                <th>Blocks</th>
+                <th>Output Dim</th>
+                <th>Registers</th>
+                <th>Params</th>
+            </tr>
+            <tr>
+                <td>DINOv2 <a href="#ref_dinov2">[13]</a></td>
+                <td>Vision (Natural)</td>
+                <td>24</td>
+                <td>1024</td>
+                <td>4</td>
+                <td>304M</td>
+            </tr>
+            <tr>
+                <td>UNI2 <a href="#ref_uni">[14]</a></td>
+                <td>Vision (Pathology)</td>
+                <td>24</td>
+                <td>1536</td>
+                <td>8</td>
+                <td>304M</td>
+            </tr>
+            <tr>
+                <td>Virchow2 <a href="#ref_virchow">[15]</a></td>
+                <td>Vision (Pathology)</td>
+                <td>32</td>
+                <td>1280</td>
+                <td>4</td>
+                <td>632M</td>
+            </tr>
+            <tr>
+                <td>GigaPath <a href="#ref_gigapath">[16]</a></td>
+                <td>Vision (Pathology)</td>
+                <td>40</td>
+                <td>1536</td>
+                <td>0</td>
+                <td>1.1B</td>
+            </tr>
+            <tr>
+                <td>CONCH <a href="#ref_conch">[17]</a></td>
+                <td>Vision-Language (Pathology)</td>
+                <td>12</td>
+                <td>512</td>
+                <td>0</td>
+                <td>200M</td>
+            </tr>
+            <tr>
+                <td>MUSK <a href="#ref_musk">[18]</a></td>
+                <td>Vision-Language (Pathology)</td>
+                <td>24</td>
+                <td>1024</td>
+                <td>0</td>
+                <td>625M</td>
+            </tr>
+        </table>
+        <p class="figure-caption"><b>Table 1:</b> Architectural specifications for evaluated foundation models.</p>
+
+        <h2>Disease Progressions</h2>
+
+        <p>I analyzed four cancer progressions from the SPIDER dataset, which contains labelled patches extracted from pathology whole slide images <a href="#ref_spider">[19]</a>. These high-magnification (20x) patches capture cellular textures and tissue morphology, but the staining process and variations across scanners can introduce spurious correlations unrelated to disease biology. To mitigate batch effects and ensure balanced representation, I sampled 1,000 patches per stage using a slide-aware strategy that prevents any single slide from dominating a disease class (see <a href="#appendix">Appendix</a> for details):</p>
+
+        <table class="progression-table">
+            <tr>
+                <th>Pathway</th>
+                <th>Stages</th>
+                <th>N</th>
+            </tr>
+            <tr>
+                <td>Skin SCC <a href="#ref_ratushny">[20]</a></td>
+                <td>Epidermis → Actinic keratosis → SCC in situ → Invasive SCC</td>
+                <td>4,000</td>
+            </tr>
+            <tr>
+                <td>Colorectal (conventional) <a href="#ref_fearon">[21]</a></td>
+                <td>Adenoma (low) → Adenoma (high) → Adenocarcinoma (low) → Adenocarcinoma (high)</td>
+                <td>4,000</td>
+            </tr>
+            <tr>
+                <td>Colorectal (serrated) <a href="#ref_depalma">[22]</a></td>
+                <td>Hyperplastic polyp → Sessile serrated lesion → Adenocarcinoma (high)</td>
+                <td>3,000</td>
+            </tr>
+            <tr>
+                <td>Breast ductal <a href="#ref_hulahan">[23]</a></td>
+                <td>DCIS (low) → DCIS (high) → Invasive carcinoma (NST)</td>
+                <td>3,000</td>
+            </tr>
+        </table>
+        <p class="figure-caption"><b>Table 2:</b> Disease progressions analyzed, with stage sequences and total patch counts.</p>
+
+    </div>
+</div>
+
+<div class="content-margin-container" id="results">
+    <div class="margin-left-block">
+    </div>
+    <div class="main-content-block">
+        <h1>Results and Discussion</h1>
+
+        <h2>1. Do Foundation Models Represent Disease Trajectories?</h2>
+
+        <p>The first question is whether pathology foundation models encode disease progression structure at all. To answer this, I measured trajectory fidelity (Kendall's τ) between inferred pseudotime and ground-truth disease stages across six models and four cancer progressions.</p>
+
+        <img src="./images/model_comparison_with_null.png" />
+        <p class="figure-caption"><b>Figure 2:</b> Kendall's τ scores for final layer embeddings across six foundation models, stratified by pre-training domain and modality. All models exhibit statistically significant trajectory fidelity compared to the label-shuffled null baseline (grey markers), with 95% confidence intervals (n=100) showing distinct separation from the null distribution.</p>
+
+        <p>Pathology-specific models consistently outperform the natural image baseline (DINOv2), with vision-only models (UNI2, Virchow2, GigaPath) achieving the highest trajectory fidelity. Vision-language models (CONCH, MUSK) show intermediate performance with greater variance across disease progressions and bootstraps.</p>
+
+        <p>A natural concern is whether this metric simply captures that disease stages form distinct clusters, rather than the <i>direction</i> of progression. To address this, I conducted a permutation test: for each model and disease cohort, I shuffled the expected ordering of stages and recomputed τ. If trajectory fidelity merely reflected cluster separation, scores for the true biological ordering should be indistinguishable from these null permutations.</p>
+
+        <img src="./images/specificity_plot_final.png" class="normal-width" style="max-width: 75%;" />
+        <p class="figure-caption"><b>Figure 3:</b> Trajectory fidelity scores (colored stars with 95% CI) compared to null distributions generated by all permutations of stage ordering.</p>
+
+        <p>Across all four disease cohorts, pathology-pretrained models achieved trajectory fidelity scores significantly above null distributions, confirming that diffusion pseudotime captures genuine progression structure. DINOv2 consistently approached (but remained at the upper edge of) null performance, providing a useful negative control. Among pathology models, vision-only models showed the most consistent performance across cohorts and the smallest variation across bootstraps. CRC-Serrated produced uniformly strong trajectory fidelity across all models, whereas BDC showed the widest spread between model types.</p>
+
+        <div class="key-finding">
+            <b>Key Finding:</b> Pathology foundation models learn genuine disease progression structure, not merely class separability. The permutation test confirms that trajectory fidelity reflects <i>directional</i> ordering of disease stages.
+        </div>
+
+        <div class="discussion-box">
+            <b>Discussion:</b> These results suggest that pathology foundation models encode continuous biological structure without explicit temporal supervision. The permutation test validates that our metric captures directional ordering rather than arbitrary clustering. This distinction may be relevant for downstream clinical tasks like prognosis, where understanding a patient's position along a disease continuum could matter more than categorical classification.
+            <br><br>
+            The performance gap between DINOv2 and pathology-pretrained models suggests that domain-specific pretraining may shape the geometry of the learned manifold in ways that better preserve biological continuity. Raghu et al. observed that ViTs maintain spatial fidelity through skip connections <a href="#ref_raghu">[3]</a>; one possibility is that pathology pretraining helps the model learn which local spatial relationships are most relevant for encoding morphological variation, and which are noise. For instance, DINOv2 may encode noisy features like stain color variation early in the network and propagate them through skip connections in ways that influence trajectory structure negatively. Notably, DINOv2's performance, while lower than pathology models, still falls at the upper edge of the null distributions for most progressions. This suggests that natural image pretraining captures some relevant features, likely general texture representations shared between natural images and histopathological patterns. The gap between DINOv2 and pathology models may therefore reflect the difference between <i>general</i> texture features and <i>domain-specific</i> features tuned to the particular morphological variations that characterize disease progression.
+            <br><br>
+            The tighter confidence intervals for high-performing models suggest that trajectory structure may be a stable geometric property of these representations rather than an artifact of particular random seeds. However, correlation between domain-specific pretraining and trajectory fidelity does not establish a causal mechanism, and further work is needed to understand what specific aspects of pathology pretraining contribute to this structure.
+        </div>
+    </div>
+
+    <div class="margin-right-block" style="padding-top: 100px;">
+        <b>Label Shuffle Null:</b> The label shuffle null was computed by shuffling the true class label for the patch embeddings, and calculating τ. This is bootstrapped and averaged per model and plotted in grey.
+        <br><br><br>
+        <b>Permutation test:</b> Shuffle the expected ordering (e.g., Normal → Low → High → Cancer becomes Cancer → Normal → High → Low) and recompute τ. If pseudotime captures true progression, τ for the correct ordering should exceed these null values.
+    </div>
+</div>
+
+<div class="content-margin-container" id="emergence">
+    <div class="margin-left-block">
+    </div>
+    <div class="main-content-block">
+        <h2>2. Where in the Layers Does the Trajectory Emerge?</h2>
+
+        <p>Having established that foundation models encode trajectory structure, I next investigated <i>where</i> in the network this structure emerges by extracting embeddings at five evenly spaced points across the model depth and computing trajectory fidelity at each.</p>
+
+        <img src="./images/layer_emergence.png" />
+        <p class="figure-caption"><b>Figure 4:</b> <i>Left:</i> Trajectory fidelity (τ) emergence across relative network depth. <i>Center:</i> Intrinsic dimension of raw embedding space vs. diffusion manifold. <i>Right:</i> Same data organized by absolute transformer block index.</p>
+
+        <p>Trajectory fidelity emerges consistently across transformer layers, with the most significant performance gains occurring between <b>30% and 60% of network depth</b>. This emergence coincides with a divergence in dimensionality metrics: while the intrinsic dimension of the raw embedding space expands significantly across layers (indicating accumulation of feature complexity), the intrinsic dimension of the diffusion manifold remains low and stable (~4.5). The two exceptions to this pattern are DINOv2, which shares the same general shape as the other models but learns a lower τ, and MUSK, which exhibits a slightly different learning pattern due to its unified masked vision-language objective applied at each block.</p>
+
+        <p>Importantly, the data demonstrate that emergence is a function of <b>relative functional depth</b> rather than absolute layer depth. When organized by absolute transformer block index (Figure 4, Right), the emergence pattern is obscured due to varying total block counts. This indicates that pathology foundation models learn temporal progression at a consistent relative pace, regardless of model size. This finding has practical implications for model selection, as smaller models may achieve comparable trajectory fidelity at lower computational cost.</p>
+
+        <div class="key-finding">
+            <b>Key Finding:</b> Trajectory structure emerges at 30–60% of relative network depth across all models. The stability of diffusion manifold dimensionality suggests that embedding space expansion disentangles semantic factors without fracturing the underlying biological process representation.
+        </div>
+
+        <div class="discussion-box">
+            <b>Discussion:</b> The 30–60% emergence window aligns remarkably well with Dorszewski et al.'s concept hierarchy findings <a href="#ref_dorszewski">[4]</a>, which identified mid-network layers as the site where texture-level features crystallize before being abstracted into high-level semantic categories. Disease progression in histopathology is fundamentally a <i>texture-driven</i> phenomenon: the architectural disorganization, nuclear pleomorphism, and stromal changes that define malignancy manifest as local textural patterns before they are aggregated into a diagnostic label. The convergence of trajectory emergence with texture-level feature formation suggests that ViTs encode disease progression precisely at the representational layer where it is most naturally expressed.
+            <br><br>
+            The divergence between raw embedding dimension and diffusion manifold dimension provides further insight. As Brahma et al. theorized <a href="#ref_brahma">[9]</a>, deep networks flatten low-dimensional manifolds while preserving their topology. Our results align with that finding: the expansion in raw embedding dimension reflects the network learning to <i>disentangle</i> the multiple factors of variation present in histopathology images (staining intensity, tissue orientation, cellular density, disease state), while the stable diffusion manifold dimension reflects the preserved <i>topological structure</i> of the single underlying biological process. This disentanglement improves the quality of local neighborhoods used by DPT's random-walk formulation, allowing more accurate geodesic trajectory recovery.
+        </div>
+    </div>
+    <div class="margin-right-block"></div>
+</div>
+
+<div class="content-margin-container" id="architecture">
+    <div class="margin-left-block">
+    </div>
+    <div class="main-content-block">
+        <h2>3. How Does Model Architecture Influence Trajectory Quality?</h2>
+
+        <p>Finally, I investigated which architectural features correlate with trajectory fidelity. I analyzed correlations between model characteristics and average τ across disease progressions for pathology models (excluding DINOv2, which serves as a domain baseline).</p>
+
+        <table class="results-table">
+            <tr>
+                <th>Feature</th>
+                <th>Metric</th>
+                <th>Coefficient</th>
+                <th>p-value</th>
+            </tr>
+            <tr>
+                <td>Parameter Count</td>
+                <td>Spearman ρ</td>
+                <td>0.10</td>
+                <td>0.87</td>
+            </tr>
+            <tr>
+                <td>Embedding Dimension</td>
+                <td>Spearman ρ</td>
+                <td>0.72</td>
+                <td>0.17</td>
+            </tr>
+            <tr>
+                <td>Modality (VL=1)</td>
+                <td>Point-Biserial r</td>
+                <td>-0.84</td>
+                <td>0.08</td>
+            </tr>
+            <tr>
+                <td>Vision Registers (Reg=1)</td>
+                <td>Point-Biserial r</td>
+                <td>0.87</td>
+                <td>0.06</td>
+            </tr>
+        </table>
+        <p class="figure-caption"><b>Table 3:</b> Architecture correlations for pathology foundation models. With only five pathology models, these correlations are underpowered and should be interpreted as hypothesis-generating rather than definitive.</p>
+
+        <p>No meaningful correlation exists between model size and trajectory fidelity (ρ=0.10), indicating that parameter scaling alone does not guarantee improved biological progression learning. However, I observed correlations with specific architectural decisions. With the caveat that the sample of five pathology models provides limited statistical power (none reach p&lt;0.05), the patterns suggest hypotheses worth investigating:</p>
+        
+        <ul>
+            <li><b>Vision registers</b> (r<sub>pb</sub>=0.87, p=0.06): Models utilizing vision registers consistently achieved higher fidelity, consistent with Darcet et al.'s finding that registers produce smoother feature maps <a href="#ref_darcet">[5]</a>.</li>
+            <li><b>Vision-language modality</b> (r<sub>pb</sub>=−0.84, p=0.08): Pure vision models consistently outperformed their multimodal counterparts.</li>
+        </ul>
+
+        <p>After observing the Vision-Language modality result, I hypothesized that the language captions used for training CONCH and MUSK (primarily scraped from textbooks and reports) are too coarse to capture continuous morphological changes, forcing visually distinct patches with similar text descriptions to collapse in embedding space. To test this, I compared pseudotime distributions for the highest-τ pathway (CRC-Serrated) between vision-only and vision-language models.</p>
+                
+        <img src="./images/violin_pseudotime_CRC-Serrated_ordered.png" />
+        <p class="figure-caption"><b>Figure 5:</b> Pseudotime distributions for the Colorectal Serrated pathway. Vision-only models (bottom row) show progressive separation of stages. Vision-Language models (top row) exhibit "semantic collapse," where distinct biological stages are mapped to identical pseudotime values.</p>
+        
+        <p>The results provide strong evidence for semantic collapse. While vision-only models like UNI2 and Virchow2 maintain distinct, progressive separation between Hyperplastic Polyps and Sessile Serrated Lesions, the VLM counterparts (CONCH, MUSK) fail to distinguish them. The pseudotime distributions for these biologically distinct early stages are compressed into a single mode, indicating the inferred trajectory is mixing them.</p>
+
+        <div class="key-finding">
+            <b>Key Finding:</b> Model size does not predict trajectory fidelity. Instead, architectural choices matter: vision registers correlate with improved performance, while vision-language training correlates with reduced fidelity. We find initial evidence that this could plausibly be due to "semantic collapse" of continuous biological stages into discrete linguistic categories. These findings are underpowered and observational.
+        </div>
+
+        <div class="discussion-box">
+            <b>Discussion:</b> The register correlation has a clear mechanistic interpretation. Darcet et al. showed that without registers, ViTs repurpose low-information patches (e.g., background regions) as "global context sinks," creating high-norm artifacts that distort local feature geometry <a href="#ref_darcet">[5]</a>. DPT's random-walk formulation relies on accurate local transition probabilities: if the nearest-neighbor graph contains spurious edges to artifact-laden patches, the recovered trajectory will be corrupted. Registers provide a dedicated location for global context storage, preserving the smooth local geometry that trajectory inference requires.
+            <br><br>
+            The semantic collapse finding exposes a fundamental tension in multimodal pretraining: the contrastive language objective optimizes for alignment with <i>discrete linguistic categories</i>, but biological processes are <i>continuous</i>. If training captions describe both Hyperplastic Polyps and Sessile Serrated Lesions as "colon polyp," the model is incentivized to collapse their representations, discarding precisely the fine-grained visual features required to place patches along a continuous manifold.
+            <br><br>
+            This has implications beyond pathology. Vision-language models have achieved remarkable success on tasks defined by discrete categories (image classification, visual question answering), but our results suggest they may systematically underperform on tasks requiring continuous representations.
+        </div>
+    </div>
+</div>
+
+<div class="content-margin-container" id="conclusion">
+    <div class="margin-left-block">
+    </div>
+    <div class="main-content-block">
+        <h1>Conclusion</h1>
+        
+        <p>This project serves as a case study in understanding how Vision Transformers encode continuous processes from discrete data. By using disease progression in pathology as a testbed, I investigated whether foundation models implicitly capture underlying dynamic structure without explicit temporal supervision. The results offer compelling evidence that they do: biological continuity appears to be a fundamental geometric property that emerges naturally within the hidden layers of these models.</p>
+        
+        <p>Probing the representational geometry of six foundation models using diffusion pseudotime yielded three primary insights into how this process learning occurs:</p>
+        
+        <ul>
+            <li><b>Structure Emergence:</b> Trajectory fidelity consistently emerges at 30–60% of relative network depth, coinciding with a stabilization of the diffusion manifold's intrinsic dimension. This aligns with prior work showing that mid-network layers encode texture-level features <a href="#ref_dorszewski">[4]</a>, which contribute to pathology slide interpretation.</li>
+            <li><b>Vision-Only Superiority:</b> Vision-only pathology models (like UNI2 and Virchow2) currently outperform vision-language models in recovering continuous biological signals. This appears to result from "semantic collapse," where coarse language supervision forces visually distinct disease stages into shared embedding regions.</li>
+            <li><b>Architectural Inductive Biases:</b> Vision registers correlate with improved trajectory recovery, consistent with their documented effect of producing smoother feature maps <a href="#ref_darcet">[5]</a>. This smooth local geometry is precisely what DPT's random-walk formulation requires for accurate trajectory inference.</li>
+        </ul>
+
+        <h2>Limitations</h2>
+        
+        <p>Several factors constrain the generalizability of these findings:</p>
+        
+        <ul>
+            <li><b>Sample size:</b> With only five pathology foundation models, the architecture correlations are underpowered and should be treated as hypothesis-generating rather than confirmatory. The p-values in Table 3 do not reach conventional significance thresholds.</li>
+            <li><b>Ground truth validity:</b> Using discrete pathologist-assigned stages as ground truth introduces label noise and assumes stage boundaries correspond to meaningful biological transitions. These labels are also coarse and we cannot evaluate interstage development.</li>
+            <li><b>Temporal resolution:</b> As Weinreb et al. demonstrate <a href="#ref_weinreb">[7]</a>, static snapshots can recover ordinal structure but not the <i>rate</i> of a process. Our metric captures whether models preserve the <i>ordering</i> of disease progression, not whether they accurately represent how quickly progression occurs.</li>
+            <li><b>Texture bias:</b> This investigation focused on disease progressions that are likely texture-driven (cellular morphology, architectural patterns). It remains an open question how well these findings extend to processes defined by shape, spatial organization, or global structure.</li>
+        </ul>
+        
+        <h2>Future Work</h2>
+        
+        <p>This study acts as a starting point for broader investigations into process learning in deep networks:</p>
+        
+        <p><b>1. Mitigating Semantic Collapse:</b> The finding that coarse language objectives may quantize continuous features suggests a need for new pretraining strategies.</p>
+
+        <p><b>2. Generalizability Beyond Pathology:</b> Do ViTs capture non-pathology continuous processes equally well? Potential testbeds include images of aging, materials degradation, or plant development. Such investigations could reveal whether the trajectory emergence pattern at 30–60% depth is a universal property of ViT representations or specific to texture-driven domains.</p>
+
+        <p><b>3. Clinical Translation:</b> If continuous trajectory structure is a stable geometric property of pathology foundation models, it could enable trajectory-based biomarkers that locate individual patients along disease continua without requiring explicit temporal supervision.</p>
+    </div>
+    <div class="margin-right-block">
+    </div>
+</div>
+
+<div class="content-margin-container">
+    <div class="margin-left-block">
+    </div>
+    <div class="main-content-block">
+        <h1>Acknowledgements</h1>
+        <p>
+            Thank you to the Deep Learning TA Staff for talking through this analysis with me during office hours. Additional thanks to Dr. Bill Lotter from Dana-Farber for providing mentorship for this idea and pointers to relevant pathology models and papers.
+        </p>
+    </div>
+    <div class="margin-right-block">
+    </div>
+</div>
+
+
+<div class="content-margin-container" id="references">
+    <div class="margin-left-block">
+    </div>
+    <div class="main-content-block">
+        <hr>
+        <div class='citation' style="height:auto"><br>
+            <span style="font-size:16px"><b>References</b></span><br><br>
+
+            <a id="ref_cai"></a>[1] Cai, Z., et al. (2025). <a href="https://arxiv.org/abs/2505.13519">Continuous Domain Generalization.</a> <i>NeurIPS 2025</i>.<br><br>
+
+            <a id="ref_zeiler"></a>[2] Zeiler, M.D., Fergus, R. (2014). <a href="https://doi.org/10.1007/978-3-319-10590-1_53">Visualizing and Understanding Convolutional Networks.</a> <i>Computer Vision – ECCV 2014</i>, Lecture Notes in Computer Science, vol 8689. Springer, Cham.<br><br>
+
+            <a id="ref_raghu"></a>[3] Raghu, M., et al. (2021). <a href="https://arxiv.org/abs/2108.08810">Do Vision Transformers See Like Convolutional Neural Networks?</a> <i>NeurIPS 2021</i>.<br><br>
+
+            <a id="ref_dorszewski"></a>[4] Dorszewski, T., et al. (2025). <a href="https://arxiv.org/abs/2503.24071">From Colors to Classes: Emergence of Concepts in Vision Transformers.</a> <i>World Conference on eXplainable Artificial Intelligence</i>.<br><br>
+
+            <a id="ref_darcet"></a>[5] Darcet, T., et al. (2024). <a href="https://arxiv.org/abs/2309.16588">Vision Transformers Need Registers.</a> <i>ICLR 2024</i>.<br><br>
+
+            <a id="ref_campbell"></a>[6] Campbell, K.R., et al. (2022). <a href="https://www.cell.com/cell-systems/fulltext/S2405-4712(22)00448-6">Unifying the analysis of biological data with a mathematical definition of a trajectory.</a> <i>Cell Systems</i>.<br><br>
+
+            <a id="ref_weinreb"></a>[7] Weinreb, C., et al. (2018). <a href="https://www.pnas.org/doi/10.1073/pnas.1714723115">Fundamental limits on dynamic inference from single-cell snapshots.</a> <i>PNAS</i>.<br><br>
+
+            <a id="ref_haghverdi"></a>[8] Haghverdi, L., Büttner, M., Wolf, F.A., Buettner, F., & Theis, F.J. (2016). <a href="https://www.nature.com/articles/nmeth.3971">Diffusion pseudotime robustly reconstructs lineage branching.</a> <i>Nature Methods</i>, 13(10), 845-848.<br><br>
+
+            <a id="ref_brahma"></a>[9] Brahma, P.P., et al. (2016). <a href="https://ieeexplore.ieee.org/document/7348689">Why Deep Learning Works: A Manifold Disentanglement Perspective.</a> <i>IEEE Transactions on Neural Networks and Learning Systems</i>.<br><br>
+
+            <a id="ref_scanpy"></a>[10] Wolf, F.A., Angerer, P., & Theis, F.J. (2018). <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-017-1382-0">SCANPY: large-scale single-cell gene expression data analysis.</a> <i>Genome Biology</i>, 19(1), 15.<br><br>
+
+            <a id="ref_kendall"></a>[11] Kendall, M.G. (1938). <a href="https://doi.org/10.1093/biomet/30.1-2.81">A New Measure of Rank Correlation.</a> <i>Biometrika</i>, 30(1/2), 81–93.<br><br>
+
+            <a id="ref_facco"></a>[12] Facco, E., et al. (2017). <a href="https://www.nature.com/articles/s41598-017-11873-y">Estimating the intrinsic dimension of datasets by a minimal neighborhood information.</a> <i>Scientific Reports</i>.<br><br>
+
+            <a id="ref_dinov2"></a>[13] Oquab, M., et al. (2024). <a href="https://arxiv.org/abs/2304.07193">DINOv2: Learning Robust Visual Features without Supervision.</a> <i>arXiv preprint</i>.<br><br>
+
+            <a id="ref_uni"></a>[14] Chen, R.J., et al. (2024). <a href="https://www.nature.com/articles/s41591-024-02857-3">Towards a general-purpose foundation model for computational pathology.</a> <i>Nature Medicine</i>.<br><br>
+
+            <a id="ref_virchow"></a>[15] Vorontsov, E., et al. (2024). Virchow: A million-slide digital pathology foundation model. <i>arXiv preprint</i>.<br><br>
+
+            <a id="ref_gigapath"></a>[16] Xu, H., et al. (2024). <a href="https://www.nature.com/articles/s41586-024-07441-w">A whole-slide foundation model for digital pathology from real-world data.</a> <i>Nature</i>.<br><br>
+
+            <a id="ref_conch"></a>[17] Lu, M.Y., et al. (2024). <a href="https://www.nature.com/articles/s41591-024-02856-4">A visual-language foundation model for computational pathology.</a> <i>Nature Medicine</i>, 30, 863-874.<br><br>
+
+            <a id="ref_musk"></a>[18] Xiang, J., et al. (2025). <a href="https://doi.org/10.1038/s41586-024-08378-w">A vision-language foundation model for precision oncology.</a> <i>Nature</i>, 638, 769-778.<br><br>
+
+            <a id="ref_spider"></a>[19] Nechaev, D., Pchelnikov, A., & Ivanova, E. (2025). <a href="https://arxiv.org/abs/2503.02876">SPIDER: A Comprehensive Multi-Organ Supervised Pathology Dataset and Baseline Models.</a> <i>arXiv preprint</i>.<br><br>
+
+            <a id="ref_ratushny"></a>[20] Ratushny, V., et al. (2012). <a href="https://doi.org/10.1172/JCI57415">From keratinocyte to cancer: the pathogenesis and modeling of cutaneous squamous cell carcinoma.</a> <i>Journal of Clinical Investigation</i>, 122(2), 464-472.<br><br>
+
+            <a id="ref_fearon"></a>[21] Fearon, E.R. & Vogelstein, B. (1990). <a href="https://doi.org/10.1016/0092-8674(90)90186-I">A genetic model for colorectal tumorigenesis.</a> <i>Cell</i>, 61(5), 759-767.<br><br>
+
+            <a id="ref_depalma"></a>[22] De Palma, F.D.E., et al. (2019). <a href="https://doi.org/10.3390/cancers11071017">The Molecular Hallmarks of the Serrated Pathway in Colorectal Cancer.</a> <i>Cancers</i>, 11(7), 1017.<br><br>
+
+            <a id="ref_hulahan"></a>[23] Hulahan, T.S. & Angel, P.M. (2024). <a href="https://jeccr.biomedcentral.com/articles/10.1186/s13046-024-03236-z">From ductal carcinoma in situ to invasive breast cancer: the prognostic value of the extracellular microenvironment.</a> <i>Journal of Experimental & Clinical Cancer Research</i>, 43, 329.<br><br>
+        </div>
+    </div>
+    <div class="margin-right-block">
+    </div>
+</div>
+
+
+<div class="content-margin-container" id="appendix">
+    <div class="margin-left-block">
+    </div>
+    <div class="main-content-block">
+        <h1>Appendix</h1>
+
+        <h2>Code Availability</h2>
+        <p>
+            The source code is available at the <a href="https://github.com/pritika-vig/embeddings_disease_progression_analysis" target="_blank">project GitHub repository</a>.
+        </p>
+
+        <h2>AI Reflection</h2>
+        <p>
+            Google's Gemini model was used to help write code and tests and debug my experiment setup. It was particularly helpful for formatting plots. It was additionally used as part of a broad literature review to identify papers to read for background (along with other literature search strategies). Finally, it was used to help convert my write up from my document to this HTML format. It was not used to generate the experiment questions, methodology, or insights but it did provide formatting and grammar suggestions including words to bold or italicize for emphasis.
+        </p>
+
+        <h2>Sampling Strategy</h2>
+        <p>
+            Histopathology datasets exhibit hierarchical structure: each whole-slide image (WSI) contains thousands of patches, and slides vary substantially in size and patch count. Naive random sampling risks allowing a small number of large slides to dominate the patches representing a disease class, introducing slide-level confounds into the analysis.
+        </p>
+        <p>
+            To mitigate this, I implemented slide-aware sampling with a maximum patch limit per slide. For each disease stage, patches were sampled as follows: (1) identify all slides containing patches of that stage, (2) compute the maximum number of patches to sample per slide as <i>target_per_class / num_slides</i>, capped at a fixed maximum (100 patches per slide), and (3) randomly sample up to this limit from each slide, then aggregate across slides until reaching the target count of 1,000 patches per stage.
+        </p>
+        <p>
+            This approach ensures that trajectory fidelity reflects population-level disease progression patterns rather than slide-specific artifacts (e.g., staining variation, tissue preparation differences, or unusual morphology in individual cases). The 100-patch-per-slide cap was chosen to balance representation breadth against computational constraints; sensitivity analysis on this threshold was not performed.
+        </p>
+
+
+        <h2>Hyperparameter Search</h2>
+        <p>
+            To implement the diffusion pseudotime algorithm, two hyperparameters are required: the number of nearest neighbors (k) for adaptive graph construction, and the number of diffusion components used for spectral embedding.
+        </p>
+        
+        <h4>Root Cell Selection</h4>
+        <p>
+            DPT requires specifying a root cell from which pseudotime is calculated. For all experiments, I used the centroid of the earliest disease stage as the root. This choice assumes that the earliest stage forms a coherent cluster with a well-defined center. In datasets where the earliest stage is heterogeneous (e.g., due to biological variability or label noise), trajectory fidelity may be sensitive to root selection. I did not perform systematic sensitivity analysis on root choice, which represents a limitation of the current methodology. Future work could investigate robustness to root selection by bootstrapping over multiple root candidates within the earliest stage.
+        </p>
+        
+        <h4>Number of Nearest Neighbors</h4>
+        <p>
+            I performed a hyperparameter sweep for the number of nearest neighbors (k) because this parameter sets the bandwidth of the adaptive Gaussian kernel (defined as the distance to the k-th neighbor), thereby controlling how the algorithm normalizes for varying sampling densities across the disease progression manifold.
+        </p>
+        <p>
+            To ensure the graph structure accurately reflects raw embedding similarity, I evaluated manifold trustworthiness, a metric that quantifies the preservation of local neighborhoods by penalizing the introduction of false nearest neighbors (intrusions). As illustrated below, trajectory fidelity stabilizes for k > 75, while trustworthiness shows diminishing returns beyond k=50. I selected k=100 as the optimal operating point: it captures the full resolution of the progression structure without incurring the computational overhead associated with larger neighborhood calculations.
+        </p>
+        <img src="./images/k_sweep_analysis.png" class="normal-width" style="max-width: 90%;" />
+
+        <h4>Number of Diffusion Components</h4>
+        <p>
+            I utilized the default of 10 diffusion components. Haghverdi et al. define the coordinates of the differentiation process as the "dominant eigenvectors of a transition matrix" <a href="#ref_haghverdi">[8]</a>. Although the theoretical definition of DPT involves summing over random walks of all lengths, the primary trajectory structure is captured by these dominant eigenvectors. Since the biological process being modeled is a dominant source of variance in the embedding space, it is well-represented within the first few components (3–4), making the top 10 components more than sufficient to capture the progression dynamics without including high-frequency noise. This was further validated by the low intrinsic dimension of the diffusion space, exhibited by all models and disease progressions.
+        </p>
+    </div>
+    <div class="margin-right-block">
+    </div>
+</div>
+
+</body>
+
+</html>

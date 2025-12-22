@@ -10,7 +10,7 @@ import logging
 import warnings
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import List, Optional, Set, Tuple
+from typing import List, Optional, Set, Tuple, Dict
 
 import numpy as np
 import pandas as pd
@@ -41,6 +41,7 @@ class DPTMetric(Enum):
     TRUSTWORTHINESS = "trustworthiness"
     ID_RAW = "id_raw"       # Intrinsic Dimension of original embeddings
     ID_DIFF = "id_diff"     # Intrinsic Dimension of diffusion components
+    PAIRWISE_AUROC = "pairwise_auroc"
 
 
 @dataclass
@@ -58,6 +59,7 @@ class DPTConfig:
     n_diffusion_components: int
     metrics: Set[DPTMetric] = field(default_factory=lambda: set(DPTMetric))
     subsample_size: int = 2000
+    ordered_classes: Optional[List[str]] = None
 
 
 @dataclass
@@ -74,15 +76,28 @@ class DPTResult:
     silhouette: float = np.nan
     id_raw: float = np.nan
     id_diff: float = np.nan
+    pairwise_auroc: Dict[str, float] = field(default_factory=dict)
 
     @property
     def is_valid(self) -> bool:
         """Check if the primary metric (Tau) was successfully computed."""
         return not np.isnan(self.tau)
 
+    # def to_dict(self) -> dict:
+    #     """Convert result to a dictionary."""
+    #     return {
+    #         "tau": self.tau,
+    #         "p_value": self.p_value,
+    #         "spectral_gap": self.spectral_gap,
+    #         "neighborhood_purity": self.neighborhood_purity,
+    #         "trustworthiness": self.trustworthiness,
+    #         "id_raw": self.id_raw,
+    #         "id_diff": self.id_diff,
+    #     }
+
     def to_dict(self) -> dict:
         """Convert result to a dictionary."""
-        return {
+        base = {
             "tau": self.tau,
             "p_value": self.p_value,
             "spectral_gap": self.spectral_gap,
@@ -91,6 +106,10 @@ class DPTResult:
             "id_raw": self.id_raw,
             "id_diff": self.id_diff,
         }
+        # Flatten AUROC dict for easier CSV saving later if needed
+        for pair, score in self.pairwise_auroc.items():
+            base[f"auroc_{pair}"] = score
+        return base
 
 
 # =============================================================================
@@ -246,6 +265,52 @@ def _compute_trustworthiness(adata: sc.AnnData, subsample_size: int) -> float:
     except Exception:
         return np.nan
 
+def _compute_pairwise_auroc(adata: sc.AnnData, ordered_classes: List[str]) -> Dict[str, float]:
+    """
+    Compute pairwise AUROC for adjacent stages using pseudotime.
+    
+    Args:
+        adata: AnnData with 'dpt_pseudotime' and 'class'.
+        ordered_classes: List of class names strictly in order.
+        
+    Returns:
+        Dict mapping "StageA_vs_StageB" -> AUROC score.
+    """
+    if "dpt_pseudotime" not in adata.obs:
+        return {}
+        
+    results = {}
+    
+    # Iterate through adjacent pairs
+    for i in range(len(ordered_classes) - 1):
+        stage_early = ordered_classes[i]
+        stage_late = ordered_classes[i+1]
+        
+        # Filter data for this pair
+        mask = adata.obs["class"].isin([stage_early, stage_late])
+        subset = adata.obs[mask].copy()
+        
+        if subset.empty:
+            continue
+            
+        # Create binary target: 0 for early, 1 for late
+        subset["target"] = (subset["class"] == stage_late).astype(int)
+        
+        # Check if we have both classes
+        if len(subset["target"].unique()) < 2:
+            continue
+            
+        try:
+            score = roc_auc_score(subset["target"], subset["dpt_pseudotime"])
+            
+            # Key format: "0_vs_1" or "Hyperplastic_vs_Sessile"
+            # Using index for brevity in keys if preferred, or names:
+            key = f"{stage_early}_vs_{stage_late}"
+            results[key] = score
+        except Exception as e:
+            logger.warning(f"AUROC failed for {stage_early} vs {stage_late}: {e}")
+            
+    return results
 
 # =============================================================================
 # Main Computation
@@ -335,6 +400,14 @@ def compute_dpt(adata: sc.AnnData, root_class: str, config: DPTConfig) -> DPTRes
 
         if DPTMetric.SILHOUETTE in config.metrics:
             result.silhouette = _compute_silhouette(adata, config.subsample_size)
+        return result
+
+        if DPTMetric.PAIRWISE_AUROC in config.metrics:
+            if config.ordered_classes:
+                result.pairwise_auroc = _compute_pairwise_auroc(adata, config.ordered_classes)
+            else:
+                logger.warning("Cannot compute Pairwise AUROC: 'ordered_classes' missing in DPTConfig.")
+
         return result
 
     except Exception as e:

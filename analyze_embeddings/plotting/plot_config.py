@@ -33,6 +33,14 @@ MODEL_TYPE_MAPPING = {
     'gigapath': 'Vision-Only (Path)'
 }
 
+PROGRESSION_NAMES= {
+    "BDC": "BDC",        
+    "CRC-Conventional": "CRC-Conv",  
+    "CRC-Serrated": "CRC-Serr",      
+    "SCC": "SCC",         
+}
+
+
 # -----------------------------------------------------------------------------
 # 2. Color Palettes
 # -----------------------------------------------------------------------------
@@ -54,6 +62,20 @@ MODEL_COLORS = {
     'uni2': '#17becf',      # Cyan for Path
     'virchow2': '#e377c2',  # Pink for Path
     'gigapath': '#bcbd22'   # Olive for Path
+}
+
+# Specific markers per model
+# Logic: 
+# - Circle 'o' for Natural (Baseline)
+# - Square 's' / Diamond 'D' for VL (Blocky/Structural)
+# - Star/Plus/Triangle for Vision-Only (High Performance)
+MODEL_MARKERS = {
+    'dinov2': 'o',      # Circle
+    'conch': 's',       # Square
+    'musk': 'D',        # Diamond
+    'uni2': 'P',        # Plus (Filled)
+    'virchow2': '*',    # Star
+    'gigapath': '^'     # Triangle Up
 }
 
 # -----------------------------------------------------------------------------

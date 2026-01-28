@@ -12,6 +12,14 @@ This code assumes you have manually downloaded and unpacked the following SPIDER
 
 After unpacking, update the dataset paths in `config.py` so the loader can locate your local directories.
 
+You will also need to request access to the models, and add your hugginface token to the config file.
+
+- https://huggingface.co/paige-ai/Virchow2
+- https://huggingface.co/MahmoodLab/UNI2-h
+- https://huggingface.co/MahmoodLab/CONCH
+- https://huggingface.co/prov-gigapath/prov-gigapath
+- https://huggingface.co/xiangjx/musk
+
 ## Output configuration
 
 Embeddings are written incrementally as Parquet files to the Google Cloud Storage bucket specified in `config.py`.  

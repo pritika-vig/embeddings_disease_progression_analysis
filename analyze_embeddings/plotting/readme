@@ -1,0 +1,39 @@
+Figures from paper
+
+This assumes you have run the top level scripts to produce the data in the results/ folder: 
+- 
+-
+-
+
+
+Method overview: python plotting/plot_method_overview_figure.py --progression SCC
+Figure name: plots/method_SCC_uni2.png
+
+Results of trajectory fidelity: python plotting/plot_trajectory_fidelity.py 
+Figure name: plots/trajectory_fidelity/model_comparison_with_null.png
+
+Results of averaged permutation test: python plotting/plot_avg_permutation_results.py
+Figure name: plots/permutation permutation_plot_averaged.png
+
+Results of layer emergence: python plotting/plot_layer_analysis.py 
+Figure name: plots/emergence/emergence_stacked.png 
+
+Biological plausability: python plotting/plot_cell_pattern_v2.py --input results/crc_conventional_uni2_2000_cellcounts.csv
+Figure name: plots/biological_validation_analysis/standardized_abundance.png
+
+Appendix figures
+
+Results of full permutation test: python plotting/plot_permutation_results.py 
+Figure name: plots/permutation/permutation_plot.png
+
+Results of layer emergence: python plotting/plot_layer_analysis.py 
+Appendix figure saved to plots/emergence/emergence_absolute_depth.png
+
+Biological plausability: python plotting/plot_cell_pattern_v2.py --input results/crc_conventional_uni2_2000_cellcounts.csv
+Figure names: 
+plots/biological_validation_analysis/appendix/cell_types_zscore_raw.png
+plots/biological_validation_analysis/appendix/pseudotime_density_by_slide.png
+plots/biological_validation_analysis/appendix/pseudotime_density_by_stage.png
+plots/biological_validation_analysis/appendix/smoothing_robustness_all_features.png
+plots/biological_validation_analysis/appendix/cluster_examples_adenocarcinoma_high_grade.png
+

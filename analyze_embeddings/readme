@@ -4,3 +4,11 @@
 To run tests: 
 python validate_stored_embeddings.py
 pytest data/progression_embedding_dataset_test.py -v
+
+
+To generate data
+evaluate_dpt.py: full dpt csv that is used by plotting and analysis code
+generate_null_distribution.py: Generate the label shuffle nulls for comparison
+hyper_param_sweep.py: generate data from  hyper param sweep
+analyze_trajectory_cell_counts.py ... i think for bio analysis
+compare_trajectories.py ??? 

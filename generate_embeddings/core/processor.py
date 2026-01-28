@@ -17,6 +17,7 @@ from .extractor import LayerExtractor
 class LayerEmbeddingProcessor:
     def __init__(self, device):
         self.device = device
+        self.client = storage.Client()
 
     def get_image_list(self, dataset, test_run=False):
         """Scan directory for images."""
@@ -68,7 +69,9 @@ class LayerEmbeddingProcessor:
 
                 # Processing Loop
                 batch_size = adapter.default_batch_size
+                
                 rows = []
+                shard_counter = 0
                 
                 for i in tqdm(range(0, len(image_info), batch_size), desc=f"      {model_name}"):
                     batch_meta = image_info[i:i+batch_size]
@@ -104,11 +107,18 @@ class LayerEmbeddingProcessor:
                     
                     del batch_t
 
-                # Upload Data
-                df = pd.DataFrame(rows)
-                self.upload_gcs(df, dataset.bucket, model_name, test_run)
-                
-                # Cleanup
+                    # If buffer exceeds SHARD_SIZE, write immediately
+                    if len(rows) >= SHARD_SIZE:
+                        self.upload_shard(rows, dataset.bucket, model_name, test_run, shard_counter)
+                        shard_counter += 1
+                        rows = [] # Clear memory
+                        gc.collect() # Force garbage collection
+
+                # Upload remaining rows after loop finishes
+                if rows:
+                    self.upload_shard(rows, dataset.bucket, model_name, test_run, shard_counter)
+
+                # Cleanup Model
                 extractor.cleanup()
                 adapter.cleanup()
                 del extractor, adapter
@@ -122,24 +132,23 @@ class LayerEmbeddingProcessor:
 
         self.write_provenance(dataset, runtime_meta, test_run)
 
-    def upload_gcs(self, df, bucket_name, model_name, test_run):
-        if df.empty: return
-        client = storage.Client()
-        bucket = client.bucket(bucket_name)
+    def upload_shard(self, rows, bucket_name, model_name, test_run, shard_index):
+        """Helper to upload a single shard immediately."""
+        df = pd.DataFrame(rows)
+        bucket = self.client.bucket(bucket_name)
         prefix = OutputConfig.get_path(test_run)
         
-        num_shards = (len(df) + SHARD_SIZE - 1) // SHARD_SIZE
-        print(f"      Uploading {len(df)} rows in {num_shards} shards...")
+        # Convert to Parquet in memory
+        table = pa.Table.from_pandas(df)
+        buf = io.BytesIO()
+        pq.write_table(table, buf, compression='snappy')
         
-        for i in range(num_shards):
-            chunk = df.iloc[i*SHARD_SIZE : (i+1)*SHARD_SIZE]
-            table = pa.Table.from_pandas(chunk)
-            buf = io.BytesIO()
-            pq.write_table(table, buf, compression='snappy')
-            
-            blob_path = f"{prefix}/{model_name}/shard_{i:05d}.parquet"
-            bucket.blob(blob_path).upload_from_string(buf.getvalue())
-        print("      ✓ Upload complete")
+        # Upload
+        blob_path = f"{prefix}/{model_name}/shard_{shard_index:05d}.parquet"
+        bucket.blob(blob_path).upload_from_string(buf.getvalue())
+        
+        # Explicit delete to help GC
+        del df, table, buf
 
     def write_provenance(self, dataset, meta, test_run):
         prov = {
@@ -149,8 +158,7 @@ class LayerEmbeddingProcessor:
             "test_run": test_run,
             "layer_fractions": LAYER_FRACTIONS
         }
-        client = storage.Client()
         prefix = OutputConfig.get_path(test_run)
-        blob = client.bucket(dataset.bucket).blob(f"{prefix}/provenance.json")
+        blob = self.client.bucket(dataset.bucket).blob(f"{prefix}/provenance.json")
         blob.upload_from_string(json.dumps(prov, indent=2))
         print(f"   ✓ Provenance saved")

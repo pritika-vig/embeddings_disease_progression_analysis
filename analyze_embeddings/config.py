@@ -26,44 +26,44 @@ EXPECTED_MODELS = [
 
 # Define the progressions
 PROGRESSIONS: List[ProgressionConfig] = [
-    {
-        "name": "SCC",
-        "bucket": "spider-skin",
-        "prefix": "embeddings/computed",
-        "classes": [
-            "Epidermis",
-            "Actinic keratosis",
-            "Carcinoma in situ",
-            "Squamous cell carcinoma"
-        ],
-        "root_class": "Epidermis",
-        "image_subdir": "imagenet_context1"
-    },
-    {
-        "name": "CRC-Conventional",
-        "bucket": "spider-colorectal",
-        "prefix": "embeddings/computed",
-        "classes": [
-            "Adenoma low grade",
-            "Adenoma high grade",
-            "Adenocarcinoma low grade",
-            "Adenocarcinoma high grade"
-        ],
-        "root_class": "Adenoma low grade",
-        "image_subdir": "imagenet"
-    },
-    {
-        "name": "CRC-Serrated",
-        "bucket": "spider-colorectal",
-        "prefix": "embeddings/computed",
-        "classes": [
-            "Hyperplastic polyp",
-            "Sessile serrated lesion",
-            "Adenocarcinoma high grade"
-        ],
-        "root_class": "Hyperplastic polyp",
-        "image_subdir": "imagenet"
-    },
+    # {
+    #     "name": "SCC",
+    #     "bucket": "spider-skin",
+    #     "prefix": "embeddings/computed",
+    #     "classes": [
+    #         "Epidermis",
+    #         "Actinic keratosis",
+    #         "Carcinoma in situ",
+    #         "Squamous cell carcinoma"
+    #     ],
+    #     "root_class": "Epidermis",
+    #     "image_subdir": "imagenet_context1"
+    # },
+    # {
+    #     "name": "CRC-Conventional",
+    #     "bucket": "spider-colorectal",
+    #     "prefix": "embeddings/computed",
+    #     "classes": [
+    #         "Adenoma low grade",
+    #         "Adenoma high grade",
+    #         "Adenocarcinoma low grade",
+    #         "Adenocarcinoma high grade"
+    #     ],
+    #     "root_class": "Adenoma low grade",
+    #     "image_subdir": "imagenet"
+    # },
+    # {
+    #     "name": "CRC-Serrated",
+    #     "bucket": "spider-colorectal",
+    #     "prefix": "embeddings/computed",
+    #     "classes": [
+    #         "Hyperplastic polyp",
+    #         "Sessile serrated lesion",
+    #         "Adenocarcinoma high grade"
+    #     ],
+    #     "root_class": "Hyperplastic polyp",
+    #     "image_subdir": "imagenet"
+    # },
     {
         "name": "BDC",
         "bucket": "spider-breast",

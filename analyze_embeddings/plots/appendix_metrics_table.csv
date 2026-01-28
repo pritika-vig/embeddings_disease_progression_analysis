@@ -1,0 +1,7 @@
+,tau,tau,spectral_gap,id_reduction,trustworthiness
+,mean,std,mean,mean,mean
+progression,,,,,
+BDC,0.504,0.184,0.05,69.566,0.977
+CRC-Conventional,0.682,0.084,0.038,72.472,0.972
+CRC-Serrated,0.735,0.065,0.072,76.203,0.972
+SCC,0.628,0.088,0.069,69.704,0.972

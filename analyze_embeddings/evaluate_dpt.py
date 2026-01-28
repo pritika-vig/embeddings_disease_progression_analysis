@@ -201,7 +201,7 @@ def run_full_evaluation() -> pd.DataFrame:
             n_diffusion_components=config.DPT["n_diffusion_components"],
             metrics=ALL_METRICS,
             subsample_size=2000,
-            ordered_classes=ordered_classes  # <--- CRITICAL UPDATE
+            ordered_classes=ordered_classes
         )
         
         patch_ids = dataset.sample_patch_ids(
@@ -254,7 +254,8 @@ def main():
     df = run_full_evaluation()
     
     if not df.empty:
-        output_filename = f"full_manifold_evaluation_{N_BOOTSTRAPS}_with_auroc.csv"
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_filename = f"full_manifold_evaluation_{N_BOOTSTRAPS}_at_{timestamp}.csv"
         df.to_csv(output_filename, index=False)
         logger.info(f"\n Evaluation Complete. Saved to {output_filename}")
         

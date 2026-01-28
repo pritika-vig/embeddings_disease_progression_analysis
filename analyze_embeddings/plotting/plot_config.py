@@ -40,6 +40,83 @@ PROGRESSION_NAMES= {
     "SCC": "SCC",         
 }
 
+# Full titles for figure headers
+PROGRESSION_TITLES = {
+    "SCC": "Cutaneous Squamous Cell Carcinoma",
+    "BDC": "Breast Ductal Carcinoma", 
+    "CRC-Conventional": "Colorectal Adenoma-Carcinoma (Conventional)",
+    "CRC-Serrated": "Colorectal Adenoma-Carcinoma (Serrated)",
+}
+
+# Maps full class names to abbreviated display names
+CLASS_SHORT_NAMES = {
+    # BDC (Breast Ductal Carcinoma)
+    "Ductal carcinoma in situ (low-grade)": "DCIS\n(Low Grade)",
+    "Ductal carcinoma in situ (high-grade)": "DCIS\n(High Grade)",
+    "Invasive non-special type carcinoma": "Invasive\nCarcinoma",
+    
+    # SCC (Squamous Cell Carcinoma)
+    "Epidermis": "Epidermis",
+    "Actinic keratosis": "Actinic\nKeratosis",
+    "Carcinoma in situ": "Carcinoma\nin Situ",
+    "Squamous cell carcinoma": "SCC",
+    
+    # CRC-Conventional (Colorectal - Conventional Pathway)
+    "Adenoma low grade": "Adenoma\n(Low)",
+    "Adenoma high grade": "Adenoma\n(High)",
+    "Adenocarcinoma low grade": "Adenoca\n(Low)",
+    "Adenocarcinoma high grade": "Adenoca\n(High)",
+    
+    # CRC-Serrated (Colorectal - Serrated Pathway)
+    "Hyperplastic polyp": "Hyperplastic\nPolyp",
+    "Sessile serrated lesion": "Sessile\nSerrated",
+    # "Adenocarcinoma high grade" already defined above
+}
+
+# Single-line versions for inline text or tight spaces
+CLASS_SHORT_NAMES_INLINE = {
+    # BDC
+    "Ductal carcinoma in situ (low-grade)": "DCIS (Low)",
+    "Ductal carcinoma in situ (high-grade)": "DCIS (High)",
+    "Invasive non-special type carcinoma": "Invasive Ca",
+    
+    # SCC
+    "Epidermis": "Epidermis",
+    "Actinic keratosis": "Actinic Keratosis",
+    "Carcinoma in situ": "Ca in Situ",
+    "Squamous cell carcinoma": "SCC",
+    
+    # CRC-Conventional
+    "Adenoma low grade": "Adenoma (Low)",
+    "Adenoma high grade": "Adenoma (High)",
+    "Adenocarcinoma low grade": "Adenoca (Low)",
+    "Adenocarcinoma high grade": "Adenoca (High)",
+    
+    # CRC-Serrated
+    "Hyperplastic polyp": "HP",
+    "Sessile serrated lesion": "SSL",
+}
+
+
+def get_class_short_name(class_name: str, inline: bool = False) -> str:
+    """
+    Get the short display name for a class.
+    
+    Args:
+        class_name: Full class name from config
+        inline: If True, returns single-line version; otherwise multi-line
+        
+    Returns:
+        Short display name, or original name if not found
+    """
+    lookup = CLASS_SHORT_NAMES_INLINE if inline else CLASS_SHORT_NAMES
+    return lookup.get(class_name, class_name)
+
+
+def get_progression_title(prog_name: str) -> str:
+    """Get a human-readable title for a progression."""
+    return PROGRESSION_TITLES.get(prog_name, prog_name)
+
 
 # -----------------------------------------------------------------------------
 # 2. Color Palettes
@@ -51,7 +128,7 @@ PROGRESSION_COLORS = {
     "CRC-Conventional": "#1F77B4",  # Blue
     "CRC-Serrated": "#2CA02C",      # Green
     "SCC": "#FF7F0E",               # Orange
-    "Null": "#7f8c8d"               # Gray
+    "Null": "#4a4a4a"               # Gray
 }
 
 # If you need specific colors per model (e.g. for bar charts)
@@ -78,9 +155,43 @@ MODEL_MARKERS = {
     'gigapath': '^'     # Triangle Up
 }
 
+CATEGORY_LABEL_COLORS = {
+    'natural': '#4a4a4a',           # Dark gray
+    'vision_language': '#6b3fa0',   # Darker purple
+    'vision_only': '#1a5276',       # Darker blue
+}
+
 # -----------------------------------------------------------------------------
 # 3. ICML Styling Function
 # -----------------------------------------------------------------------------
+
+# ICML-optimized font sizes (for figures)
+# FONT_SIZES = {
+#     'title': 18,
+#     'subtitle': 13,
+#     'section_header': 13,
+#     'section_subheader': 10,
+#     'plot_title': 14,
+#     'axis_label': 11,
+#     'tick_label': 10,
+#     'legend': 10,
+#     'annotation': 9,
+#     'small': 10,
+# }
+
+FONT_SIZES = {
+    'title': 18,
+    'subtitle': 14,
+    'section_header': 14,
+    'section_subheader': 11,
+    'plot_title': 16,
+    'axis_label': 13,
+    'tick_label': 12,
+    'legend': 11,
+    'annotation': 11,
+    'small': 10,
+    'category_label': 12,  
+}
 
 def set_icml_style():
     """Applies ICML-compliant matplotlib style settings."""
@@ -89,11 +200,11 @@ def set_icml_style():
     plt.rcParams.update({
         'font.family': 'serif',
         'font.serif': ['Times New Roman', 'DejaVu Serif'],
-        'axes.labelsize': 12,
-        'axes.titlesize': 12,
-        'xtick.labelsize': 10,
-        'ytick.labelsize': 10,
-        'legend.fontsize': 10,
+        'axes.labelsize': 13,
+        'axes.titlesize': 14,
+        'xtick.labelsize': 12,
+        'ytick.labelsize': 12,
+        'legend.fontsize': 11,
         'axes.spines.right': False,
         'axes.spines.top': False,
         'figure.dpi': 300

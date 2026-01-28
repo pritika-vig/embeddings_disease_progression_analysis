@@ -126,9 +126,9 @@ def plot_specificity_grid():
 
     # --- GLOBAL TITLE & LEGEND ---
     
-    # 1. Add Global Title
-    fig.suptitle("Specificity of trajectory fidelity: Permutation testing against null stage orders", 
-                 fontsize=16, fontweight='bold', y=0.98)
+    # # 1. Add Global Title
+    # fig.suptitle("Specificity of trajectory fidelity: Permutation testing against null stage orders", 
+    #              fontsize=16, fontweight='bold', y=0.98)
 
     # 2. Add Legend
     legend_elements = [
@@ -145,8 +145,11 @@ def plot_specificity_grid():
     # rect=[left, bottom, right, top] -> top=0.90 reserves top 10% for title/legend
     plt.tight_layout(rect=[0, 0, 1, 0.90])
     
-    plt.savefig(OUTPUT_DIR / 'specificity_plot_final.png', dpi=300, bbox_inches='tight')
-    print(f"Plot saved to {OUTPUT_DIR / 'specificity_plot_final.png'}")
+    output_subdir = OUTPUT_DIR / "permutation"
+    output_subdir.mkdir(parents=True, exist_ok=True)
+    output_path = output_subdir / f"permutation_plot.png"
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    print(f"Plot saved to {output_path}")
 
 if __name__ == "__main__":
     plot_specificity_grid()

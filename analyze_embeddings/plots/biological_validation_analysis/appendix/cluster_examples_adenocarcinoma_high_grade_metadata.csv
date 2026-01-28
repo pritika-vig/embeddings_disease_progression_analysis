@@ -1,0 +1,13 @@
+cluster,cluster_center,example_idx,slide_id,patch_id,pseudotime_norm,class_label,total_cells,cancer_cells,fibroblasts,lymphocytes
+cluster_1_pt0.25,0.25,0,577,837568,0.2222068309783935,Adenocarcinoma high grade,73,51,7,3
+cluster_1_pt0.25,0.25,1,381,409607,0.1889535933732986,Adenocarcinoma high grade,48,47,0,0
+cluster_1_pt0.25,0.25,2,1141,97667,0.2441462725400924,Adenocarcinoma high grade,34,29,0,0
+cluster_1_pt0.25,0.25,3,299,172037,0.2583514451980591,Adenocarcinoma high grade,72,71,1,0
+cluster_2_pt0.50,0.5,0,55,940141,0.5142537951469421,Adenocarcinoma high grade,51,45,1,4
+cluster_2_pt0.50,0.5,1,160,1001892,0.4489371478557586,Adenocarcinoma high grade,14,8,0,0
+cluster_2_pt0.50,0.5,2,365,840326,0.4325171113014221,Adenocarcinoma high grade,67,59,4,0
+cluster_2_pt0.50,0.5,3,215,203516,0.4923774600028991,Adenocarcinoma high grade,66,65,0,1
+cluster_3_pt0.95,0.95,0,35,509383,0.981684684753418,Adenocarcinoma high grade,92,89,0,3
+cluster_3_pt0.95,0.95,1,186,777794,0.9723090529441832,Adenocarcinoma high grade,134,133,0,1
+cluster_3_pt0.95,0.95,2,186,22552,0.9892001748085022,Adenocarcinoma high grade,144,140,0,4
+cluster_3_pt0.95,0.95,3,35,221714,0.9304712414741516,Adenocarcinoma high grade,84,80,2,1

@@ -35,7 +35,7 @@ pcfg.set_icml_style()
 OUTPUT_DIR = config.PLOTS_OUTPUT_DIR / "generalization"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-GENERALIZABILITY_FILE = config.RESULTS_DIR / "generalizability_results.csv"
+GENERALIZABILITY_FILE = config.GENERALIZABILITY_RESULTS_OUTPUT_PATH
 TAU_FILE = config.FULL_RESULTS_OUTPUT_PATH
 
 

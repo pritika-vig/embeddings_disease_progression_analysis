@@ -1,11 +1,47 @@
+import os
+from datetime import datetime
 from typing import List, Dict, TypedDict
 from pathlib import Path
 
 RESULTS_DIR = Path("results")
 PLOTS_OUTPUT_DIR = Path("plots")
-FULL_RESULTS_OUTPUT_PATH = RESULTS_DIR / "full_manifold_evaluation_100.csv"
-NULL_RESULTS_OUTPUT_PATH = RESULTS_DIR / "null_manifold_evaluation.csv"
-PERMUTATION_RESULTS_OUTPUT_PATH = RESULTS_DIR / "stage_permutation_specificity.csv"
+
+
+def get_output_dir(run_label: str = None) -> Path:
+    """Create a timestamped output directory inside RESULTS_DIR and update the latest symlink.
+
+    Pattern: results/YYYY-MM-DD_HHMMSS_<run_label>/
+
+    Args:
+        run_label: Optional label appended to timestamp (e.g., "dpt_eval").
+
+    Returns:
+        Path to the created timestamped output directory.
+    """
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+    dirname = f"{timestamp}_{run_label}" if run_label else timestamp
+    output_dir = RESULTS_DIR / dirname
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Atomically update "latest" symlink
+    latest_link = RESULTS_DIR / "latest"
+    tmp_link = RESULTS_DIR / "_latest_tmp"
+    try:
+        os.symlink(output_dir.resolve(), tmp_link)
+        os.replace(tmp_link, latest_link)
+    except OSError:
+        if latest_link.is_symlink() or latest_link.exists():
+            latest_link.unlink()
+        os.symlink(output_dir.resolve(), latest_link)
+
+    return output_dir
+
+
+LATEST_RESULTS_DIR = RESULTS_DIR / "latest"
+FULL_RESULTS_OUTPUT_PATH = LATEST_RESULTS_DIR / "full_manifold_evaluation.csv"
+NULL_RESULTS_OUTPUT_PATH = LATEST_RESULTS_DIR / "null_manifold_evaluation.csv"
+PERMUTATION_RESULTS_OUTPUT_PATH = LATEST_RESULTS_DIR / "stage_permutation_specificity.csv"
+GENERALIZABILITY_RESULTS_OUTPUT_PATH = LATEST_RESULTS_DIR / "generalizability_results.csv"
 class ProgressionConfig(TypedDict):
     name: str
     bucket: str

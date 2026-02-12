@@ -34,7 +34,7 @@ if str(project_root) not in sys.path:
 
 try:
     import config
-    RESULTS_DIR = config.RESULTS_DIR
+    RESULTS_DIR = config.LATEST_RESULTS_DIR
     PLOTS_DIR = config.PLOTS_OUTPUT_DIR if hasattr(config, 'PLOTS_OUTPUT_DIR') else Path("plots")
 except ImportError:
     RESULTS_DIR = project_root / "results"

@@ -5,11 +5,16 @@ Stage Permutation Specificity Test (Exact).
 Objective:
     Verify that the high Kendall's Tau is specific to the *biological* ordering
     by comparing it against ALL possible permutations of the stage labels.
-    
+
     Since N_classes is small (3 or 4), N! is small (6 or 24).
     We can run an Exact Test.
+
+Usage:
+    python generate_data/evaluate_stage_permutations.py
+    python generate_data/evaluate_stage_permutations.py --output custom_path.csv
 """
 
+import argparse
 import sys
 import logging
 import math
@@ -20,16 +25,11 @@ import pandas as pd
 from scipy.stats import kendalltau
 
 # --- Import Path Setup ---
-project_root = Path(__file__).resolve().parent.parent
-if str(project_root) not in sys.path:
-    sys.path.append(str(project_root))
+_project_root = Path(__file__).resolve().parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
 
-try:
-    import config
-except ImportError:
-    print("❌ Critical Error: Could not import 'config.py'.")
-    sys.exit(1)
-
+import config
 from data.progression_embedding_dataset import (
     ProgressionEmbeddingDataset,
     RegistryConfig,
@@ -55,24 +55,29 @@ def get_all_permutations(classes):
     # itertools.permutations returns tuples
     return list(itertools.permutations(classes))
 
-def run_permutation_test():
+def run_permutation_test(output_path: Path = None):
     all_results = []
-    output_path = config.RESULTS_DIR / OUTPUT_FILENAME
-    
-    logger.info("🚀 Starting Exact Stage Permutation Test (All Permutations)")
-    logger.info(f"📂 Output will be saved to: {output_path}")
+
+    if output_path is None:
+        output_dir = config.get_output_dir("permutation_test")
+        output_path = output_dir / OUTPUT_FILENAME
+    else:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    logger.info("Starting Exact Stage Permutation Test (All Permutations)")
+    logger.info(f"Output will be saved to: {output_path}")
 
     # --- LEVEL 1: PROGRESSIONS ---
     for prog_config in config.PROGRESSIONS:
         prog_name = prog_config["name"]
         canonical_classes = prog_config["classes"]
-        
+
         # Calculate expected permutations
         n_perms = math.factorial(len(canonical_classes))
-        
+
         logger.info("=" * 60)
         logger.info(f"Processing {prog_name} ({len(canonical_classes)} classes -> {n_perms} permutations)")
-        
+
         # Initialize Dataset
         registry_config = RegistryConfig(
             bucket=prog_config["bucket"],
@@ -83,7 +88,7 @@ def run_permutation_test():
             scan_all_models=False
         )
         dataset = ProgressionEmbeddingDataset(registry_config)
-        
+
         # DPT Config
         dpt_config = DPTConfig(
             n_neighbors=config.DPT["n_neighbors"],
@@ -91,14 +96,14 @@ def run_permutation_test():
             metrics=set(), # Manual tau calc
             subsample_size=2000
         )
-        
+
         # Sample Patches
         patch_ids = dataset.sample_patch_ids(
             n_per_class=config.EVALUATION["n_per_class"],
             max_per_slide=config.EVALUATION["max_per_slide"],
             seed=config.EVALUATION["seed"]
         )
-        
+
         # Generate ALL Permutations
         all_perms = get_all_permutations(canonical_classes)
         canonical_tuple = tuple(canonical_classes)
@@ -108,7 +113,7 @@ def run_permutation_test():
             try:
                 # Load Model
                 dataset.load_model_into_memory(model, patch_ids)
-                
+
                 # Fetch Data
                 cohort_df = dataset.get_cohort(patch_ids, model, EMBEDDING_TYPE)
                 if cohort_df.empty:
@@ -117,7 +122,7 @@ def run_permutation_test():
                 # 1. Compute Fixed Manifold ONCE
                 adata = cohort_to_anndata(cohort_df, canonical_classes)
                 dpt_result = compute_dpt(adata, prog_config["root_class"], dpt_config)
-                
+
                 if "dpt_pseudotime" not in adata.obs:
                     logger.warning(f"   Skipping {model}: DPT failed.")
                     continue
@@ -130,20 +135,20 @@ def run_permutation_test():
                 # 2. Iterate through ALL permutations
                 for i, perm_tuple in enumerate(all_perms):
                     perm_list = list(perm_tuple)
-                    
+
                     # Check if this is the canonical order
                     is_canonical = (perm_tuple == canonical_tuple)
                     type_label = "canonical" if is_canonical else "permuted"
-                    
+
                     # Create Map: {ClassA: 0, ClassB: 1 ...}
                     perm_map = {c: idx for idx, c in enumerate(perm_list)}
-                    
+
                     # Map raw classes to NEW integers
                     perm_stages = np.array([perm_map[c] for c in raw_classes])
-                    
+
                     # Calculate Tau
                     tau, _ = kendalltau(fixed_pseudotime, perm_stages)
-                    
+
                     all_results.append({
                         "progression": prog_name,
                         "model": model,
@@ -152,7 +157,7 @@ def run_permutation_test():
                         "order_str": " -> ".join(perm_list),
                         "tau": tau
                     })
-                
+
                 logger.info(f"   {model:<10} | Computed {n_perms} permutations.")
 
             except Exception as e:
@@ -164,9 +169,24 @@ def run_permutation_test():
     if all_results:
         df = pd.DataFrame(all_results)
         df.to_csv(output_path, index=False)
-        logger.info(f"\n✅ Exact Permutation Analysis Complete. Saved to {output_path}")
+        logger.info(f"\nExact Permutation Analysis Complete. Saved to {output_path}")
     else:
         logger.warning("No results generated.")
 
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Exact stage permutation specificity test."
+    )
+    parser.add_argument(
+        "--output", type=str, default=None,
+        help="Override output CSV path"
+    )
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    run_permutation_test()
+    args = parse_args()
+    run_permutation_test(
+        output_path=Path(args.output) if args.output else None,
+    )

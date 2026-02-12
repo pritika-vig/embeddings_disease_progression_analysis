@@ -326,6 +326,18 @@ if __name__ == "__main__":
     
     print("Generating main text figure (stacked, patch_mean)...")
     plot_main_figure(df_patch, token_type='patch_mean')
+
+    # ==========================================================================
+    # MAIN TEXT: CLS token stacked figure 
+    # ==========================================================================
+    print("\n=== CLS Token Analysis (Main Text) ===")
+    df_cls = load_and_process_data(INPUT_FILE, token_type='cls')
+
+    if df_cls['abs_layer'].isnull().any():
+        print("Warning: Some rows could not map depth % to absolute layer. Check LAYER_MAPPING.")
+
+    print("Generating main text figure (stacked, cls)...")
+    plot_main_figure(df_cls, token_type='cls')
     
     # ==========================================================================
     # APPENDIX: Three-panel figures for all token types

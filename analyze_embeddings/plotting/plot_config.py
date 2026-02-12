@@ -21,7 +21,7 @@ MODEL_LABELS = {
     'musk': 'MuSK',
     'uni2': 'UNI-2',
     'virchow2': 'Virchow-2',
-    'gigapath': 'GigaPath'
+    'gigapath': 'Prov-GigaPath'
 }
 
 MODEL_TYPE_MAPPING = {

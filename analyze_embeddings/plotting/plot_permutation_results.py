@@ -111,6 +111,7 @@ def plot_specificity_grid():
             
         if i >= (rows - 1) * cols:
             labels = [pcfg.MODEL_LABELS.get(m, m) for m in pcfg.MODEL_ORDER]
+            labels = [l.replace('Prov-GigaPath', 'Prov-\nGigaPath') if 'Prov-GigaPath' in l else l for l in labels]
             ax.set_xticklabels(labels, rotation=0, fontweight='bold', fontsize=10)
             ax.set_xlabel("")
         else:

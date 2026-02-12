@@ -58,8 +58,33 @@ def load_and_prep_data():
 
     return df_real, df_null
 
+def save_results_csv(df_real, df_null, output_dir):
+    """Save a CSV with model name, progression name, and trajectory fidelity (tau)."""
+    real_subset = df_real[["model", "progression", "tau", "lower", "upper"]].copy()
+    
+    if not df_null.empty:
+        null_subset = df_null[["model", "progression", "tau", "lower", "upper"]].copy()
+        combined = pd.concat([real_subset, null_subset], ignore_index=True)
+    else:
+        combined = real_subset
+    
+    combined = combined.rename(columns={
+        "tau": "trajectory_fidelity",
+        "lower": "ci_lower",
+        "upper": "ci_upper"
+    })
+    
+    combined = combined.sort_values(["model", "progression"]).reset_index(drop=True)
+    
+    output_subdir = output_dir / "trajectory_fidelity"
+    output_subdir.mkdir(parents=True, exist_ok=True)
+    csv_path = output_subdir / "model_progression_trajectory_fidelity.csv"
+    combined.to_csv(csv_path, index=False)
+    print(f"✅ CSV saved to {csv_path}")
+
 def main():
     df_real, df_null = load_and_prep_data()
+    save_results_csv(df_real, df_null, OUTPUT_DIR)
     
     # 1. Setup Figure
     fig, ax = plt.subplots(figsize=(15, 6)) 

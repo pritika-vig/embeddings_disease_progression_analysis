@@ -7,8 +7,8 @@ Diffusion Pseudotime (DPT) and a suite of manifold quality metrics.
 
 Usage:
     python generate_data/evaluate_dpt.py
-    python generate_data/evaluate_dpt.py --n_bootstrap 50
-    python generate_data/evaluate_dpt.py --output custom_output.csv
+    python generate_data/evaluate_dpt.py --progressions BDC SCC
+    python generate_data/evaluate_dpt.py --test --progressions BDC
 """
 
 import argparse
@@ -76,7 +76,6 @@ ALL_EMBEDDING_TYPES = (
     ["final_embedding"]
 )
 
-N_BOOTSTRAPS = 100
 
 # -----------------------------------------------------------------------------
 # Helpers
@@ -187,12 +186,25 @@ def evaluate_single_condition(
     return row
 
 
-def run_full_evaluation(n_bootstraps: int = N_BOOTSTRAPS) -> pd.DataFrame:
+def run_full_evaluation(
+    eval_config: dict = None,
+    progressions: list = None,
+    embedding_types: list = None,
+) -> pd.DataFrame:
+
+    if eval_config is None:
+        eval_config = config.EVALUATION
+    if embedding_types is None:
+        embedding_types = ALL_EMBEDDING_TYPES
+
+    n_bootstraps = eval_config["n_bootstrap_ci"]
+    n_per_class = eval_config["n_per_class"]
+    max_per_slide = eval_config["max_per_slide"]
 
     all_results = []
 
     # --- LEVEL 1: PROGRESSIONS ---
-    for prog_config in config.PROGRESSIONS:
+    for prog_config in config.get_progressions(progressions):
         prog_name = prog_config["name"]
         ordered_classes = prog_config["classes"] # Get these here
 
@@ -220,8 +232,8 @@ def run_full_evaluation(n_bootstraps: int = N_BOOTSTRAPS) -> pd.DataFrame:
         )
 
         patch_ids = dataset.sample_patch_ids(
-            n_per_class=config.EVALUATION["n_per_class"],
-            max_per_slide=config.EVALUATION["max_per_slide"],
+            n_per_class=n_per_class,
+            max_per_slide=max_per_slide,
             seed=config.EVALUATION["seed"]
         )
 
@@ -233,7 +245,7 @@ def run_full_evaluation(n_bootstraps: int = N_BOOTSTRAPS) -> pd.DataFrame:
                 dataset.load_model_into_memory(model, patch_ids)
 
                 # --- LEVEL 3: EMBEDDING TYPES ---
-                pbar = tqdm(ALL_EMBEDDING_TYPES, desc="    Scanning layers", leave=False)
+                pbar = tqdm(embedding_types, desc="    Scanning layers", leave=False)
 
                 for emb_type in pbar:
                     if emb_type == "final_embedding":
@@ -270,26 +282,37 @@ def parse_args():
         description="Full manifold evaluation with Diffusion Pseudotime (DPT)."
     )
     parser.add_argument(
-        "--n_bootstrap", type=int, default=N_BOOTSTRAPS,
-        help=f"Number of bootstrap iterations for CI (default: {N_BOOTSTRAPS})"
+        "--progressions", type=str, nargs="+", default=None,
+        help="Progression names to include (default: all). Choices: SCC, CRC-Conventional, CRC-Serrated, BDC"
     )
     parser.add_argument(
-        "--output", type=str, default=None,
-        help="Override output CSV path (default: results/<timestamp>_dpt_eval/)"
+        "--test", action="store_true",
+        help="Test mode: minimal samples, output to results/test/"
     )
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
-    df = run_full_evaluation(n_bootstraps=args.n_bootstrap)
+
+    if args.test:
+        df = run_full_evaluation(
+            eval_config=config.TEST_EVALUATION,
+            progressions=args.progressions,
+            embedding_types=["final_embedding"],
+        )
+    else:
+        df = run_full_evaluation(
+            progressions=args.progressions,
+        )
 
     if not df.empty:
-        if args.output:
-            output_path = Path(args.output)
-            output_path.parent.mkdir(parents=True, exist_ok=True)
+        if args.test:
+            output_dir = config.RESULTS_DIR / "test"
+            output_dir.mkdir(parents=True, exist_ok=True)
+            output_path = output_dir / "full_manifold_evaluation.csv"
         else:
-            output_dir = config.get_output_dir("dpt_eval")
+            output_dir = config.get_output_dir()
             output_path = output_dir / "full_manifold_evaluation.csv"
 
         df.to_csv(output_path, index=False)

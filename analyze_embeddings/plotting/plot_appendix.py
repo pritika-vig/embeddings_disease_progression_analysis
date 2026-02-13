@@ -5,11 +5,16 @@ This script generates the technical evidence required to justify DPT analysis,
 specifically for the BDC cohort and density-agnostic sampling.
 """
 
+import sys
+from pathlib import Path
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import numpy as np
 import os
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+import config
 
 # Set ICML-compliant style
 plt.rcParams.update({
@@ -25,9 +30,9 @@ plt.rcParams.update({
     "savefig.dpi": 300
 })
 
-INPUT_FILE = "results/full_manifold_evaluation_100.csv"
-OUTPUT_PLOT = "plots/appendix_manifold_robustness.png"
-OUTPUT_TABLE = "plots/appendix_metrics_table.csv"
+INPUT_FILE = str(config.RESULTS_RUN_DIR / "full_manifold_evaluation.csv")
+OUTPUT_PLOT = str(config.PLOTS_OUTPUT_DIR / "appendix_manifold_robustness.png")
+OUTPUT_TABLE = str(config.PLOTS_OUTPUT_DIR / "appendix_metrics_table.csv")
 
 def load_and_prep(filepath):
     if not os.path.exists(filepath):

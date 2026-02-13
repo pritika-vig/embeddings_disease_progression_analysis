@@ -29,9 +29,12 @@ from PIL import Image
 # CONFIG
 # =============================================================================
 script_path = Path(__file__).resolve()
-project_root = script_path.parent.parent 
+project_root = script_path.parent.parent
+sys.path.append(str(project_root))
+import config
+
 results_dir = project_root / "results"
-plots_dir = project_root / "plots" / "biological_validation_analysis"
+plots_dir = config.PLOTS_OUTPUT_DIR / "biological_validation_analysis"
 plots_dir.mkdir(parents=True, exist_ok=True)
 
 COLORS = {

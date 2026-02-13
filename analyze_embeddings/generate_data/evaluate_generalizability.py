@@ -15,7 +15,8 @@ Protocol:
 
 Usage:
     python generate_data/evaluate_generalizability.py
-    python generate_data/evaluate_generalizability.py --output custom_path.csv
+    python generate_data/evaluate_generalizability.py --progressions BDC SCC CRC-Conventional
+    python generate_data/evaluate_generalizability.py --test
 """
 
 import argparse
@@ -45,9 +46,6 @@ from data.progression_embedding_dataset import (
 # -----------------------------------------------------------------------------
 RESULTS_PATH = config.FULL_RESULTS_OUTPUT_PATH  # Uses existing full_manifold_evaluation.csv
 
-# Few-Shot Settings
-N_SHOTS_LIST = [5, 10, 20]
-N_TRIALS = 10 # Repeat few-shot sampling to reduce noise
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -113,10 +111,15 @@ def train_few_shot_probe(X, y, n_shots, seed):
     preds = clf.predict(X_test)
     return f1_score(y_test, preds, average='macro')
 
-def evaluate_target_performance(target_prog_name, n_shots_list):
+def evaluate_target_performance(target_prog_name, eval_config):
     """
     Loads data for ONE target progression and runs few-shot probes for all models.
     """
+    n_per_class = eval_config["n_per_class"]
+    max_per_slide = eval_config["max_per_slide"]
+    n_shots_list = eval_config["fewshot_n_shots"]
+    n_trials = eval_config["n_fewshot_trials"]
+
     prog_config = next(p for p in config.PROGRESSIONS if p["name"] == target_prog_name)
 
     # Initialize Dataset
@@ -132,8 +135,8 @@ def evaluate_target_performance(target_prog_name, n_shots_list):
 
     # Sample IDs once
     patch_ids = dataset.sample_patch_ids(
-        n_per_class=config.EVALUATION["n_per_class"],
-        max_per_slide=config.EVALUATION["max_per_slide"],
+        n_per_class=n_per_class,
+        max_per_slide=max_per_slide,
         seed=42
     )
 
@@ -154,7 +157,7 @@ def evaluate_target_performance(target_prog_name, n_shots_list):
             # Run Trials for each shot count
             for n_shots in n_shots_list:
                 scores = []
-                for i in range(N_TRIALS):
+                for i in range(n_trials):
                     score = train_few_shot_probe(X, y, n_shots, seed=i)
                     scores.append(score)
 
@@ -174,7 +177,14 @@ def evaluate_target_performance(target_prog_name, n_shots_list):
 # -----------------------------------------------------------------------------
 # Main Execution Flow
 # -----------------------------------------------------------------------------
-def main(output_path: Path = None):
+def main(
+    eval_config: dict = None,
+    output_path: Path = None,
+    progressions: list = None,
+):
+    if eval_config is None:
+        eval_config = config.EVALUATION
+
     # 1. Load Reference Taus
     tau_matrix = load_reference_taus()
     logger.info("Loaded Reference Taus.")
@@ -182,17 +192,17 @@ def main(output_path: Path = None):
     all_results = []
 
     # 2. Leave-One-Out Loop
-    progressions = [p["name"] for p in config.PROGRESSIONS]
+    prog_names = [p["name"] for p in config.get_progressions(progressions)]
 
-    for target in progressions:
+    for target in prog_names:
         logger.info(f"\n=== Leave-One-Out Target: {target} ===")
 
         # A. Calculate Reference Score (Avg Tau of OTHERS)
-        others = [p for p in progressions if p != target]
+        others = [p for p in prog_names if p != target]
         ref_scores = tau_matrix[others].mean(axis=1).reset_index(name="ref_tau_avg")
 
         # B. Measure Target Performance
-        target_perf_df = evaluate_target_performance(target, N_SHOTS_LIST)
+        target_perf_df = evaluate_target_performance(target, eval_config)
 
         if target_perf_df.empty:
             continue
@@ -206,7 +216,7 @@ def main(output_path: Path = None):
         final_df = pd.concat(all_results, ignore_index=True)
 
         if output_path is None:
-            output_dir = config.get_output_dir("generalizability")
+            output_dir = config.get_output_dir()
             output_path = output_dir / "generalizability_results.csv"
         else:
             output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -222,12 +232,29 @@ def parse_args():
         description="Generalizability analysis: Tau vs few-shot F1."
     )
     parser.add_argument(
-        "--output", type=str, default=None,
-        help="Override output CSV path"
+        "--progressions", type=str, nargs="+", default=None,
+        help="Progression names to include (default: all). Choices: SCC, CRC-Conventional, CRC-Serrated, BDC"
+    )
+    parser.add_argument(
+        "--test", action="store_true",
+        help="Test mode: minimal samples, output to results/test/"
     )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
-    main(output_path=Path(args.output) if args.output else None)
+
+    if args.test:
+        output_dir = config.RESULTS_DIR / "test"
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        main(
+            eval_config=config.TEST_EVALUATION,
+            output_path=output_dir / "generalizability_results.csv",
+            progressions=args.progressions,
+        )
+    else:
+        main(
+            progressions=args.progressions,
+        )

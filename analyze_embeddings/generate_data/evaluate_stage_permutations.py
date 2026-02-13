@@ -11,7 +11,8 @@ Objective:
 
 Usage:
     python generate_data/evaluate_stage_permutations.py
-    python generate_data/evaluate_stage_permutations.py --output custom_path.csv
+    python generate_data/evaluate_stage_permutations.py --progressions BDC SCC
+    python generate_data/evaluate_stage_permutations.py --test --progressions BDC
 """
 
 import argparse
@@ -55,11 +56,21 @@ def get_all_permutations(classes):
     # itertools.permutations returns tuples
     return list(itertools.permutations(classes))
 
-def run_permutation_test(output_path: Path = None):
+def run_permutation_test(
+    eval_config: dict = None,
+    progressions: list = None,
+    output_path: Path = None,
+):
+    if eval_config is None:
+        eval_config = config.EVALUATION
+
+    n_per_class = eval_config["n_per_class"]
+    max_per_slide = eval_config["max_per_slide"]
+
     all_results = []
 
     if output_path is None:
-        output_dir = config.get_output_dir("permutation_test")
+        output_dir = config.get_output_dir()
         output_path = output_dir / OUTPUT_FILENAME
     else:
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -68,7 +79,7 @@ def run_permutation_test(output_path: Path = None):
     logger.info(f"Output will be saved to: {output_path}")
 
     # --- LEVEL 1: PROGRESSIONS ---
-    for prog_config in config.PROGRESSIONS:
+    for prog_config in config.get_progressions(progressions):
         prog_name = prog_config["name"]
         canonical_classes = prog_config["classes"]
 
@@ -99,8 +110,8 @@ def run_permutation_test(output_path: Path = None):
 
         # Sample Patches
         patch_ids = dataset.sample_patch_ids(
-            n_per_class=config.EVALUATION["n_per_class"],
-            max_per_slide=config.EVALUATION["max_per_slide"],
+            n_per_class=n_per_class,
+            max_per_slide=max_per_slide,
             seed=config.EVALUATION["seed"]
         )
 
@@ -179,14 +190,29 @@ def parse_args():
         description="Exact stage permutation specificity test."
     )
     parser.add_argument(
-        "--output", type=str, default=None,
-        help="Override output CSV path"
+        "--progressions", type=str, nargs="+", default=None,
+        help="Progression names to include (default: all). Choices: SCC, CRC-Conventional, CRC-Serrated, BDC"
+    )
+    parser.add_argument(
+        "--test", action="store_true",
+        help="Test mode: minimal samples, output to results/test/"
     )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
-    run_permutation_test(
-        output_path=Path(args.output) if args.output else None,
-    )
+
+    if args.test:
+        output_dir = config.RESULTS_DIR / "test"
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        run_permutation_test(
+            eval_config=config.TEST_EVALUATION,
+            progressions=args.progressions,
+            output_path=output_dir / OUTPUT_FILENAME,
+        )
+    else:
+        run_permutation_test(
+            progressions=args.progressions,
+        )

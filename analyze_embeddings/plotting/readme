@@ -1,39 +1,107 @@
 Figures from paper
+==================
 
-This assumes you have run the top level scripts to produce the data in the results/ folder: 
-- 
--
--
+All commands are run from the analyze_embeddings/ directory.
+
+Data and plots are linked via RESULTS_RUN in config.py (e.g. "2025-01-01_000000").
+  - Results are read from:  results/<RESULTS_RUN>/
+  - Plots are written to:   plots/<RESULTS_RUN>/
+After a successful data generation run, update RESULTS_RUN in config.py to point at the new directory.
+
+Prerequisites: run the data generation scripts to produce results in results/<RESULTS_RUN>/:
+- python generate_data/evaluate_dpt.py                  -> full_manifold_evaluation.csv, null_manifold_evaluation.csv
+- python generate_data/evaluate_stage_permutations.py    -> stage_permutation_specificity.csv
+- python generate_data/evaluate_generalizability.py      -> generalizability_results.csv
+- python generate_data/hyper_param_sweep.py              -> hyperparam_sweep_k_results.csv, k_sweep_analysis.png
+- python generate_data/analyze_trajectory_cellcounts.py  -> crc_conventional_uni2_2000_cellcounts.csv
 
 
-Method overview: python plotting/plot_method_overview_figure.py --progression SCC
-Figure name: plots/method_SCC_uni2.png
+Main text figures
+-----------------
 
-Results of trajectory fidelity: python plotting/plot_trajectory_fidelity.py 
-Figure name: plots/trajectory_fidelity/model_comparison_with_null.png
+Fig 1: Method overview (SCC progression with diffusion components, pseudotime, tau badge)
+  Command: python plotting/plot_method_overview_figure.py --progression SCC
+  Output:  plots/method_overview/method_SCC_uni2.png
 
-Results of averaged permutation test: python plotting/plot_avg_permutation_results.py
-Figure name: plots/permutation permutation_plot_averaged.png
+Fig 2: Trajectory fidelity across foundation models and disease progressions (grouped bars with null baseline)
+  Command: python plotting/plot_trajectory_fidelity.py
+  Output:  plots/trajectory_fidelity/model_comparison_with_null.png
 
-Results of layer emergence: python plotting/plot_layer_analysis.py 
-Figure name: plots/emergence/emergence_stacked.png 
+Fig 3: Averaged permutation test (true ordering vs null distributions pooled across cohorts)
+  Command: python plotting/plot_avg_permutation_results.py
+  Output:  plots/permutation/permutation_plot_averaged.png
 
-Biological plausability: python plotting/plot_cell_pattern_v2.py --input results/crc_conventional_uni2_2000_cellcounts.csv
-Figure name: plots/biological_validation_analysis/standardized_abundance.png
+Fig 4: Emergence of trajectory fidelity across network depth (CLS token, 2-panel stacked: tau vs depth + intrinsic dimensionality)
+  Command: python plotting/plot_layer_analysis.py
+  Output:  plots/emergence/emergence_stacked_cls.png
+
+Fig 5: Cross-task generalization (rank preservation: reference tau predicts held-out F1)
+  Command: python plotting/plot_generalizability_test.py
+  Output:  plots/generalization/main_panel_b_rank_preservation.png
+
+Fig 6: Biological validation (Z-score standardized cell-type abundance along pseudotime, CRC conventional)
+  Command: python plotting/plot_cell_pattern_v2.py --input results/crc_conventional_uni2_2000_cellcounts.csv
+  Output:  plots/biological_validation_analysis/standardized_abundance.png
+
 
 Appendix figures
+----------------
 
-Results of full permutation test: python plotting/plot_permutation_results.py 
-Figure name: plots/permutation/permutation_plot.png
+Fig 7: Hyperparameter sensitivity (tau and trustworthiness vs k neighbors, 2-panel)
+  Command: python generate_data/hyper_param_sweep.py
+  Output:  results/<RESULTS_RUN>/k_sweep_analysis.png
+  Note:    Generated as part of data generation, not a separate plotting script.
 
-Results of layer emergence: python plotting/plot_layer_analysis.py 
-Appendix figure saved to plots/emergence/emergence_absolute_depth.png
+Table 1: Full trajectory fidelity results for all models and progressions with 95% CI
+  Command: python plotting/plot_trajectory_fidelity.py
+  Output:  plots/trajectory_fidelity/model_progression_trajectory_fidelity.csv
 
-Biological plausability: python plotting/plot_cell_pattern_v2.py --input results/crc_conventional_uni2_2000_cellcounts.csv
-Figure names: 
-plots/biological_validation_analysis/appendix/cell_types_zscore_raw.png
-plots/biological_validation_analysis/appendix/pseudotime_density_by_slide.png
-plots/biological_validation_analysis/appendix/pseudotime_density_by_stage.png
-plots/biological_validation_analysis/appendix/smoothing_robustness_all_features.png
-plots/biological_validation_analysis/appendix/cluster_examples_adenocarcinoma_high_grade.png
+Fig 8: Manifold stability and denoising proof (3-panel: dimensionality compression, spectral gap, fidelity vs trustworthiness)
+  Command: python plotting/plot_appendix.py
+  Output:  plots/appendix_manifold_robustness.png
 
+Table 2: Aggregated manifold quality metrics (spectral gap, ID reduction, trustworthiness, avg tau)
+  Command: python plotting/plot_appendix.py
+  Output:  plots/appendix_metrics_table.csv
+
+Fig 9: Per-progression permutation test (2x2 grid, boxplots with true ordering stars)
+  Command: python plotting/plot_permutation_results.py
+  Output:  plots/permutation/permutation_plot.png
+
+Fig 10: Emergence analysis - patch mean embeddings (3-panel: tau vs relative depth, ID divergence, tau vs absolute block)
+  Command: python plotting/plot_layer_analysis.py
+  Output:  plots/emergence/emergence_three_panel_patch_mean.png
+
+Fig 11: Emergence analysis - CLS token embeddings (3-panel)
+  Command: python plotting/plot_layer_analysis.py
+  Output:  plots/emergence/emergence_three_panel_cls.png
+
+Fig 12: Emergence analysis - register mean embeddings (3-panel, DINOv2/UNI-2/Virchow-2 only)
+  Command: python plotting/plot_layer_analysis.py
+  Output:  plots/emergence/emergence_three_panel_register_mean.png
+
+Fig 13: Within-disease trajectory fidelity vs classification performance (tau vs 5-shot F1 per progression)
+  Command: python plotting/plot_generalizability_test.py
+  Output:  plots/generalization/main_panel_a_within_disease.png
+
+Fig 14: Trajectory fidelity and classification as equivalent predictors of cross-task generalization (2x4 grid)
+  Command: python plotting/plot_generalizability_test.py
+  Output:  plots/generalization/appendix_reference_metric_comparison.png
+
+Fig 15: Pseudotime sampling and robustness diagnostics (4 separate plots combined in LaTeX)
+  Command: python plotting/plot_cell_pattern_v2.py --input results/crc_conventional_uni2_2000_cellcounts.csv
+  Output:  (a) plots/biological_validation_analysis/appendix/pseudotime_density_by_stage.png
+           (b) plots/biological_validation_analysis/appendix/pseudotime_density_by_slide.png
+           (c) plots/biological_validation_analysis/appendix/pseudotime_local_counts_and_windowN.png
+           (d) plots/biological_validation_analysis/appendix/smoothing_robustness_fibroblasts.png
+
+Fig 16: Complete cell type composition along pseudotime (raw proportions + Z-score + stage distribution)
+  Command: python plotting/plot_cell_pattern_v2.py --input results/crc_conventional_uni2_2000_cellcounts.csv
+  Output:  plots/biological_validation_analysis/appendix/cell_types_zscore_and_raw.png
+
+Fig 17: Pseudotime trajectory sampling with HistoPLUS cell segmentation (patches + overlays + cell proportions)
+  Command: python plotting/inspect_trajectory.py --progression CRC-Conventional --model uni2
+  Output:  plots/trajectories/trajectory_uni2_CRC-Conventional_prop_seed{SEED}_key.png
+           plots/trajectories/trajectory_uni2_CRC-Conventional_prop_seed{SEED}_all.png
+  Note:    Requires HistoPLUS (pip install histoplus) and local image data.
+           Use --seed to reproduce a specific figure. Without --seed, a random seed is generated.

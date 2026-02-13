@@ -86,6 +86,7 @@ def main():
     df_real, df_null = load_and_prep_data()
     save_results_csv(df_real, df_null, OUTPUT_DIR)
     
+    
     # 1. Setup Figure
     fig, ax = plt.subplots(figsize=(15, 6)) 
     

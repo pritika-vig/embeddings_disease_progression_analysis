@@ -4,44 +4,37 @@ from typing import List, Dict, TypedDict
 from pathlib import Path
 
 RESULTS_DIR = Path("results")
-PLOTS_OUTPUT_DIR = Path("plots")
+
+# ── Active run ────────────────────────────────────────────────────────────────
+# Update this after a successful data generation run.
+# Both results and plots directories are derived from this single value.
+RESULTS_RUN = "2025-01-01_000000"
+
+RESULTS_RUN_DIR = RESULTS_DIR / RESULTS_RUN
+PLOTS_OUTPUT_DIR = Path("plots") / RESULTS_RUN
+
+FULL_RESULTS_OUTPUT_PATH = RESULTS_RUN_DIR / "full_manifold_evaluation.csv"
+NULL_RESULTS_OUTPUT_PATH = RESULTS_RUN_DIR / "null_manifold_evaluation.csv"
+PERMUTATION_RESULTS_OUTPUT_PATH = RESULTS_RUN_DIR / "stage_permutation_specificity.csv"
+GENERALIZABILITY_RESULTS_OUTPUT_PATH = RESULTS_RUN_DIR / "generalizability_results.csv"
 
 
-def get_output_dir(run_label: str = None) -> Path:
-    """Create a timestamped output directory inside RESULTS_DIR and update the latest symlink.
+def get_output_dir() -> Path:
+    """Get today's output directory inside RESULTS_DIR.
 
-    Pattern: results/YYYY-MM-DD_HHMMSS_<run_label>/
+    Pattern: results/YYYY-MM-DD_HHMMSS/
 
-    Args:
-        run_label: Optional label appended to timestamp (e.g., "dpt_eval").
+    Data generation scripts call this to create a timestamped output directory.
+    After a successful run, update RESULTS_RUN above to point plotting scripts
+    at the new data.
 
     Returns:
-        Path to the created timestamped output directory.
+        Path to today's output directory.
     """
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    dirname = f"{timestamp}_{run_label}" if run_label else timestamp
-    output_dir = RESULTS_DIR / dirname
+    date_str = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+    output_dir = RESULTS_DIR / date_str
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    # Atomically update "latest" symlink
-    latest_link = RESULTS_DIR / "latest"
-    tmp_link = RESULTS_DIR / "_latest_tmp"
-    try:
-        os.symlink(output_dir.resolve(), tmp_link)
-        os.replace(tmp_link, latest_link)
-    except OSError:
-        if latest_link.is_symlink() or latest_link.exists():
-            latest_link.unlink()
-        os.symlink(output_dir.resolve(), latest_link)
-
     return output_dir
-
-
-LATEST_RESULTS_DIR = RESULTS_DIR / "latest"
-FULL_RESULTS_OUTPUT_PATH = LATEST_RESULTS_DIR / "full_manifold_evaluation.csv"
-NULL_RESULTS_OUTPUT_PATH = LATEST_RESULTS_DIR / "null_manifold_evaluation.csv"
-PERMUTATION_RESULTS_OUTPUT_PATH = LATEST_RESULTS_DIR / "stage_permutation_specificity.csv"
-GENERALIZABILITY_RESULTS_OUTPUT_PATH = LATEST_RESULTS_DIR / "generalizability_results.csv"
 class ProgressionConfig(TypedDict):
     name: str
     bucket: str
@@ -62,44 +55,44 @@ EXPECTED_MODELS = [
 
 # Define the progressions
 PROGRESSIONS: List[ProgressionConfig] = [
-    # {
-    #     "name": "SCC",
-    #     "bucket": "spider-skin",
-    #     "prefix": "embeddings/computed",
-    #     "classes": [
-    #         "Epidermis",
-    #         "Actinic keratosis",
-    #         "Carcinoma in situ",
-    #         "Squamous cell carcinoma"
-    #     ],
-    #     "root_class": "Epidermis",
-    #     "image_subdir": "imagenet_context1"
-    # },
-    # {
-    #     "name": "CRC-Conventional",
-    #     "bucket": "spider-colorectal",
-    #     "prefix": "embeddings/computed",
-    #     "classes": [
-    #         "Adenoma low grade",
-    #         "Adenoma high grade",
-    #         "Adenocarcinoma low grade",
-    #         "Adenocarcinoma high grade"
-    #     ],
-    #     "root_class": "Adenoma low grade",
-    #     "image_subdir": "imagenet"
-    # },
-    # {
-    #     "name": "CRC-Serrated",
-    #     "bucket": "spider-colorectal",
-    #     "prefix": "embeddings/computed",
-    #     "classes": [
-    #         "Hyperplastic polyp",
-    #         "Sessile serrated lesion",
-    #         "Adenocarcinoma high grade"
-    #     ],
-    #     "root_class": "Hyperplastic polyp",
-    #     "image_subdir": "imagenet"
-    # },
+    {
+        "name": "SCC",
+        "bucket": "spider-skin",
+        "prefix": "embeddings/computed",
+        "classes": [
+            "Epidermis",
+            "Actinic keratosis",
+            "Carcinoma in situ",
+            "Squamous cell carcinoma"
+        ],
+        "root_class": "Epidermis",
+        "image_subdir": "imagenet_context1"
+    },
+    {
+        "name": "CRC-Conventional",
+        "bucket": "spider-colorectal",
+        "prefix": "embeddings/computed",
+        "classes": [
+            "Adenoma low grade",
+            "Adenoma high grade",
+            "Adenocarcinoma low grade",
+            "Adenocarcinoma high grade"
+        ],
+        "root_class": "Adenoma low grade",
+        "image_subdir": "imagenet"
+    },
+    {
+        "name": "CRC-Serrated",
+        "bucket": "spider-colorectal",
+        "prefix": "embeddings/computed",
+        "classes": [
+            "Hyperplastic polyp",
+            "Sessile serrated lesion",
+            "Adenocarcinoma high grade"
+        ],
+        "root_class": "Hyperplastic polyp",
+        "image_subdir": "imagenet"
+    },
     {
         "name": "BDC",
         "bucket": "spider-breast",
@@ -114,12 +107,46 @@ PROGRESSIONS: List[ProgressionConfig] = [
     }
 ]
 
+
+def get_progressions(names: List[str] = None) -> List[ProgressionConfig]:
+    """Return progression configs filtered by name. If names is None, return all."""
+    if names is None:
+        return PROGRESSIONS
+    available = {p["name"]: p for p in PROGRESSIONS}
+    result = []
+    for name in names:
+        if name not in available:
+            raise ValueError(
+                f"Unknown progression '{name}'. Available: {list(available.keys())}"
+            )
+        result.append(available[name])
+    return result
+
+
 EVALUATION = {
     "n_per_class": 1000,
     "max_per_slide": 50,
-    "n_bootstrap": 10,
     "seed": 42,
     "embedding_type": "final_embedding",
+    # evaluate_dpt: bootstrap resampling iterations for metric confidence intervals
+    "n_bootstrap_ci": 100,
+    # generate_null_distribution: label-shuffle permutations for null tau distribution
+    "n_null_permutations": 10,
+    # evaluate_generalizability: repeated few-shot sampling trials per shot count
+    "n_fewshot_trials": 10,
+    # evaluate_generalizability: shots per class for few-shot probing
+    "fewshot_n_shots": [5, 10, 20],
+}
+
+TEST_EVALUATION = {
+    "n_per_class": 50,
+    "max_per_slide": 10,
+    "seed": 42,
+    "embedding_type": "final_embedding",
+    "n_bootstrap_ci": 2,
+    "n_null_permutations": 2,
+    "n_fewshot_trials": 2,
+    "fewshot_n_shots": [5],
 }
 
 DPT = {

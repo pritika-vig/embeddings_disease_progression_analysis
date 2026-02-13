@@ -7,7 +7,7 @@ Usage:
     python generate_data/hyper_param_sweep.py
     python generate_data/hyper_param_sweep.py --progression CRC-Serrated
     python generate_data/hyper_param_sweep.py --k_values 10 50 100 200
-    python generate_data/hyper_param_sweep.py --output custom_path.csv
+    python generate_data/hyper_param_sweep.py --test
 """
 
 import argparse
@@ -144,9 +144,18 @@ def plot_sweep_results(df: pd.DataFrame, output_path: str = "k_sweep_plot.png"):
 # Main Execution
 # -----------------------------------------------------------------------------
 
-def run_sweep(progression: str = TARGET_PROGRESSION, k_values: List[int] = None) -> pd.DataFrame:
+def run_sweep(
+    eval_config: dict = None,
+    progression: str = TARGET_PROGRESSION,
+    k_values: List[int] = None,
+) -> pd.DataFrame:
+    if eval_config is None:
+        eval_config = config.EVALUATION
     if k_values is None:
         k_values = K_VALUES
+
+    n_per_class = eval_config["n_per_class"]
+    max_per_slide = eval_config["max_per_slide"]
 
     all_results = []
 
@@ -163,8 +172,8 @@ def run_sweep(progression: str = TARGET_PROGRESSION, k_values: List[int] = None)
 
     # Use fixed seed for consistent patch selection across K values
     patch_ids = dataset.sample_patch_ids(
-        n_per_class=config.EVALUATION["n_per_class"],
-        max_per_slide=config.EVALUATION["max_per_slide"],
+        n_per_class=n_per_class,
+        max_per_slide=max_per_slide,
         seed=config.EVALUATION["seed"]
     )
 
@@ -206,23 +215,32 @@ def parse_args():
         help=f"k values to sweep (default: {K_VALUES})"
     )
     parser.add_argument(
-        "--output", type=str, default=None,
-        help="Override output CSV path"
+        "--test", action="store_true",
+        help="Test mode: minimal samples, output to results/test/"
     )
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
-    df = run_sweep(progression=args.progression, k_values=args.k_values)
+
+    if args.test:
+        df = run_sweep(
+            eval_config=config.TEST_EVALUATION,
+            progression=args.progression,
+            k_values=[50, 100],
+        )
+    else:
+        df = run_sweep(progression=args.progression, k_values=args.k_values)
 
     if not df.empty:
-        if args.output:
-            csv_path = Path(args.output)
-            csv_path.parent.mkdir(parents=True, exist_ok=True)
-            plot_path = csv_path.parent / "k_sweep_analysis.png"
+        if args.test:
+            output_dir = config.RESULTS_DIR / "test"
+            output_dir.mkdir(parents=True, exist_ok=True)
+            csv_path = output_dir / "hyperparam_sweep_k_results.csv"
+            plot_path = output_dir / "k_sweep_analysis.png"
         else:
-            output_dir = config.get_output_dir("hyperparam_sweep")
+            output_dir = config.get_output_dir()
             csv_path = output_dir / "hyperparam_sweep_k_results.csv"
             plot_path = output_dir / "k_sweep_analysis.png"
 

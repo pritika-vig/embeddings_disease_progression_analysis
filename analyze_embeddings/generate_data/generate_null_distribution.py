@@ -11,7 +11,7 @@ Methodology:
 Usage:
     python generate_data/generate_null_distribution.py
     python generate_data/generate_null_distribution.py --n_permutations 50
-    python generate_data/generate_null_distribution.py --output custom_path.csv
+    python generate_data/generate_null_distribution.py --test --progressions BDC
 """
 
 import argparse
@@ -45,13 +45,23 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 # Configuration
-N_BOOTSTRAP_NULL = 10
 EMBEDDING_TARGET = "final_embedding"
 
 
-def run_null_evaluation(n_permutations: int = N_BOOTSTRAP_NULL, output_path: Path = None):
+def run_null_evaluation(
+    eval_config: dict = None,
+    progressions: list = None,
+    output_path: Path = None,
+):
+    if eval_config is None:
+        eval_config = config.EVALUATION
+
+    n_permutations = eval_config["n_null_permutations"]
+    n_per_class = eval_config["n_per_class"]
+    max_per_slide = eval_config["max_per_slide"]
+
     if output_path is None:
-        output_dir = config.get_output_dir("null_eval")
+        output_dir = config.get_output_dir()
         output_path = output_dir / "null_manifold_evaluation.csv"
     else:
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -61,7 +71,7 @@ def run_null_evaluation(n_permutations: int = N_BOOTSTRAP_NULL, output_path: Pat
     all_null_results = []
 
     # --- LEVEL 1: PROGRESSIONS ---
-    for prog_config in config.PROGRESSIONS:
+    for prog_config in config.get_progressions(progressions):
         prog_name = prog_config["name"]
         logger.info("=" * 60)
         logger.info(f"Processing Nulls for: {prog_name}")
@@ -87,8 +97,8 @@ def run_null_evaluation(n_permutations: int = N_BOOTSTRAP_NULL, output_path: Pat
 
         # Sample Patches
         patch_ids = dataset.sample_patch_ids(
-            n_per_class=config.EVALUATION["n_per_class"],
-            max_per_slide=config.EVALUATION["max_per_slide"],
+            n_per_class=n_per_class,
+            max_per_slide=max_per_slide,
             seed=config.EVALUATION["seed"]
         )
 
@@ -164,19 +174,29 @@ def parse_args():
         description="Generate null distribution for DPT evaluation."
     )
     parser.add_argument(
-        "--n_permutations", type=int, default=N_BOOTSTRAP_NULL,
-        help=f"Number of null permutations (default: {N_BOOTSTRAP_NULL})"
+        "--progressions", type=str, nargs="+", default=None,
+        help="Progression names to include (default: all). Choices: SCC, CRC-Conventional, CRC-Serrated, BDC"
     )
     parser.add_argument(
-        "--output", type=str, default=None,
-        help="Override output CSV path"
+        "--test", action="store_true",
+        help="Test mode: minimal samples, output to results/test/"
     )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
-    run_null_evaluation(
-        n_permutations=args.n_permutations,
-        output_path=Path(args.output) if args.output else None,
-    )
+
+    if args.test:
+        output_dir = config.RESULTS_DIR / "test"
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        run_null_evaluation(
+            eval_config=config.TEST_EVALUATION,
+            progressions=args.progressions,
+            output_path=output_dir / "null_manifold_evaluation.csv",
+        )
+    else:
+        run_null_evaluation(
+            progressions=args.progressions,
+        )

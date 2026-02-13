@@ -712,9 +712,8 @@ def parse_args():
     parser.add_argument("--n-patches", "-n", type=int, default=N_PATCHES_DEFAULT)
     parser.add_argument("--output-dir", "-o", type=Path, default=config.PLOTS_OUTPUT_DIR)
     parser.add_argument("--dpi", type=int, default=300)
-    parser.add_argument("--force-one-per-class", action="store_true", 
-                        help="If set, selects exactly one representative patch per class instead of sampling by pseudotime.")
-    
+    parser.add_argument("--force-one-per-class", action=argparse.BooleanOptionalAction, default=True,
+                    help="Selects exactly one representative patch per class instead of sampling by pseudotime.")
     return parser.parse_args()
 
 

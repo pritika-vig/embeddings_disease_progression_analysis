@@ -591,12 +591,6 @@ def parse_args():
         help=f"Patches per class (default: {config.EVALUATION['n_per_class']})"
     )
     parser.add_argument(
-        "--output",
-        type=str,
-        default=None,
-        help="Output CSV path (default: results/<timestamp>_cellcounts/<progression>_<model>_cellcounts.csv)"
-    )
-    parser.add_argument(
         "--test",
         action="store_true",
         help="Test mode: only process ~10 patches"
@@ -622,14 +616,15 @@ def main():
     args = parse_args()
 
     # Determine output path
-    if args.output:
-        output_path = Path(args.output)
+    if args.test:
+        output_dir = config.RESULTS_DIR / "test"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        prog_slug = args.progression.lower().replace("-", "_").replace(" ", "_")
+        output_path = output_dir / f"{prog_slug}_{args.model}_cellcounts.csv"
     else:
-        output_dir = config.get_output_dir("cellcounts")
+        output_dir = config.get_output_dir()
         prog_slug = args.progression.lower().replace("-", "_").replace(" ", "_")
         filename = f"{prog_slug}_{args.model}_{args.n_per_class}_cellcounts.csv"
-        if args.test:
-            filename = f"{prog_slug}_{args.model}_cellcounts_TEST.csv"
         output_path = output_dir / filename
 
     # Run analysis

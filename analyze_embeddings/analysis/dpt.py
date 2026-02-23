@@ -83,18 +83,6 @@ class DPTResult:
         """Check if the primary metric (Tau) was successfully computed."""
         return not np.isnan(self.tau)
 
-    # def to_dict(self) -> dict:
-    #     """Convert result to a dictionary."""
-    #     return {
-    #         "tau": self.tau,
-    #         "p_value": self.p_value,
-    #         "spectral_gap": self.spectral_gap,
-    #         "neighborhood_purity": self.neighborhood_purity,
-    #         "trustworthiness": self.trustworthiness,
-    #         "id_raw": self.id_raw,
-    #         "id_diff": self.id_diff,
-    #     }
-
     def to_dict(self) -> dict:
         """Convert result to a dictionary."""
         base = {
@@ -342,7 +330,6 @@ def compute_dpt(adata: sc.AnnData, root_class: str, config: DPTConfig) -> DPTRes
         )
         
         # 2. Compute Diffusion Map
-        # Note: alpha=0 is used here for robustness with balanced cohorts
         sc.tl.diffmap(adata)
         
         # 3. Identify Root Cell
